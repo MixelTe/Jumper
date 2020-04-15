@@ -2,4 +2,9 @@
 
 simple js platformer game
 
-it is my first Javascript project
+This is my first Javascript project
+
+## First level
+
+![screen](docs/screen1.jpg)
+
