@@ -187,6 +187,7 @@ function Jmovement(obj)
                     mnowIntersect = true;
                     intersectObj = platforms[i];
                     jmSpeed *= 0.8;
+                    Misha.jumperWallHit = "hit";                //GRC element
                 }
             }
         }

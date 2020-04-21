@@ -14,6 +14,7 @@ Misha.jumperImgLoad = 0;
 Misha.jumperImgAll = 1;
 Misha.jumperDirection = "right";
 Misha.jumperState = "stoped";
+Misha.jumperWallHit = "normal";
 Misha.jumperStatePast = "stoped";
 Misha.jumperCounter = 0;
 Misha.jumperImg = 0;
@@ -392,6 +393,18 @@ function GRC_jumper()
             Misha.jumper.translate.x = 0;
             Misha.jumper.translate.y = 0;
         }
+
+        if (Misha.jumperWallHit == "hit" && (Misha.jumperStatePast == "falling" || Misha.jumperStatePast == "jumping"))
+        {
+            Misha.jumper.scale.x = 0.6;
+            Misha.jumper.scale.y = 1.2;
+            Misha.jumper.translate.x = 35;
+            Misha.jumper.translate.y = 0;
+
+            Misha.jumper.scale.counter = 0;
+            Misha.jumperWallHit = "normal";
+        }
+
         if (Misha.jumperStatePast != Misha.jumperState)
         {
             if (Misha.jumperStatePast == "falling")
