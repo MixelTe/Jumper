@@ -14,7 +14,7 @@ Misha.jumperImgLoad = 0;
 Misha.jumperImgAll = 1;
 Misha.jumperDirection = "right";
 Misha.jumperState = "stoped";
-Misha.jumperWallHit = "normal";
+Misha.jumperflattening = "normal";
 Misha.jumperStatePast = "stoped";
 Misha.jumperCounter = 0;
 Misha.jumperImg = 0;
@@ -59,42 +59,42 @@ function cratePatterns()
     imgDirt.src = "pictures/dirt.png";
     imgDirt.onload = function ()
     {
-       ptrnDirt = ctx.createPattern(imgDirt, 'repeat');
+        ptrnDirt = ctx.createPattern(imgDirt, 'repeat');
     }
 
     const imgDirt2 = new Image();
     imgDirt2.src = "pictures/dirt2.png";
     imgDirt2.onload = function ()
     {
-       ptrnDirt2 = ctx.createPattern(imgDirt2, 'repeat');
+        ptrnDirt2 = ctx.createPattern(imgDirt2, 'repeat');
     }
 
     const imgGrass = new Image();
     imgGrass.src = "pictures/grass.png";
     imgGrass.onload = function ()
     {
-       ptrnGrass = ctx.createPattern(imgGrass, 'repeat');
+        ptrnGrass = ctx.createPattern(imgGrass, 'repeat');
     }
 
     const imgBox = new Image();
     imgBox.src = "pictures/box.png";
     imgBox.onload = function ()
     {
-       ptrnBox = ctx.createPattern(imgBox, 'repeat');
+        ptrnBox = ctx.createPattern(imgBox, 'repeat');
     }
 
     const imgBox2 = new Image();
     imgBox2.src = "pictures/box2.png";
     imgBox2.onload = function ()
     {
-       ptrnBox2 = ctx.createPattern(imgBox2, 'repeat');
+        ptrnBox2 = ctx.createPattern(imgBox2, 'repeat');
     }
 
     const imgBackGrass = new Image();
     imgBackGrass.src = "pictures/backgrass.png";
     imgBackGrass.onload = function ()
     {
-       ptrnBackGrass = ctx.createPattern(imgBackGrass, 'repeat');
+        ptrnBackGrass = ctx.createPattern(imgBackGrass, 'repeat');
     }
 
     cratePatterns_lift();
@@ -106,56 +106,56 @@ function cratePatterns_lift()
     imgLift.src = "pictures/lift.png";
     imgLift.onload = function ()
     {
-       ptrnsLift[1] = ctx.createPattern(imgLift, 'repeat');
+        ptrnsLift[1] = ctx.createPattern(imgLift, 'repeat');
     }
 
     const imgLift2 = new Image();
     imgLift2.src = "pictures/lift2.png";
     imgLift2.onload = function ()
     {
-       ptrnsLift[2] = ctx.createPattern(imgLift2, 'repeat');
+        ptrnsLift[2] = ctx.createPattern(imgLift2, 'repeat');
     }
 
     const imgLift3 = new Image();
     imgLift3.src = "pictures/lift3.png";
     imgLift3.onload = function ()
     {
-       ptrnsLift[3] = ctx.createPattern(imgLift3, 'repeat');
+        ptrnsLift[3] = ctx.createPattern(imgLift3, 'repeat');
     }
 
     const imgLift4 = new Image();
     imgLift4.src = "pictures/lift4.png";
     imgLift4.onload = function ()
     {
-       ptrnsLift[4] = ctx.createPattern(imgLift4, 'repeat');
+        ptrnsLift[4] = ctx.createPattern(imgLift4, 'repeat');
     }
 
     const imgLift5 = new Image();
     imgLift5.src = "pictures/lift5.png";
     imgLift5.onload = function ()
     {
-       ptrnsLift[5] = ctx.createPattern(imgLift5, 'repeat');
+        ptrnsLift[5] = ctx.createPattern(imgLift5, 'repeat');
     }
 
     const imgLift6 = new Image();
     imgLift6.src = "pictures/lift6.png";
     imgLift6.onload = function ()
     {
-       ptrnsLift[6] = ctx.createPattern(imgLift6, 'repeat');
+        ptrnsLift[6] = ctx.createPattern(imgLift6, 'repeat');
     }
 
     const imgLift7 = new Image();
     imgLift7.src = "pictures/lift7.png";
     imgLift7.onload = function ()
     {
-       ptrnsLift[7] = ctx.createPattern(imgLift7, 'repeat');
+        ptrnsLift[7] = ctx.createPattern(imgLift7, 'repeat');
     }
 
     const imgLift8 = new Image();
     imgLift8.src = "pictures/lift8.png";
     imgLift8.onload = function ()
     {
-       ptrnsLift[8] = ctx.createPattern(imgLift8, 'repeat');
+        ptrnsLift[8] = ctx.createPattern(imgLift8, 'repeat');
     }
 }
 function GRC_background()
@@ -345,7 +345,8 @@ function GRC_jumper()
     if (Misha.jumperImgLoad == Misha.jumperImgAll)
     {
         ctx.save();
-        switch (Misha.jumperDirection) {
+        switch (Misha.jumperDirection)
+        {
             case "right":
                 ctx.translate(-10, 53);
                 ctx.scale(1, -1);
@@ -363,7 +364,8 @@ function GRC_jumper()
         ctx.scale(Misha.jumper.scale.x, Misha.jumper.scale.y);
         ctx.translate(Misha.jumper.translate.x, Misha.jumper.translate.y);
 
-        switch (Misha.jumperState) {
+        switch (Misha.jumperState)
+        {
             case "stoped":
                 GRC_jumper_stoped();
                 break;
@@ -394,15 +396,22 @@ function GRC_jumper()
             Misha.jumper.translate.y = 0;
         }
 
-        if (Misha.jumperWallHit == "hit" && (Misha.jumperStatePast == "falling" || Misha.jumperStatePast == "jumping"))
+        switch (Misha.jumperflattening)
         {
-            Misha.jumper.scale.x = 0.6;
-            Misha.jumper.scale.y = 1.2;
-            Misha.jumper.translate.x = 35;
-            Misha.jumper.translate.y = 0;
+            case "hit":
+                if (Misha.jumperStatePast == "falling" || Misha.jumperStatePast == "jumping")
+                {
+                    Misha.jumper.scale.x = 0.6;
+                    Misha.jumper.scale.y = 1.2;
+                    Misha.jumper.translate.x = 35;
+                    Misha.jumper.translate.y = 0;
 
-            Misha.jumper.scale.counter = 0;
-            Misha.jumperWallHit = "normal";
+                    Misha.jumper.scale.counter = 0;
+                    Misha.jumperflattening = "normal";
+                }
+                break;
+            default:
+                break;
         }
 
         if (Misha.jumperStatePast != Misha.jumperState)
