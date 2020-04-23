@@ -1,6 +1,5 @@
 "use strict";
 
-
 if (sessionStorage.getItem("level") == null)
 {
     sessionStorage.setItem("level", -1);
@@ -15,6 +14,10 @@ const level = parseInt(sessionStorage.getItem("level"));
 if (level == -1)
 {
     loadScript("jumper_lvls/menu/menu.js");
+}
+else if (level == -2)
+{
+    loadScript("jumper_lvls/levelBase.js");
 }
 else
 {
