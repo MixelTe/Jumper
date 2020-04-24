@@ -22,11 +22,17 @@ const platforms = [
     { id: 18, x: 3770, y: 120, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 19, x: 3510, y: 220, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 20, x: 3790, y: 320, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
-    { id: 21, x: 4080, y: 400, width: 360, height: 30, type: "simple", color: "green", texture: "grass", visible: true },
-    { id: 22, x: 4420, y: 430, width: 20, height: 170, type: "simple", color: "green", texture: "grass", visible: true },
-    { id: 23, x: 4300, y: 190, width: 20, height: 202, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 21, x: 4060, y: 400, width: 380, height: 30, type: "simple", color: "green", texture: "WoodX", visible: true },
+    { id: 22, x: 4424, y: 430, width: 16, height: 170, type: "simple", color: "green", texture: "WoodY", visible: true },
+    { id: 23, x: 4302, y: 190, width: 16, height: 210, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 24, x: 4306, y: 0, width: 8, height: 190, type: "ghost", color: "brown", texture: "clear", visible: false },
     { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "ghost", color: "yellow", texture: "clear", visible: false },
+
+    { id: 26, x: 4040, y: -57, width: 170, height: 140, type: "ghost", color: "transparent", texture: "grass", visible: false, scaleX: 0.6, scaleY: 0.6 },
+    { id: 27, x: 4130, y: -27, width: 170, height: 70, type: "ghost", color: "transparent", texture: "grass", visible: false, scaleX: 0.6, scaleY: 0.6 },
+    { id: 28, x: 4000, y: -17, width: 140, height: 50, type: "ghost", color: "transparent", texture: "grass", visible: false, scaleX: 0.7, scaleY: 0.7 },
+    { id: 29, x: 4100, y: -53, width: 16, height: 452, type: "ghost", color: "transparent", texture: "WoodY", visible: false, scaleX: 0.7, scaleY: 0.7 },
+
 ];
 
 const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "orange", changecolor: false, visible: false };

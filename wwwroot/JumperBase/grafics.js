@@ -39,6 +39,8 @@ let ptrnGrass;
 let ptrnSky;
 let ptrnBackGrass;
 let imgsJumper;
+let ptrnWoodX;
+let ptrnWoodY;
 
 
 window.onload = function () { cratePatterns(); crateImges(); };
@@ -95,6 +97,20 @@ function cratePatterns()
     imgBackGrass.onload = function ()
     {
         ptrnBackGrass = ctx.createPattern(imgBackGrass, 'repeat');
+    }
+
+    const imgWoodX = new Image();
+    imgWoodX.src = "pictures/WoodX.png";
+    imgWoodX.onload = function ()
+    {
+        ptrnWoodX = ctx.createPattern(imgWoodX, 'repeat');
+    }
+
+    const imgWoodY = new Image();
+    imgWoodY.src = "pictures/WoodY.png";
+    imgWoodY.onload = function ()
+    {
+        ptrnWoodY = ctx.createPattern(imgWoodY, 'repeat');
     }
 
     cratePatterns_lift();
@@ -186,13 +202,17 @@ function GRC_textures()
 {
     for (let i = 0; i < platforms.length; i++)
     {
+        const plt = platforms[i];
         ctx.save();
-        ctx.translate(platforms[i].x, platforms[i].y + platforms[i].height - 1);
+        ctx.translate(plt.x, plt.y + plt.height - 1);
         ctx.scale(1, -1);
-        switch (platforms[i].texture)
+        switch (plt.texture)
         {
             case "grass":
-                GRC_grass(platforms[i])
+                if (plt.visible == true)
+                {
+                    GRC_grass(plt)
+                }
                 break;
 
             default:
@@ -213,6 +233,10 @@ function drawTexture(obj)
     ctx.save();
     ctx.translate(0, obj.height);
     ctx.scale(1, -1);
+    if (obj.scaleX != null && obj.scaleY != null)
+    {
+        ctx.scale(obj.scaleX, obj.scaleY);
+    }
     switch (obj.texture)
     {
         case "grass":
@@ -234,6 +258,14 @@ function drawTexture(obj)
         case "ghost":
             break;
 
+        case "WoodX":
+            GRC_WoodX(obj);
+            break;
+
+        case "WoodY":
+            GRC_WoodY(obj);
+            break;
+
         default:
             break;
     }
@@ -246,7 +278,7 @@ function GRC_dirt(obj)
     ctx.fillRect(-1, 0, obj.width + 2, 32);
 
     ctx.fillStyle = ptrnDirt2;
-    ctx.fillRect(-1, 32, obj.width + 2, obj.height - 32);
+    ctx.fillRect(-1, 31, obj.width + 2, obj.height - 32);
 }
 
 function GRC_grass(obj)
@@ -263,6 +295,18 @@ function GRC_box(obj)
 function GRC_planks(obj)
 {
     ctx.fillStyle = ptrnBox;
+    ctx.fillRect(0, 0, obj.width, obj.height);
+}
+
+function GRC_WoodX(obj)
+{
+    ctx.fillStyle = ptrnWoodX;
+    ctx.fillRect(0, 0, obj.width, obj.height);
+}
+
+function GRC_WoodY(obj)
+{
+    ctx.fillStyle = ptrnWoodY;
     ctx.fillRect(0, 0, obj.width, obj.height);
 }
 
