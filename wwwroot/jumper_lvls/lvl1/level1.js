@@ -1,38 +1,36 @@
 "use strict";
-const p1_plm1 = { x: 400, y: 160, width: 40, height: 40,  type: "breakable", color: "rgb(0, 0, 0, 0.1)",   texture: "box", visible: true };
-const p1_plm2 = { x: 700, y: 80, width: 160, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",      texture: "planks", visible: true };
-const p1_plm3 = { x: 760, y: 260, width: 40, height: 40,  type: "breakable", color: "rgb(0, 0, 0, 0.1)",   texture: "box", visible: true };
-const p1_plm4 = { x: 1100, y: 0, width: 128, height: 60,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p1_plm5 = { x: 1228, y: 0, width: 128, height: 120, type: "simple", color: "green",                  texture: "grass", visible: true };
-const p1_plm6 = { x: 1356, y: 0, width: 128, height: 180, type: "simple", color: "green",                  texture: "grass", visible: true };
-const p1_plm7 = { x: 1484, y: 0, width: 128, height: 240, type: "simple", color: "green",                  texture: "grass", visible: true };
-const p1_plm8 = { x: 1220, y: 300, width: 120, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",    texture: "planks", visible: true };
-const p1_plm9 = { x: 980, y: 370, width: 120, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",     texture: "planks", visible: true };
-const p1_plm10 = { x: 1020, y: 560, width: 40, height: 40,  type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true };
-
-const p2_plm1 = { x: 2100, y: 0, width: 80, height: 70,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p2_plm2 = { x: 2590, y: 0, width: 80, height: 70,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p2_plm3 = { x: 2800, y: 0, width: 96, height: 180,  type: "simple", color: "green",                 texture: "grass", visible: true };
-const p2_plm4 = { x: 2896, y: 0, width: 40, height: 60,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p2_plm5 = { x: 3000, y: 250, width: 160, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",   texture: "planks", visible: true };
-const p2_plm6 = { x: 3060, y: 410, width: 40, height: 40,  type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true };
-
-const p3_plm1 = { x: 3500, y: 0, width: 140, height: 50,  type: "simple", color: "green",                    texture: "grass", visible: true };
-const p3_plm2 = { x: 3770, y: 120, width: 160, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",      texture: "planks", visible: true };
-const p3_plm3 = { x: 3510, y: 220, width: 160, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",      texture: "planks", visible: true };
-const p3_plm4 = { x: 3790, y: 320, width: 160, height: 40,  type: "simple", color: "rgb(0, 0, 0, 0.1)",      texture: "planks", visible: true };
-const p3_plm5 = { x: 4080, y: 400, width: 360, height: 30,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p3_plm6 = { x: 4420, y: 430, width: 20, height: 170,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p3_plm7 = { x: 4300, y: 190, width: 20, height: 202,  type: "simple", color: "green",                  texture: "grass", visible: true };
-const p3_plm8 = { x: 4306, y: 0, width: 8, height: 190,  type: "ghost", color: "brown",                      texture: "clear", visible: false };
-const p3_plm9 = { x: 4360, y: 430, width: 20, height: 20,  type: "ghost", color: "yellow",                      texture: "clear", visible: false };
-
-const lvlend = { x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "orange", changecolor: false, visible: false };
-
 const platforms = [
-    p1_plm1, p1_plm2, p1_plm3, p1_plm4, p1_plm5, p1_plm6, p1_plm7, p1_plm8, p1_plm9, p1_plm10,
-    p2_plm1, p2_plm2, p2_plm3, p2_plm4, p2_plm5, p2_plm6,
-    p3_plm1, p3_plm2, p3_plm3, p3_plm4, p3_plm5, p3_plm6, p3_plm7, p3_plm8, p3_plm9];
+    { id: 1, x: 400, y: 160, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+    { id: 2, x: 700, y: 80, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 3, x: 760, y: 260, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+    { id: 4, x: 1100, y: 0, width: 128, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 5, x: 1228, y: 0, width: 128, height: 120, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 6, x: 1356, y: 0, width: 128, height: 180, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 7, x: 1484, y: 0, width: 128, height: 240, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 8, x: 1220, y: 300, width: 120, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 9, x: 980, y: 370, width: 120, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 10, x: 1020, y: 560, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+
+    { id: 11, x: 2100, y: 0, width: 80, height: 70, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 12, x: 2590, y: 0, width: 80, height: 70, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 13, x: 2800, y: 0, width: 96, height: 180, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 14, x: 2896, y: 0, width: 40, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 15, x: 3000, y: 250, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 16, x: 3060, y: 410, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+
+    { id: 17, x: 3500, y: 0, width: 140, height: 50, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 18, x: 3770, y: 120, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 19, x: 3510, y: 220, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 20, x: 3790, y: 320, width: 160, height: 40, type: "simple", color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
+    { id: 21, x: 4080, y: 400, width: 360, height: 30, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 22, x: 4420, y: 430, width: 20, height: 170, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 23, x: 4300, y: 190, width: 20, height: 202, type: "simple", color: "green", texture: "grass", visible: true },
+    { id: 24, x: 4306, y: 0, width: 8, height: 190, type: "ghost", color: "brown", texture: "clear", visible: false },
+    { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "ghost", color: "yellow", texture: "clear", visible: false },
+];
+
+const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "orange", changecolor: false, visible: false };
+
 const World_edge_left = 0;
 const World_edge_right = 5000;
 let WScreen_edge_left = 0;
@@ -42,10 +40,6 @@ jumper.x = 200;
 jumper.y = 0;
 
 //===============
-for (let i = 0; i < platforms.length; i++)
-{
-    platforms[i].id = i;
-}
 SPL_cord_read(1);
 redrawAll();
 //===============

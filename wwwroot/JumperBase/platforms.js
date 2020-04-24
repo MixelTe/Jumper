@@ -37,31 +37,31 @@ function PLM_breakable(plm)
 }
 function PLM_logics(platforms)
 {
-    for (let i = 0; i < platforms.length; i++)
+    for (let plt of platforms)
     {
-        switch (platforms[i].type)
+        switch (plt.type)
         {
             case "simple":
                 break;
 
             case "lifting":
-                PLM_lifting(platforms[i]);
+                PLM_lifting(plt);
                 break;
 
             case "breakable":
-                PLM_breakable(platforms[i]);
+                PLM_breakable(plt);
                 break;
 
             case "ghost":
-                drawPlatform(platforms[i]);
+                drawPlatform(plt);
                 break;
 
             default:
                 break;
         }
-        if (platforms[i].visible == true || platforms[i].visible == "true")
+        if (plt.visible == true || plt.visible == "true")
         {
-            drawPlatform(platforms[i]);
+            drawPlatform(plt);
         }
     }
 }
