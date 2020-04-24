@@ -90,12 +90,12 @@ function redrawAll()
     requestAnimationFrame(redrawAll);
 }
 
-function SPL_lvl_cord_write()
+function SPL_lvl_write()
 {
 
 }
 
-function SPL_lvl_cord_read()
+function SPL_lvl_read()
 {
 
 }

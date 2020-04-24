@@ -202,7 +202,7 @@ function GRC_textures()
     }
 
     ctx.save();
-    ctx.translate(0, -1);
+    ctx.translate(0, -2);
     ctx.scale(1, -1);
     const backGrass = { width: World_edge_right };
     GRC_grass(backGrass)
@@ -243,10 +243,10 @@ function drawTexture(obj)
 function GRC_dirt(obj)
 {
     ctx.fillStyle = ptrnDirt;
-    ctx.fillRect(0, 0, obj.width, 32);
+    ctx.fillRect(-1, 0, obj.width + 2, 32);
 
     ctx.fillStyle = ptrnDirt2;
-    ctx.fillRect(0, 32, obj.width, obj.height - 32);
+    ctx.fillRect(-1, 32, obj.width + 2, obj.height - 32);
 }
 
 function GRC_grass(obj)

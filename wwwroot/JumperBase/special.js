@@ -33,7 +33,10 @@ function SPL_cord_write(lvl)
 
     sessionStorage.setItem("jmp.x" + lvl, jumper.x);
     sessionStorage.setItem("jmp.y" + lvl, jumper.y);
-    SPL_lvl_cord_write(lvl);
+
+    sessionStorage.setItem("coins", coins.value);
+
+    SPL_lvl_write(lvl);
 
     if (Misha.grafics)
     {
@@ -60,7 +63,7 @@ function SPL_cord_read(lvl)
         jumper.x = parseInt(sessionStorage.getItem("jmp.x" + lvl));
         jumper.y = parseInt(sessionStorage.getItem("jmp.y" + lvl));
     }
-    SPL_lvl_cord_read(lvl);
+    SPL_lvl_read(lvl);
 
     if (Misha.grafics)
     {
@@ -76,16 +79,15 @@ function SPL_lvl_end()
     {
         sessionStorage.setItem("level", -1);
         sessionStorage.setItem("Unlocklevel", nowlvl + 1);
-        sessionStorage.setItem("coins", coins.value);
 
         window.location.reload();
     }
     if (rectIntersect(lvlend, jumper))
     {
-        sessionStorage.setItem("Anc.x" + level, 0);
-        sessionStorage.setItem("Anc.y" + level, 0);
-        sessionStorage.setItem("jmp.x" + level, 0);
-        sessionStorage.setItem("jmp.y" + level, 0);
+        sessionStorage.removeItem("Anc.x" + level);
+        sessionStorage.removeItem("Anc.y" + level);
+        sessionStorage.removeItem("jmp.x" + level);
+        sessionStorage.removeItem("jmp.y" + level);
         if (Misha.grafics)
         {
             sessionStorage.setItem("GRC_jumperDirection", "right");

@@ -28,7 +28,9 @@ const btn12 ={
     Tvalue: "clear", Tx: 3, Ty: 31, Tscale: 20, type: "duble", Tvalue2: "storage", Tx2: 47, Ty2: 18, Tscale2: 20
 };
 
-const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12]
+const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "plID", Tvalue: "ID", Tx: 11, Ty: 16, Tscale: 40 };
+
+const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13]
 
 //===============
 ctx2.translate(0, canva.height);
@@ -188,6 +190,20 @@ function DEVclick(event)
 
          case "SstorageClear":
             sessionStorage.clear();
+            break;
+
+        case "plID":
+            if (DEVid)
+            {
+                DEVid = false;
+                btn13.color = "red";
+            }
+            else
+            {
+                DEVid = true;
+                btn13.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
             break;
 
         default:

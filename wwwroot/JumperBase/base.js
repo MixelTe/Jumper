@@ -30,7 +30,7 @@ const jumper = { x: 150, y: 0, width: 40, height: 40, ground: 0, floor: mainFloo
 const jumperMass = jumper.mass;
 const WorldAnchor = { x: 0, y: 0};
 const Screen_edge_left = 150;
-const Screen_edge_right = canva.width - 300;
+const Screen_edge_right = canva.width - 400;
 // const World_edge_left = -500;
 // const World_edge_right = 1200;
 // let WScreen_edge_left = 0;
@@ -45,6 +45,7 @@ let mnowStrike = false;
 const coins = { x: (canva.width / 2) - 60, y: 550, color: "red", value: 0 };
 
 let DEVgravity = true;
+let DEVid = false;
 
 
 //===============
@@ -86,7 +87,7 @@ function drawPlatform(obj)
     ctx.translate(obj.x, obj.y);
 
     const newObj = { x: obj.x - 2, y: obj.y - 1, width: obj.width + 4, height: obj.height + 2, };
-    if (rectIntersect(newObj, jumper) && obj.changecolor == null)
+    if (rectIntersect(newObj, jumper) && obj.changecolor == true)
     {
         ctx.fillStyle = "lightgreen";
     }
@@ -123,6 +124,15 @@ function drawPlatform(obj)
     if (Misha.grafics)
     {
         drawTexture(obj);
+    }
+    if (DEVid)
+    {
+        ctx.save();
+        ctx.scale(1, -1);
+        ctx.fillStyle = "red";
+        ctx.font = "40px Arial";
+        ctx.fillText(obj.id, 0, 0);
+        ctx.restore();
     }
     ctx.restore();
 }
@@ -190,6 +200,7 @@ function KeyDown(event)
         case 'Numpad2':
         case 'KeyS':
             jumper.mass = jumperMass * 5;
+            Misha.music.ost.play();
             break;
 
         case 'Backslash':

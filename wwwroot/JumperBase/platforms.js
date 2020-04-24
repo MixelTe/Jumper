@@ -22,7 +22,7 @@ function PLM_lifting(plm)
 
 function PLM_breakable(plm)
 {
-    if (plm.visible == true)
+    if (plm.visible == true || plm.visible == "true")
     {
         const newPlm = { x: plm.x + 1, y: plm.y - 1, width: plm.width - 2, height: 1, };
         if (rectIntersect(newPlm, jumper))
@@ -59,7 +59,7 @@ function PLM_logics(platforms)
             default:
                 break;
         }
-        if (platforms[i].visible == true)
+        if (platforms[i].visible == true || platforms[i].visible == "true")
         {
             drawPlatform(platforms[i]);
         }

@@ -7,7 +7,7 @@ function Jgravity(obj)
     jnowIntersect = false;
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!jnowIntersect && platforms[i].visible == true)
+        if (!jnowIntersect && (platforms[i].visible == true || platforms[i].visible == "true"))
         {
             let newObj = { x: obj.x, y: obj.y - 2, width: obj.width, height: obj.height, };
             JgravityPlatforms(newObj, obj, platforms[i]);
@@ -179,7 +179,7 @@ function Jmovement(obj)
     {
         if (!mnowIntersect)
         {
-            if (platforms[i].visible == true)
+            if (platforms[i].visible == true || platforms[i].visible == "true")
             {
                 if (rectIntersect(newObj, platforms[i]))
                 {
