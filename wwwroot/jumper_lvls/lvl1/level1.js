@@ -26,18 +26,25 @@ const platforms = [
     { id: 22, x: 4424, y: 430, width: 16, height: 170, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 23, x: 4304, y: 190, width: 16, height: 210, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 24, x: 4296, y: 0, width: 32, height: 190, type: "door",     color: "brown", texture: "wall", visible: true,
-        doorState: "close", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
+        doorState: "opening", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
     { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "ghost",   color: "yellow", texture: "clear", visible: false },
 
 ];
 
 const backscreen2 = [
-    { id: 1, x: 4040, y: -57, width: 170, height: 140, type: "ghost", color: "transparent", texture: "grass", visible: false, scaleX: 0.6, scaleY: 0.6 },
-    { id: 2, x: 4130, y: -27, width: 170, height: 70, type: "ghost",  color: "transparent", texture: "grass", visible: false, scaleX: 0.6, scaleY: 0.6 },
-    { id: 3, x: 4000, y: -17, width: 140, height: 50, type: "ghost",  color: "transparent", texture: "grass", visible: false, scaleX: 0.7, scaleY: 0.7 },
-    { id: 4, x: 4100, y: -53, width: 16, height: 452, type: "ghost",  color: "transparent", texture: "WoodY", visible: false, scaleX: 0.7, scaleY: 0.7 },
+    { id: 1, x: 4040, y: 0, width: 170, height: 140, type: "simple", texture: "grass" },
+    { id: 2, x: 4080, y: 0, width: 160, height: 80, type: "simple", texture: "grass" },
+    { id: 3, x: 4000, y: 0, width: 180, height: 50, type: "simple", texture: "grass" },
+    { id: 4, x: 4100, y: 98, width: 16, height: 432, type: "simple", texture: "WoodY" },
 
 ]
+
+const frontscreen = [
+    { id: 1, x: 4360, y: -11, width: 90, height: 40, type: "simple", texture: "grass" },
+    { id: 2, x: 4400, y: 34, width: 16, height: 261, type: "simple", texture: "WoodY" },
+
+]
+
 const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "orange", changecolor: false, visible: false };
 
 const World_edge_left = 0;
@@ -87,6 +94,10 @@ function redrawAll()
     ctx.save();
     ctx.translate(WorldAnchor.x, WorldAnchor.y);
 
+    if (Misha.screens)
+    {
+        SCR_backscreen2(backscreen2);
+    }
     PLM_logics(platforms)
     drawJumper();
 
@@ -96,6 +107,11 @@ function redrawAll()
     }
 
     SPL_lvl_end();
+
+    if (Misha.screens)
+    {
+        SCR_frontscreen(frontscreen);
+    }
 
     ctx.restore();
 

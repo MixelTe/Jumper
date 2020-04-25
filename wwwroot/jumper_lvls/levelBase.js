@@ -1,16 +1,22 @@
 "use strict";
-const plm1 = { x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true };
-const plm2 = { x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, changecolor: false, speed: 2, direction: "down", heightMax: 290, heightMin: 30 };
-const plm3 = { x: 400, y: 190, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true, changecolor: false };
+const platforms = [
+ { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
+ { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, changecolor: false, speed: 2, direction: "down", heightMax: 290, heightMin: 30 },
+ { id: 3, x: 400, y: 190, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true, changecolor: false },
 //maximum height where box can be replaced
-const plm4 = { x: 500, y: 110, width: 100, height: 40, type: "simple", color: "green", texture: "grass", visible: true };
+ { id: 4, x: 500, y: 110, width: 100, height: 40, type: "simple", color: "green", texture: "grass", visible: true },
 //maximum height where platform can be replaced
-const plm5 = { x: 700, y: 0, width: 100, height: 120, type: "simple", color: "green", texture: "grass", visible: true };
+ { id: 5, x: 700, y: 0, width: 100, height: 120, type: "simple", color: "green", texture: "grass", visible: true },
 //maximum height of platform
+];
+const backscreen2 = [
+    { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", texture: "grass" },
+
+]
+
 
 const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "orange", changecolor: false, visible: false };
 
-const platforms = [plm1, plm2, plm3, plm4, plm5];
 const World_edge_left = 0;
 const World_edge_right = 1000;
 let WScreen_edge_left = 0;
@@ -56,6 +62,10 @@ function redrawAll()
     ctx.save();
     ctx.translate(WorldAnchor.x, WorldAnchor.y);
 
+    if (Misha.screens)
+    {
+        SCR_backscreen2(backscreen2);
+    }
     PLM_logics(platforms)
     drawJumper();
 
@@ -65,6 +75,11 @@ function redrawAll()
     }
 
     SPL_lvl_end();
+
+    if (Misha.screens)
+    {
+        SCR_frontscreen(frontscreen);
+    }
 
     ctx.restore();
 
@@ -78,15 +93,16 @@ function redrawAll()
     {
         MUS_drawAll();
     }
+    plinks();
     requestAnimationFrame(redrawAll);
 }
 
-function SPL_lvl_cord_write()
+function SPL_lvl_write()
 {
 
 }
 
-function SPL_lvl_cord_read()
+function SPL_lvl_read()
 {
 
 }
