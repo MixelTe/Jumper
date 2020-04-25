@@ -96,27 +96,6 @@ function drawPlatform(obj)
         ctx.fillStyle = obj.color;
     }
 
-    if (sound_up)
-    {
-        if (!snowding)
-        {
-            ding2.play();
-            snowding = true;
-        }
-    }
-    else if (sound_side)
-    {
-        if (!snowbum)
-        {
-            bum.play();
-            snowbum = true;
-        }
-    }
-    else
-    {
-        snowding = false;
-        snowbum  = false;
-    }
     ctx.fillRect(0, 0, obj.width, obj.height);
     // ctx.strokeStyle = "black";
     // ctx.strokeRect(0, 0, obj.width, obj.height);
@@ -163,7 +142,30 @@ function DEVdrawCord()
 }
 
 
-
+function plinks()
+{
+    if (sound_up)
+    {
+        if (!snowding)
+        {
+            ding2.play();
+            snowding = true;
+        }
+    }
+    else if (sound_side)
+    {
+        if (!snowbum)
+        {
+            bum.play();
+            snowbum = true;
+        }
+    }
+    else
+    {
+        snowding = false;
+        snowbum  = false;
+    }
+}
 
 
 addEventListener('keydown', function (event) { KeyDown(event) })

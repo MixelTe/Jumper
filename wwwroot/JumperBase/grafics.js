@@ -41,6 +41,8 @@ let ptrnBackGrass;
 let imgsJumper;
 let ptrnWoodX;
 let ptrnWoodY;
+let ptrnWall;
+let ptrnLian;
 
 
 window.onload = function () { cratePatterns(); crateImges(); };
@@ -100,17 +102,31 @@ function cratePatterns()
     }
 
     const imgWoodX = new Image();
-    imgWoodX.src = "pictures/WoodX.png";
+    imgWoodX.src = "pictures/woodX.png";
     imgWoodX.onload = function ()
     {
         ptrnWoodX = ctx.createPattern(imgWoodX, 'repeat');
     }
 
     const imgWoodY = new Image();
-    imgWoodY.src = "pictures/WoodY.png";
+    imgWoodY.src = "pictures/woodY.png";
     imgWoodY.onload = function ()
     {
         ptrnWoodY = ctx.createPattern(imgWoodY, 'repeat');
+    }
+
+    const imgWall = new Image();
+    imgWall.src = "pictures/wall.png";
+    imgWall.onload = function ()
+    {
+        ptrnWall = ctx.createPattern(imgWall, 'repeat');
+    }
+
+    const imgLian = new Image();
+    imgLian.src = "pictures/lian.png";
+    imgLian.onload = function ()
+    {
+        ptrnLian = ctx.createPattern(imgLian, 'repeat');
     }
 
     cratePatterns_lift();
@@ -211,7 +227,14 @@ function GRC_textures()
             case "grass":
                 if (plt.visible == true)
                 {
-                    GRC_grass(plt)
+                    GRC_grass(plt);
+                }
+                break;
+
+            case "wall":
+                if (plt.visible == true && plt.type == "door")
+                {
+                    GRC_lian(plt);
                 }
                 break;
 
@@ -266,6 +289,10 @@ function drawTexture(obj)
             GRC_WoodY(obj);
             break;
 
+        case "wall":
+            GRC_Wall(obj);
+            break;
+
         default:
             break;
     }
@@ -286,6 +313,7 @@ function GRC_grass(obj)
     ctx.fillStyle = ptrnGrass;
     ctx.fillRect(0, -8, obj.width, 8);
 }
+
 function GRC_box(obj)
 {
     ctx.fillStyle = ptrnBox2;
@@ -308,6 +336,21 @@ function GRC_WoodY(obj)
 {
     ctx.fillStyle = ptrnWoodY;
     ctx.fillRect(0, 0, obj.width, obj.height);
+}
+
+function GRC_Wall(obj)
+{
+    ctx.translate(0, obj.height);
+    ctx.scale(1, -1);
+    ctx.fillStyle = ptrnWall;
+    ctx.fillRect(0, 0, obj.width, obj.height);
+}
+
+function GRC_lian()
+{
+    ctx.translate(-15, -20);
+    ctx.fillStyle = ptrnLian;
+    ctx.fillRect(0, 0, 62, 44);
 }
 
 function GRC_lift(obj)

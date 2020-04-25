@@ -35,6 +35,74 @@ function PLM_breakable(plm)
         }
     }
 }
+
+function PLM_door(plm)
+{
+    const speed = 0.7;
+    switch (plm.doorState) {
+        case "close":
+
+            break;
+
+        case "open":
+
+            break;
+
+        case "opening":
+            if (plm.y < plm.doorHeight - 20)
+            {
+                plm.y += speed;
+                plm.height -= speed;
+                PLM_door_shake(plm);
+            }
+            else
+            {
+                plm.doorState = "open";
+                plm.x = plm.doorX;
+            }
+
+            break;
+
+        case "closing":
+            if (plm.y > plm.doorY)
+            {
+                plm.y -= speed;
+                plm.height += speed;
+                PLM_door_shake(plm);
+            }
+            else
+            {
+                plm.doorState = "close";
+                plm.x = plm.doorX;
+            }
+
+            break;
+
+        default:
+            break;
+    }
+}
+
+function PLM_door_shake(plm)
+{
+    if (plm.doorXd == "right")
+    {
+        plm.x += 0.1;
+        if (plm.x > plm.doorX + 1)
+        {
+            plm.doorXd = "left";
+        }
+    }
+    else
+    {
+        plm.x -= 0.1;
+        if (plm.x < plm.doorX - 1)
+        {
+            plm.doorXd = "right";
+        }
+    }
+}
+
 function PLM_logics(platforms)
 {
     for (let plt of platforms)
@@ -50,6 +118,10 @@ function PLM_logics(platforms)
 
             case "breakable":
                 PLM_breakable(plt);
+                break;
+
+            case "door":
+                PLM_door(plt);
                 break;
 
             case "ghost":

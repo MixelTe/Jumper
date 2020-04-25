@@ -87,6 +87,7 @@ function redrawAll()
     {
         MUS_drawAll();
     }
+    plinks();
     requestAnimationFrame(redrawAll);
 }
 
