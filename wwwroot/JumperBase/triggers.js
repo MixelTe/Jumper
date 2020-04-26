@@ -5,11 +5,17 @@ function TRG_lever_door(leverID, doorID)
     const door1 = findWhithId(platforms, doorID);
     switch (platforms[lever1].leverState) {
         case "on":
-            platforms[door1].doorState = "opening"
+            if (platforms[door1].doorState != "open")
+            {
+                platforms[door1].doorState = "opening";
+            }
             break;
 
         case "off":
-            platforms[door1].doorState = "closing"
+            if (platforms[door1].doorState != "close")
+            {
+                platforms[door1].doorState = "closing";
+            }
             break;
 
         default:

@@ -12,7 +12,7 @@ const platforms = [
     { id: 10, x: 1020, y: 560, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
 
     { id: 11, x: 2100, y: 0, width: 80, height: 70, type: "simple",      color: "green", texture: "grass", visible: true },
-    { id: 12, x: 2590, y: 0, width: 80, height: 70, type: "simple",      color: "green", texture: "grass", visible: true },
+    { id: 12, x: 2600, y: 0, width: 80, height: 70, type: "simple",      color: "green", texture: "grass", visible: true },
     { id: 13, x: 2800, y: 0, width: 96, height: 180, type: "simple",     color: "green", texture: "grass", visible: true },
     { id: 14, x: 2896, y: 0, width: 40, height: 60, type: "simple",      color: "green", texture: "grass", visible: true },
     { id: 15, x: 3000, y: 250, width: 160, height: 40, type: "simple",   color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
@@ -25,9 +25,9 @@ const platforms = [
     { id: 21, x: 4060, y: 400, width: 380, height: 30, type: "simple", color: "green", texture: "WoodX", visible: true },
     { id: 22, x: 4424, y: 430, width: 16, height: 170, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 23, x: 4304, y: 190, width: 16, height: 210, type: "simple", color: "green", texture: "WoodY", visible: true },
+    { id: 24.5, x: 4294, y: 0, width: 36, height: 190, type: "ghost",  color: "transparent", texture: "clear", visible: true, blockHeight: 190, blockY: 0 },
     { id: 24, x: 4296, y: 0, width: 32, height: 190, type: "door",     color: "brown", texture: "wall", visible: true,
         doorState: "close", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
-    { id: 24.5, x: 4296, y: 0, width: 32, height: 190, type: "ghost",  color: "transparent", texture: "clear", visible: true },
     { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "lever",   color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
 
 ];
@@ -134,7 +134,7 @@ function redrawAll()
 
 function SPL_lvl_write()
 {
-    
+
 }
 
 function SPL_lvl_read()

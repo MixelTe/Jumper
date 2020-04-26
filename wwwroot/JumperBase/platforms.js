@@ -1,4 +1,6 @@
 "use strict";
+window.Misha = window.Misha || Object.create(null);
+Misha.sounds = {}
 function PLM_lifting(plm)
 {
     if (plm.height < plm.heightMax && plm.direction == "up")
@@ -35,6 +37,20 @@ function PLM_breakable(plm)
         }
     }
 }
+Misha.sounds.doorOpen = {};
+Misha.sounds.doorOpen.s = document.createElement("AUDIO");
+Misha.sounds.doorOpen.s.src = "sounds/doorOpen.mp3";
+Misha.sounds.doorOpen.played = false;
+
+Misha.sounds.doorClose = {};
+Misha.sounds.doorClose.s = document.createElement("AUDIO");
+Misha.sounds.doorClose.s.src = "sounds/doorClose.mp3";
+Misha.sounds.doorClose.played = false;
+
+Misha.sounds.doorCloseEnd = {};
+Misha.sounds.doorCloseEnd.s = document.createElement("AUDIO");
+Misha.sounds.doorCloseEnd.s.src = "sounds/doorCloseEnd.mp3";
+Misha.sounds.doorCloseEnd.played = false;
 
 function PLM_door(plm)
 {
@@ -42,6 +58,11 @@ function PLM_door(plm)
     let blockN = findWhithId(platforms, plm.id + 0.5);
     switch (plm.doorState) {
         case "close":
+            if (Misha.sounds.doorCloseEnd.played == false)
+            {
+                Misha.sounds.doorCloseEnd.s.play();
+                Misha.sounds.doorCloseEnd.played = true;
+            }
 
             break;
 
@@ -50,6 +71,8 @@ function PLM_door(plm)
             break;
 
         case "opening":
+            Misha.sounds.doorCloseEnd.played = false;
+            Misha.sounds.doorClose.played = false;
             if (plm.y < plm.doorHeight - 20)
             {
                 plm.y += speed;
@@ -57,6 +80,14 @@ function PLM_door(plm)
                 PLM_door_shake(plm);
                 platforms[blockN].y += speed;
                 platforms[blockN].height -= speed;
+                if (Misha.sounds.doorOpen.played == false)
+                {
+                    Misha.sounds.doorClose.s.pause();
+                    Misha.sounds.doorClose.s.currentTime = 0;
+
+                    Misha.sounds.doorOpen.s.play();
+                    Misha.sounds.doorOpen.played = true;
+                }
             }
             else
             {
@@ -68,6 +99,7 @@ function PLM_door(plm)
             break;
 
         case "closing":
+            Misha.sounds.doorOpen.played = false;
             platforms[blockN].y = platforms[blockN].blockY;
             platforms[blockN].height = platforms[blockN].blockHeight;
             if (plm.y > plm.doorY)
@@ -75,6 +107,14 @@ function PLM_door(plm)
                 plm.y -= speed;
                 plm.height += speed;
                 PLM_door_shake(plm);
+                if (Misha.sounds.doorClose.played == false)
+                {
+                    Misha.sounds.doorOpen.s.pause();
+                    Misha.sounds.doorOpen.s.currentTime = 0;
+
+                    Misha.sounds.doorClose.s.play();
+                    Misha.sounds.doorClose.played = true;
+                }
             }
             else
             {
@@ -111,6 +151,9 @@ function PLM_door_shake(plm)
     }
 }
 
+Misha.sounds.lever = document.createElement("AUDIO");
+Misha.sounds.lever.src = "sounds/leverClick.mp3";
+
 function PLM_lever(plm)
 {
     if (rectIntersect(plm, jumper))
@@ -121,10 +164,12 @@ function PLM_lever(plm)
             {
                 case "off":
                     plm.leverState = "on";
+                    Misha.sounds.lever.play();
                     break;
 
                 case "on":
                     plm.leverState = "off";
+                    Misha.sounds.lever.play();
                     break;
 
                 default:
