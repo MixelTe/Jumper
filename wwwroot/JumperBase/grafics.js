@@ -11,7 +11,7 @@ Misha.lift = 0;
 Misha.liftStyle = 0;
 
 Misha.jumperImgLoad = 0;
-Misha.jumperImgAll = 1;
+Misha.jumperImgAll = 2;
 Misha.jumperDirection = "right";
 Misha.jumperState = "stoped";
 Misha.jumperflattening = "normal";
@@ -43,6 +43,7 @@ let ptrnWoodX;
 let ptrnWoodY;
 let ptrnWall;
 let ptrnLian;
+let imgsLever;
 
 
 window.onload = function () { cratePatterns(); crateImges(); };
@@ -52,6 +53,13 @@ function crateImges()
     imgsJumper = new Image();
     imgsJumper.src = "pictures/jumper.png";
     imgsJumper.onload = function ()
+    {
+        Misha.jumperImgLoad += 1;
+    }
+
+    imgsLever = new Image();
+    imgsLever.src = "pictures/lever.png";
+    imgsLever.onload = function ()
     {
         Misha.jumperImgLoad += 1;
     }
@@ -293,6 +301,10 @@ function drawTexture(obj)
             GRC_Wall(obj);
             break;
 
+        case "lever":
+            GRC_Lever(obj);
+            break;
+
         default:
             break;
     }
@@ -344,6 +356,25 @@ function GRC_Wall(obj)
     ctx.scale(1, -1);
     ctx.fillStyle = ptrnWall;
     ctx.fillRect(0, 0, obj.width, obj.height);
+}
+
+function GRC_Lever(obj)
+{
+    if (Misha.jumperImgLoad == Misha.jumperImgAll)
+    {
+        switch (obj.leverState) {
+            case "off":
+                ctx.drawImage(imgsLever, 0, 0, 81, 84, -obj.width / 2, -40 + obj.height, 40, 40);
+                break;
+
+            case "on":
+                ctx.drawImage(imgsLever, 81, 0, 81, 84, -obj.width / 2, -40 + obj.height, 40, 40);
+                break;
+
+            default:
+                break;
+        }
+    }
 }
 
 function GRC_lian()

@@ -26,8 +26,9 @@ const platforms = [
     { id: 22, x: 4424, y: 430, width: 16, height: 170, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 23, x: 4304, y: 190, width: 16, height: 210, type: "simple", color: "green", texture: "WoodY", visible: true },
     { id: 24, x: 4296, y: 0, width: 32, height: 190, type: "door",     color: "brown", texture: "wall", visible: true,
-        doorState: "opening", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
-    { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "ghost",   color: "yellow", texture: "clear", visible: false },
+        doorState: "close", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
+    { id: 24.5, x: 4296, y: 0, width: 32, height: 190, type: "ghost",  color: "transparent", texture: "clear", visible: true },
+    { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "lever",   color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
 
 ];
 
@@ -127,6 +128,7 @@ function redrawAll()
         // MUS_drawAll();
     }
     plinks();
+    LVL_triggers();
     requestAnimationFrame(redrawAll);
 }
 
@@ -153,4 +155,9 @@ function SPL_lvl_read()
             platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id);
         }
     }
+}
+
+function LVL_triggers()
+{
+    TRG_lever_door(25, 24);
 }

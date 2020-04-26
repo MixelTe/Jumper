@@ -44,3 +44,14 @@ function loadScript(scriptPath)
     document.head.appendChild(el);
 }
 
+function findWhithId(list, id)
+{
+    for (let i = 0; i < list.length; i++)
+    {
+        const el = list[i];
+        if (el.id == id)
+        {
+            return i
+        }
+    }
+}

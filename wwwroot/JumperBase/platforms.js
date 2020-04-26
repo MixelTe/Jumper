@@ -39,6 +39,7 @@ function PLM_breakable(plm)
 function PLM_door(plm)
 {
     const speed = 0.7;
+    let blockN = findWhithId(platforms, plm.id + 0.5);
     switch (plm.doorState) {
         case "close":
 
@@ -49,6 +50,7 @@ function PLM_door(plm)
             break;
 
         case "opening":
+            platforms[blockN].visible = false;
             if (plm.y < plm.doorHeight - 20)
             {
                 plm.y += speed;
@@ -64,6 +66,7 @@ function PLM_door(plm)
             break;
 
         case "closing":
+            platforms[blockN].visible = true;
             if (plm.y > plm.doorY)
             {
                 plm.y -= speed;
@@ -103,6 +106,34 @@ function PLM_door_shake(plm)
     }
 }
 
+function PLM_lever(plm)
+{
+    if (rectIntersect(plm, jumper))
+    {
+        if (plm.leverChange == false)
+        {
+            switch (plm.leverState)
+            {
+                case "off":
+                    plm.leverState = "on";
+                    break;
+
+                case "on":
+                    plm.leverState = "off";
+                    break;
+
+                default:
+                    break;
+            }
+            plm.leverChange = true;
+        }
+    }
+    else
+    {
+        plm.leverChange = false;
+    }
+}
+
 function PLM_logics(platforms)
 {
     for (let plt of platforms)
@@ -125,6 +156,11 @@ function PLM_logics(platforms)
                 break;
 
             case "ghost":
+                drawPlatform(plt);
+                break;
+
+            case "lever":
+                PLM_lever(plt);
                 drawPlatform(plt);
                 break;
 
