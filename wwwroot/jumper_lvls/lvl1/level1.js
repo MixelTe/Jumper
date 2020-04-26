@@ -39,6 +39,7 @@ const backscreen2 = [
 
 ]
 
+//tranparent: true
 const frontscreen = [
     { id: 1, x: 4360, y: -11, width: 90, height: 40, type: "simple", texture: "grass" },
     { id: 2, x: 4400, y: 34, width: 16, height: 261, type: "simple", texture: "WoodY" },

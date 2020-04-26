@@ -29,8 +29,9 @@ const btn12 ={
 };
 
 const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "plID", Tvalue: "ID", Tx: 11, Ty: 16, Tscale: 40 };
+const btn14 = { x: 90, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "screens", Tvalue: "Scr", Tx: 4, Ty: 16, Tscale: 35 };
 
-const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13]
+const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13, btn14]
 
 //===============
 ctx2.translate(0, canva.height);
@@ -202,6 +203,20 @@ function DEVclick(event)
             {
                 DEVid = true;
                 btn13.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
+        case "screens":
+            if (DEVscreens)
+            {
+                DEVscreens = false;
+                btn14.color = "red";
+            }
+            else
+            {
+                DEVscreens = true;
+                btn14.color = "rgb(141, 0, 207)";
             }
             DEVredrawAll();
             break;

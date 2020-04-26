@@ -46,6 +46,7 @@ const coins = { x: (canva.width / 2) - 60, y: 550, color: "red", value: 0 };
 
 let DEVgravity = true;
 let DEVid = false;
+let DEVscreens = false;
 
 
 //===============

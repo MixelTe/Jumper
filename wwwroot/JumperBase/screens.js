@@ -1,6 +1,15 @@
 "use strict";
 window.Misha = window.Misha || Object.create(null);
 Misha.screens = true;
+Misha.screen = {};
+
+Misha.screen.imgjumper = new Image();
+Misha.screen.imgjumper.src = "pictures/jumperfront.png";
+Misha.screen.imgjumper.onload = function ()
+{
+    Misha.screen.imgload = true;
+}
+
 
 
 function SCR_backscreen2(elements)
@@ -22,6 +31,16 @@ function SCR_backscreen2(elements)
             }
         }
         ctx.restore();
+        if (DEVscreens)
+        {
+            ctx.save();
+            ctx.translate(el.x + el.width * 0.7, el.y - 30 + el.height * 0.7)
+            ctx.scale(1, -1);
+            ctx.fillStyle = "orange";
+            ctx.font = "40px Arial";
+            ctx.fillText(el.id, -20, 0);
+            ctx.restore();
+        }
     });
 }
 
@@ -32,10 +51,10 @@ function SCR_frontscreen(elements)
         ctx.save();
         ctx.translate(el.x, el.y);
         ctx.scale(1.4, 1.4);
-        const obj = {x: el.x, y: el.y, width: el.width * 1.4, height: el.height * 1.4}
-        if (rectIntersect(obj, jumper))
+        const obj = { x: el.x, y: el.y, width: el.width * 1.4, height: el.height * 1.4 }
+        if (rectIntersect(obj, jumper) && el.tranparent == true)
         {
-            ctx.globalAlpha = 0.5;
+            ctx.globalAlpha = 0.6;
         }
 
         ctx.fillStyle = "rgb(0, 0, 0, 0.05)";
@@ -48,6 +67,38 @@ function SCR_frontscreen(elements)
                 ctx.translate(0, el.height - 1);
                 GRC_grass(el);
             }
+        }
+        ctx.restore();
+        ctx.save();
+        obj.x = Math.min(obj.x + jumper.width, obj.x + obj.width / 2);
+        obj.width = Math.max(obj.width - jumper.width * 2, 1);
+        obj.y = Math.min(obj.y + jumper.height, obj.y + obj.height / 2);
+        obj.height = Math.max(obj.height - jumper.height * 2, 1);
+        if (DEVscreens)
+        {
+            ctx.save();
+            ctx.translate(obj.x, obj.y)
+            ctx.fillStyle = "red";
+            ctx.fillRect(0, 0, obj.width, obj.height);
+            ctx.scale(1, -1);
+            ctx.fillStyle = "yellow";
+            ctx.font = "40px Arial";
+            ctx.fillText(el.id, -jumper.width, 0);
+            ctx.restore();
+        }
+        if (rectIntersect(obj, jumper) && obj.width != 1 && Misha.screen.imgload == true)
+        {
+            ctx.translate(jumper.x + jumper.width / 2 - 20, jumper.y + jumper.height / 2 + 20);
+            ctx.globalAlpha = 0.4;
+            ctx.scale(1, -1);
+            ctx.lineWidth = 5;
+            ctx.fillStyle = "black";
+            ctx.beginPath();
+            ctx.arc(jumper.width / 2, jumper.height / 2 + 3.5, 15, 0, Math.PI * 2, true);
+            ctx.fill();
+
+            ctx.globalAlpha = 0.6;
+            ctx.drawImage(Misha.screen.imgjumper, 0, 0, 40, 40);
         }
         ctx.restore();
     });
