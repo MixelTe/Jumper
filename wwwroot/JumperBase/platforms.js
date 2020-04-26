@@ -50,23 +50,26 @@ function PLM_door(plm)
             break;
 
         case "opening":
-            platforms[blockN].visible = false;
             if (plm.y < plm.doorHeight - 20)
             {
                 plm.y += speed;
                 plm.height -= speed;
                 PLM_door_shake(plm);
+                platforms[blockN].y += speed;
+                platforms[blockN].height -= speed;
             }
             else
             {
+                plm.height = 20;
+                plm.y = plm.doorHeight - 20;
                 plm.doorState = "open";
                 plm.x = plm.doorX;
             }
-
             break;
 
         case "closing":
-            platforms[blockN].visible = true;
+            platforms[blockN].y = platforms[blockN].blockY;
+            platforms[blockN].height = platforms[blockN].blockHeight;
             if (plm.y > plm.doorY)
             {
                 plm.y -= speed;
@@ -75,6 +78,8 @@ function PLM_door(plm)
             }
             else
             {
+                plm.height = plm.doorHeight;
+                plm.y = plm.doorY;
                 plm.doorState = "close";
                 plm.x = plm.doorX;
             }

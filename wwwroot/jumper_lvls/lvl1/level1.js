@@ -134,27 +134,12 @@ function redrawAll()
 
 function SPL_lvl_write()
 {
-    for (let i = 0; i < platforms.length; i++)
-    {
-        if (platforms[i].type == "breakable")
-        {
-            sessionStorage.setItem("breakable" + platforms[i].id, platforms[i].visible);
-        }
-    }
-
+    
 }
 
 function SPL_lvl_read()
 {
-    for (let i = 0; i < platforms.length; i++)
-    {
-        if (
-            platforms[i].type == "breakable" &&
-            sessionStorage.getItem("breakable" + platforms[i].id) != null)
-        {
-            platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id);
-        }
-    }
+
 }
 
 function LVL_triggers()

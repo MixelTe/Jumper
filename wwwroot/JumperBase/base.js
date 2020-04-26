@@ -111,7 +111,7 @@ function drawPlatform(obj)
         ctx.scale(1, -1);
         ctx.fillStyle = "red";
         ctx.font = "40px Arial";
-        ctx.fillText(obj.id, 0, 0);
+        ctx.fillText(obj.id, 0, -4);
         ctx.restore();
     }
     ctx.restore();

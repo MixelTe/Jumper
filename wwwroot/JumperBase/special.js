@@ -36,6 +36,14 @@ function SPL_cord_write(lvl)
 
     sessionStorage.setItem("coins", coins.value);
 
+    for (let i = 0; i < platforms.length; i++)
+    {
+        if (platforms[i].type == "breakable")
+        {
+            sessionStorage.setItem("breakable" + platforms[i].id, platforms[i].visible);
+        }
+    }
+
     SPL_lvl_write(lvl);
 
     if (Misha.grafics)
@@ -63,6 +71,16 @@ function SPL_cord_read(lvl)
         jumper.x = parseInt(sessionStorage.getItem("jmp.x" + lvl));
         jumper.y = parseInt(sessionStorage.getItem("jmp.y" + lvl));
     }
+    for (let i = 0; i < platforms.length; i++)
+    {
+        if (
+            platforms[i].type == "breakable" &&
+            sessionStorage.getItem("breakable" + platforms[i].id) != null)
+        {
+            platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id);
+        }
+    }
+
     SPL_lvl_read(lvl);
 
     if (Misha.grafics)
