@@ -199,6 +199,17 @@ function PLM_star(plm)
     }
 }
 
+function PLM_fake(plm)
+{
+    ctx.save();
+    if (Misha.grafics)
+    {
+        plm.visible = false;
+    }
+    drawPlatform(plm);
+    ctx.restore();
+}
+
 function PLM_logics(platforms)
 {
     for (let plt of platforms)
@@ -231,6 +242,10 @@ function PLM_logics(platforms)
 
             case "star":
                 PLM_star(plt);
+                break;
+
+            case "fake":
+                PLM_fake(plt);
                 break;
 
             default:

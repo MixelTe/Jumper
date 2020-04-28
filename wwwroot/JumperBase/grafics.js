@@ -7,6 +7,7 @@ window.Misha = window.Misha || Object.create(null);
 // var z = 3; // портит window, то же самое, что window.z = 3
 
 Misha.grafics = true;
+Misha.grafic = {};
 Misha.lift = 0;
 Misha.liftStyle = 0;
 
@@ -256,6 +257,16 @@ function GRC_textures()
             default:
                 break;
         }
+        if (plt.type == "fake")
+        {
+            if (rectIntersect(plt, jumper))
+            {
+                ctx.globalAlpha = 0.4;
+            }
+            ctx.translate(0, plt.height - 2);
+            ctx.scale(1, -1);
+            drawTexture(plt);
+        }
         ctx.restore();
     }
 
@@ -312,6 +323,10 @@ function drawTexture(obj)
             GRC_Lever(obj);
             break;
 
+        case "dirt":
+            GRC_dirt0(obj);
+            break;
+
         default:
             break;
     }
@@ -325,6 +340,12 @@ function GRC_dirt(obj)
 
     ctx.fillStyle = ptrnDirt2;
     ctx.fillRect(-1, 31, obj.width + 2, obj.height - 32);
+}
+
+function GRC_dirt0(obj)
+{
+    ctx.fillStyle = ptrnDirt2;
+    ctx.fillRect(-1, -1, obj.width + 2, obj.height);
 }
 
 function GRC_grass(obj)
@@ -717,5 +738,65 @@ function GRC_SPL_direction_read()
     if (sessionStorage.getItem("GRC_jumperDirection") != null)
     {
         Misha.jumperDirection = sessionStorage.getItem("GRC_jumperDirection");
+    }
+}
+
+
+class Portal
+{
+    constructor(x, y, width, height, type, color, visible, counter)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.visible = visible;
+        this.type = type;
+        this.color = color;
+        this.counter = counter;
+    }
+}
+Misha.grafic.portal = [];
+function GRC_portal()
+{
+    const tempScreen = {};
+    tempScreen.x = -WorldAnchor.x;
+    tempScreen.y = -WorldAnchor.y;
+    tempScreen.width = canva.width;
+    tempScreen.height = canva.height;
+    if (rectIntersect(lvlend, tempScreen))
+    {
+        ctx.save();
+        // ctx.beginPath();
+        // ctx.arc(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, 25, 0, Math.PI * 2);
+        // ctx.clip();
+        if (Misha.grafic.portal.length < 50)
+        {
+            const red = random_num(255, 255);
+            const green = random_num(0, 255);
+            const blue = random_num(0, 0);
+            const newColor = `rgb(${red}, ${green}, ${blue})`;
+            Misha.grafic.portal.push(new Portal(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, 8, 8, "ghost", newColor, false, 0));
+        }
+        for (let i = 0; i < Misha.grafic.portal.length; i++)
+        {
+            const el = Misha.grafic.portal[i];
+            el.x += random_upNdown(1);
+            el.x = Math.max(Math.min(el.x, lvlend.x + lvlend.width), lvlend.x);
+            el.y += random_upNdown(1);
+            el.y = Math.max(Math.min(el.y, lvlend.y + lvlend.height), lvlend.y);
+
+            if (el.counter == 10)
+            {
+                const red = random_num(255, 255);
+                const green = random_num(0, 255);
+                const blue = random_num(0, 0);
+                el.color = `rgb(${red}, ${green}, ${blue})`;
+                el.counter = 0;
+            }
+            el.counter += random_num(0, 2);
+        }
+        PLM_logics(Misha.grafic.portal);
+        ctx.restore();
     }
 }

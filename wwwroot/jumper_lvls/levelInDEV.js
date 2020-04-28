@@ -81,7 +81,7 @@ function redrawAll()
 
     LVL_AI_jumper();
     LVL_platforms();
-    PLM_logics(platforms)
+    PLM_logics(platforms);
     if (DEVgravity)
     {
         Jgravity(jumper);
@@ -222,37 +222,6 @@ function LVL_background()
         ctx.drawImage(Misha.lvl2.imgs.inDEV, 0, 0);
     }
     ctx.restore();
-}
-
-function random_upNdown(count)
-{
-    if (Math.random() > 0.5)
-    {
-        return count;
-    }
-    else
-    {
-        return -count;
-    }
-
-}
-
-function random_true()
-{
-    if (Math.random() > 0.5)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
-
-}
-
-function random_num(min, max)
-{
-    return min + Math.floor((max - min) * Math.random());
 }
 
 canva.addEventListener('click', function (event) { LVL_click(event) })

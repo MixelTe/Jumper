@@ -70,3 +70,34 @@ function DEV_cord_pixel()
     }
     ctx.restore();
 }
+
+function random_upNdown(count)
+{
+    if (Math.random() > 0.5)
+    {
+        return count;
+    }
+    else
+    {
+        return -count;
+    }
+
+}
+
+function random_true()
+{
+    if (Math.random() > 0.5)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+
+}
+
+function random_num(min, max)
+{
+    return min + Math.floor((max - min) * Math.random());
+}

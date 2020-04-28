@@ -5,8 +5,10 @@ const platforms = [
     { id: 3, x: 760, y: 260, width: 40, height: 40, type: "breakable",   color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
     { id: 4, x: 1100, y: 0, width: 128, height: 60, type: "simple",      color: "green", texture: "grass", visible: true },
     { id: 5, x: 1228, y: 0, width: 128, height: 120, type: "simple",     color: "green", texture: "grass", visible: true },
-    { id: 6, x: 1356, y: 0, width: 128, height: 180, type: "simple",     color: "green", texture: "grass", visible: true },
-    { id: 7, x: 1484, y: 0, width: 128, height: 240, type: "simple",     color: "green", texture: "grass", visible: true },
+    { id: 6, x: 1356, y: 100, width: 128, height: 80, type: "simple",    color: "green", texture: "grass", visible: true },
+    { id: 7, x: 1484, y: 50, width: 128, height: 190, type: "simple",    color: "green", texture: "grass", visible: true },
+    { id: 10.5, x: 1400, y: 40, width: 40, height: 40, type: "star",    color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
+    { id: 7.5, x: 1356, y: 0, width: 256, height: 100, type: "fake",     color: "green", texture: "dirt", visible: true },
     { id: 8, x: 1220, y: 300, width: 120, height: 40, type: "simple",    color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 9, x: 980, y: 370, width: 120, height: 40, type: "simple",     color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 10, x: 1020, y: 480, width: 40, height: 40, type: "star",      color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
@@ -46,7 +48,7 @@ const frontscreen = [
 
 ]
 
-const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "orange", changecolor: false, visible: false };
+const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "rgb(0, 0, 0, 0.05)", changecolor: false, visible: false };
 
 const World_edge_left = 0;
 const World_edge_right = 5000;
@@ -57,6 +59,10 @@ jumper.x = 200;
 jumper.y = 0;
 
 //===============
+if (Misha.overlays)
+{
+    Misha.overlay.stars.count = 2;
+}
 SPL_cord_read(1);
 redrawAll();
 //===============
@@ -108,6 +114,11 @@ function redrawAll()
     }
 
     SPL_lvl_end();
+
+    if (Misha.grafics)
+    {
+        GRC_portal();
+    }
 
     if (Misha.screens)
     {

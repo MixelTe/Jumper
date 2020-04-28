@@ -32,7 +32,7 @@ const frontscreen = [
 ]
 
 
-const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "orange", changecolor: false, visible: false };
+const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "rgb(0, 0, 0, 0.05)", changecolor: false, visible: false };
 
 const World_edge_left = 0;
 const World_edge_right = 1000;
@@ -41,6 +41,10 @@ let WScreen_edge_right = World_edge_right;
 
 
 //===============
+if (Misha.overlays)
+{
+    Misha.overlay.stars.count = 3;
+}
 SPL_cord_read("number of level");                    //nEn
 redrawAll();
 //===============
@@ -92,6 +96,11 @@ function redrawAll()
     }
 
     SPL_lvl_end();
+
+    if (Misha.grafics)
+    {
+        GRC_portal();
+    }
 
     if (Misha.screens)
     {
