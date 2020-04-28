@@ -42,7 +42,7 @@ let jnowIntersect = false;
 let mnowIntersect = false;
 let mnowStrike = false;
 
-const coins = { x: (canva.width / 2) - 60, y: 550, color: "red", value: 0 };
+const coins = { x: (canva.width / 2) - 60, y: 50, color: "red", value: 0 };
 
 let DEVgravity = true;
 let DEVid = false;
@@ -117,19 +117,6 @@ function drawPlatform(obj)
     ctx.restore();
 }
 
-function drawCoins()
-{
-    ctx.save();
-    ctx.translate(coins.x, coins.y);
-    ctx.scale(1, -1);
-
-
-    ctx.fillStyle = coins.color;
-    ctx.font = "30px Arial";
-    ctx.fillText("Coins: " + coins.value, 0, 0);
-
-    ctx.restore();
-}
 function DEVdrawCord()
 {
     ctx.save();

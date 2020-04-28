@@ -109,3 +109,18 @@ function SPL_special()
         WScreen_edge_left = World_edge_left;
     }
 }
+
+
+function drawCoins()
+{
+    ctx.save();
+    ctx.translate(coins.x, coins.y);
+    ctx.scale(1, -1);
+
+
+    ctx.fillStyle = coins.color;
+    ctx.font = "30px Arial";
+    ctx.fillText("Coins: " + coins.value, 0, 0);
+
+    ctx.restore();
+}

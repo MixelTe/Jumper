@@ -246,6 +246,13 @@ function GRC_textures()
                 }
                 break;
 
+            case "star":
+                if (plt.colected == false && Misha.overlays == true)
+                {
+                    ctx.drawImage(Misha.overlay.imgs.star, plt.width / 2 - 27, plt.height / 2 - 27, 52, 52);
+                }
+                break;
+
             default:
                 break;
         }

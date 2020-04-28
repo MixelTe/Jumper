@@ -9,7 +9,7 @@ const platforms = [
     { id: 7, x: 1484, y: 0, width: 128, height: 240, type: "simple",     color: "green", texture: "grass", visible: true },
     { id: 8, x: 1220, y: 300, width: 120, height: 40, type: "simple",    color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 9, x: 980, y: 370, width: 120, height: 40, type: "simple",     color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
-    { id: 10, x: 1020, y: 560, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+    { id: 10, x: 1020, y: 480, width: 40, height: 40, type: "star",      color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
 
     { id: 11, x: 2100, y: 0, width: 80, height: 70, type: "simple",      color: "green", texture: "grass", visible: true },
     { id: 12, x: 2600, y: 0, width: 80, height: 70, type: "simple",      color: "green", texture: "grass", visible: true },
@@ -40,7 +40,6 @@ const backscreen2 = [
 
 ]
 
-//tranparent: true
 const frontscreen = [
     { id: 1, x: 4360, y: -11, width: 90, height: 40, type: "simple", texture: "grass" },
     { id: 2, x: 4400, y: 34, width: 16, height: 261, type: "simple", texture: "WoodY" },
@@ -117,18 +116,16 @@ function redrawAll()
 
     ctx.restore();
 
-
-    ctx.save();
-
-    drawCoins();
-
-    ctx.restore();
     if (Misha.musics)
     {
-        // MUS_drawAll();
+        MUS_drawAll();
     }
     plinks();
     LVL_triggers();
+    if (Misha.overlays == true)
+    {
+        OVL_draw1();
+    }
     requestAnimationFrame(redrawAll);
 }
 

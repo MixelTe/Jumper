@@ -100,18 +100,16 @@ function redrawAll()
 
     ctx.restore();
 
-
-    ctx.save();
-
-    drawCoins();
-
-    ctx.restore();
     if (Misha.musics)
     {
         // MUS_drawAll();
     }
     plinks();
     LVL_triggers();
+    if (Misha.overlays == true)
+    {
+        OVL_draw1();
+    }
     requestAnimationFrame(redrawAll);
 }
 

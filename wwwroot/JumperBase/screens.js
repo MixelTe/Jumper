@@ -2,12 +2,14 @@
 window.Misha = window.Misha || Object.create(null);
 Misha.screens = true;
 Misha.screen = {};
+Misha.screen.imgs = {};
+Misha.screen.img = {};
 
-Misha.screen.imgjumper = new Image();
-Misha.screen.imgjumper.src = "pictures/jumperfront.png";
-Misha.screen.imgjumper.onload = function ()
+Misha.screen.imgs.jumper = new Image();
+Misha.screen.imgs.jumper.src = "pictures/jumperfront.png";
+Misha.screen.imgs.jumper.onload = function ()
 {
-    Misha.screen.imgload = true;
+    Misha.screen.img.jumper = true;
 }
 
 
@@ -86,7 +88,7 @@ function SCR_frontscreen(elements)
             ctx.fillText(el.id, -jumper.width, 0);
             ctx.restore();
         }
-        if (rectIntersect(obj, jumper) && obj.width != 1 && Misha.screen.imgload == true)
+        if (rectIntersect(obj, jumper) && obj.width != 1 && Misha.screen.img.jumper == true)
         {
             ctx.translate(jumper.x + jumper.width / 2 - 20, jumper.y + jumper.height / 2 + 20);
             ctx.globalAlpha = 0.4;
@@ -98,7 +100,7 @@ function SCR_frontscreen(elements)
             ctx.fill();
 
             ctx.globalAlpha = 0.6;
-            ctx.drawImage(Misha.screen.imgjumper, 0, 0, 40, 40);
+            ctx.drawImage(Misha.screen.imgs.jumper, 0, 0, 40, 40);
         }
         ctx.restore();
     });

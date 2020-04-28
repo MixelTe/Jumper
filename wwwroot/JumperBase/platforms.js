@@ -50,7 +50,7 @@ Misha.sounds.doorClose.played = false;
 Misha.sounds.doorCloseEnd = {};
 Misha.sounds.doorCloseEnd.s = document.createElement("AUDIO");
 Misha.sounds.doorCloseEnd.s.src = "sounds/doorCloseEnd.mp3";
-Misha.sounds.doorCloseEnd.played = false;
+Misha.sounds.doorCloseEnd.played = true;
 
 function PLM_door(plm)
 {
@@ -184,6 +184,21 @@ function PLM_lever(plm)
     }
 }
 
+function PLM_star(plm)
+{
+    if (plm.colected == false && Misha.overlays == true)
+    {
+        if (rectIntersect(plm, jumper))
+        {
+            Misha.overlay.stars.stared += 1;
+            ding.currentTime = 0;
+            Misha.overlay.sounds.starColected.play();
+            plm.colected = true;
+        }
+        drawPlatform(plm);
+    }
+}
+
 function PLM_logics(platforms)
 {
     for (let plt of platforms)
@@ -212,6 +227,10 @@ function PLM_logics(platforms)
             case "lever":
                 PLM_lever(plt);
                 drawPlatform(plt);
+                break;
+
+            case "star":
+                PLM_star(plt);
                 break;
 
             default:
