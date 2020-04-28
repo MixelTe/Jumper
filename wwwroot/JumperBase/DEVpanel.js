@@ -3,7 +3,7 @@
 const canva2 = document.getElementById("canva2");
 const ctx2 = canva2.getContext('2d');
 let DEVmoveSpeed = 10;
-let tolvl = 0;
+let tolvl = 1;
 let toCursor = false;
 
 
@@ -20,7 +20,7 @@ const display1 = { x: 140, y: 530, width: 60, height: 60, color: "yellow", Tcolo
 const btn9 = { x: 220, y: 530, width: 60, height: 60, color: "darkblue", Tcolor: "yellow", value: "toCursor", Tvalue: "To cursor", Tx: 1, Ty: 24, Tscale: 14 };
 
 const btn10 = { x: 20, y: 300, width: 60, height: 60, color: "blue", Tcolor: "yellow", value: "tolvl-", Tvalue: "-", Tx: 22, Ty: 17, Tscale: 50};
-const display2 = { x: 80, y: 300, width: 60, height: 60, color: "yellow", Tcolor: "green", value: "tolvl", Tvalue: "to lvl 0", Tx: 2, Ty: 23, Tscale: 19};
+const display2 = { x: 80, y: 300, width: 60, height: 60, color: "yellow", Tcolor: "green", value: "tolvl", Tvalue: "to lvl 1", Tx: 2, Ty: 23, Tscale: 19};
 const btn11 = { x: 140, y: 300, width: 60, height: 60, color: "blue", Tcolor: "yellow", value: "tolvl+", Tvalue: "+", Tx: 19, Ty: 16, Tscale: 40};
 
 const btn12 ={

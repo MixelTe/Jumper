@@ -159,94 +159,100 @@ function plinks()
 addEventListener('keydown', function (event) { KeyDown(event) })
 function KeyDown(event)
 {
-    switch (event.code)
+    if (Misha.noControl != true)
     {
-        case 'ArrowUp':
-        case 'Numpad8':
-        case 'KeyW':
-        case 'Space':
-            if (jnowJump == false && event.repeat == false)
-            {
-                jnowJump = true;
-                jnowSpeed = jumper.jumpSpeed;
-                jmSpeed = mnowSpeed;
-                Misha.jumperState = "jumping";
-            }
-            break;
+        switch (event.code)
+        {
+            case 'ArrowUp':
+            case 'Numpad8':
+            case 'KeyW':
+            case 'Space':
+                if (jnowJump == false && event.repeat == false)
+                {
+                    jnowJump = true;
+                    jnowSpeed = jumper.jumpSpeed;
+                    jmSpeed = mnowSpeed;
+                    Misha.jumperState = "jumping";
+                }
+                break;
 
-        case 'ArrowRight':
-        case 'Numpad6':
-        case 'KeyD':
-            mnowAcc = jumper.moveAcc;
-            break;
+            case 'ArrowRight':
+            case 'Numpad6':
+            case 'KeyD':
+                mnowAcc = jumper.moveAcc;
+                break;
 
-        case 'ArrowLeft':
-        case 'Numpad4':
-        case 'KeyA':
-            mnowAcc = -jumper.moveAcc;
-            break;
+            case 'ArrowLeft':
+            case 'Numpad4':
+            case 'KeyA':
+                mnowAcc = -jumper.moveAcc;
+                break;
 
-        case 'ArrowDown':
-        case 'Numpad2':
-        case 'KeyS':
-            jumper.mass = jumperMass * 5;
-            Misha.music.ost.play();
-            break;
+            case 'ArrowDown':
+            case 'Numpad2':
+            case 'KeyS':
+                jumper.mass = jumperMass * 5;
+                Misha.music.ost.play();
+                break;
 
-        case 'Backslash':
-            // document.getElementById("canva2").style.display = "inline";
-            if (document.getElementById("canva2") == null)
-            {
-                const el = document.createElement("canvas");
-                el.id = "canva2";
-                el.width = "300";
-                el.height = "600";
-                el.style = "border: 1px solid black; user-select: none; margin-left: 8px";
-                const cv =  document.getElementById("canva");
-                cv.parentNode.insertBefore(el, cv.nextSibling);
-                loadScript("jumperBase/DEVpanel.js");
-            }
-        default:
-            break;
+            case 'Backslash':
+                // document.getElementById("canva2").style.display = "inline";
+                if (document.getElementById("canva2") == null)
+                {
+                    const el = document.createElement("canvas");
+                    el.id = "canva2";
+                    el.width = "300";
+                    el.height = "600";
+                    el.style = "border: 1px solid black; user-select: none; margin-left: 8px";
+                    const cv = document.getElementById("canva");
+                    cv.parentNode.insertBefore(el, cv.nextSibling);
+                    loadScript("jumperBase/DEVpanel.js");
+                }
+            default:
+                break;
+        }
     }
 }
 
 addEventListener('keyup', function (event) { KeyUp(event) })
 function KeyUp(event)
 {
-    switch (event.code)
+    if (Misha.noControl != true)
     {
-        case 'ArrowUp':
-        case 'Numpad8':
-        case 'KeyW':
-        case 'Space':
+        switch (event.code)
+        {
+            case 'ArrowUp':
+            case 'Numpad8':
+            case 'KeyW':
+            case 'Space':
 
-            break;
+                break;
 
-        case 'ArrowRight':
-        case 'Numpad6':
-        case 'KeyD':
-            if (mnowAcc == jumper.moveAcc)
-            {
-                mnowAcc = 0;
-            }
-            break;
+            case 'ArrowRight':
+            case 'Numpad6':
+            case 'KeyD':
+                if (mnowAcc == jumper.moveAcc)
+                {
+                    mnowAcc = 0;
+                }
+                break;
 
-        case 'ArrowLeft':
-        case 'Numpad4':
-        case 'KeyA':
-            if (mnowAcc == -jumper.moveAcc)
-            {
-                mnowAcc = 0;
-            }
-            break;
+            case 'ArrowLeft':
+            case 'Numpad4':
+            case 'KeyA':
+                if (mnowAcc == -jumper.moveAcc)
+                {
+                    mnowAcc = 0;
+                }
+                break;
 
-        case 'ArrowDown':
-        case 'Numpad2':
-        case 'KeyS':
-            jumper.mass = jumperMass;
-            break;
-        default:
-            break;
+            case 'ArrowDown':
+            case 'Numpad2':
+            case 'KeyS':
+                jumper.mass = jumperMass;
+                break;
+            default:
+                break;
+        }
     }
 }

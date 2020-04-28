@@ -5,7 +5,7 @@ const lockerButton2 = { x: 310, y: 200, width: 150, height: 200, color: "rgb(0, 
 
 const buttons = [button1, button2, lockerButton2];
 
-var background = ctx.createLinearGradient(canva.width, canva.height,0,200);
+var background = ctx.createLinearGradient(canva.width, canva.height, 0, 200);
 
 background.addColorStop(0, 'rgba(255,251,18,1)');
 background.addColorStop(0.53, 'rgba(5,255,155,1)');
@@ -96,8 +96,11 @@ function click(event)
         switch (clickButton.value)
         {
             case "lvl1":
-                sessionStorage.setItem("level", 0);
-                MUS_ost_write();
+                sessionStorage.setItem("level", 1);
+                if (Misha.musics == true)
+                {
+                    MUS_ost_write();
+                }
                 sessionStorage.setItem("music.pause", 0);           //music
                 window.location.reload();
                 break;
@@ -105,8 +108,11 @@ function click(event)
             case "lvl2":
                 if (parseInt(sessionStorage.getItem("Unlocklevel")) > 0)
                 {
-                    sessionStorage.setItem("level", 1);
-                    MUS_ost_write();
+                    sessionStorage.setItem("level", 2);
+                    if (Misha.musics == true)
+                    {
+                        MUS_ost_write();
+                    }
                     sessionStorage.setItem("music.pause", 0);           //music
                     window.location.reload();
                 }

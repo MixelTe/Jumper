@@ -55,3 +55,18 @@ function findWhithId(list, id)
         }
     }
 }
+
+function DEV_cord_pixel()
+{
+    ctx.save();
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    for (let i = 0; i * 10 < canva.width; i++)
+    {
+        for (let o = 0; o * 10 < canva.height; o++)
+        {
+            ctx.fillRect(20 * i, 20 * o, 10, 10);
+            ctx.fillRect(20 * i + 10, 20 * o - 10, 10, 10);
+        }
+    }
+    ctx.restore();
+}
