@@ -23,6 +23,7 @@ const World_edge_right = 1200;
 let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 
+coins.y = 550;
 
 //===============
 SPL_cord_read(0)
@@ -37,8 +38,8 @@ function redrawAll()
 
     if (DEVgravity)
     {
-        Jgravity(jumper);
-        Jmovement(jumper);
+        Cgravity(jumper);
+        Cmovement(jumper);
     }
     moveScreen();
 

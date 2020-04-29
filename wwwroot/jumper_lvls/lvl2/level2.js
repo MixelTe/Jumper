@@ -11,106 +11,25 @@ const frontscreen = [
 
 ]
 
-const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "rgb(0, 0, 0, 0.05)", changecolor: false, visible: false };
+const enemys = [
+    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy"),
+
+]
+
+const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "rgb(0, 0, 0, 0.05)", visible: false };
 
 const World_edge_left = 0;
 const World_edge_right = 1000;
 let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 
-// const enemy1 = new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy");
-// const enemy2 = new Character(500, 0, 1.7, 6, 1.5, 14, true, "2e");
-// platforms.push(enemy1);
-// platforms.push(enemy2);
+
 //===============
-if (Misha.overlays)
-{
-    Misha.overlay.stars.count = 3;
-}
-SPL_cord_read(level);
+levelOnStart(1);
 redrawAll();
 //===============
 
 
-
-function redrawAll()
-{
-    if (DEVgravity)
-    {
-        Cgravity(jumper);
-        Cmovement(jumper);
-
-        Cgravity(enemy1);
-        Cmovement(enemy1);
-
-        // Cgravity(enemy2);
-        // Cmovement(enemy2);
-    }
-    moveScreen();
-
-    SPL_UnD();
-    SPL_cord_write(level);
-
-    ctx.save();
-
-    ctx.fillStyle = "red"
-    ctx.fillRect(0, -10, canva.width, canva.height);
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(0, 0, 1200, canva.height);
-    ctx.fillStyle = "green"
-    ctx.fillRect(0, -10, 1200, 10);
-
-    if (Misha.grafics)
-    {
-        GRC_background();
-    }
-
-    ctx.restore();
-
-
-    ctx.save();
-    ctx.translate(WorldAnchor.x, WorldAnchor.y);
-
-    if (Misha.screens)
-    {
-        SCR_backscreen2(backscreen2);
-    }
-    PLM_logics(platforms)
-    drawEnemy(enemy1);
-    // drawEnemy(enemy2);
-    drawJumper();
-
-    if (Misha.grafics)
-    {
-        GRC_textures();
-    }
-
-    SPL_lvl_end();
-
-    if (Misha.grafics)
-    {
-        GRC_portal();
-    }
-
-    if (Misha.screens)
-    {
-        SCR_frontscreen(frontscreen);
-    }
-
-    ctx.restore();
-
-    if (Misha.musics)
-    {
-        // MUS_drawAll();
-    }
-    plinks();
-    LVL_triggers();
-    if (Misha.overlays == true)
-    {
-        OVL_draw1();
-    }
-    requestAnimationFrame(redrawAll);
-}
 
 function SPL_lvl_write()
 {

@@ -47,8 +47,8 @@ const frontscreen = [
     { id: 2, x: 4400, y: 34, width: 16, height: 261, type: "simple", texture: "WoodY" },
 
 ]
-
-const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "rgb(0, 0, 0, 0.05)", changecolor: false, visible: false };
+const enemys = []
+const lvlend = { id: "END", x: 4700, y: 30, width: 50, height: 50, type: "ghost", color: "rgb(0, 0, 0, 0.05)", visible: false };
 
 const World_edge_left = 0;
 const World_edge_right = 5000;
@@ -59,86 +59,10 @@ jumper.x = 200;
 jumper.y = 0;
 
 //===============
-if (Misha.overlays)
-{
-    Misha.overlay.stars.count = 2;
-}
-SPL_cord_read(1);
+levelOnStart(2);
 redrawAll();
 //===============
 
-
-
-function redrawAll()
-{
-    if (DEVgravity)
-    {
-        Cgravity(jumper);
-        Cmovement(jumper);
-    }
-    moveScreen();
-
-    SPL_UnD();
-    SPL_cord_write(1);
-
-    ctx.save();
-
-    ctx.fillStyle = "red"
-    ctx.fillRect(0, -10, canva.width, canva.height);
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(0, 0, 1200, canva.height);
-    ctx.fillStyle = "green"
-    ctx.fillRect(0, -10, 1200, 10);
-
-    if (Misha.grafics)
-    {
-        GRC_background();
-    }
-
-    ctx.restore();
-
-
-    ctx.save();
-    ctx.translate(WorldAnchor.x, WorldAnchor.y);
-
-    if (Misha.screens)
-    {
-        SCR_backscreen2(backscreen2);
-    }
-    PLM_logics(platforms)
-    drawJumper();
-
-    if (Misha.grafics)
-    {
-        GRC_textures();
-    }
-
-    SPL_lvl_end();
-
-    if (Misha.grafics)
-    {
-        GRC_portal();
-    }
-
-    if (Misha.screens)
-    {
-        SCR_frontscreen(frontscreen);
-    }
-
-    ctx.restore();
-
-    if (Misha.musics)
-    {
-        MUS_drawAll();
-    }
-    plinks();
-    LVL_triggers();
-    if (Misha.overlays == true)
-    {
-        OVL_draw1();
-    }
-    requestAnimationFrame(redrawAll);
-}
 
 function SPL_lvl_write()
 {

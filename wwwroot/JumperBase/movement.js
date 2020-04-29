@@ -8,18 +8,19 @@ function Cgravity(obj)
     obj.jnowIntersect = false;
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!obj.jnowIntersect && (platforms[i].visible == true || platforms[i].visible == "true") && platforms[i].id != obj.id)
+        const plt = platforms[i];
+        if (!obj.jnowIntersect && (plt.visible == true || plt.visible == "true") && plt.id != obj.id)
         {
             let newObj = { x: obj.x, y: obj.y - 2, width: obj.width, height: obj.height, };
-            CgravityPlatforms(newObj, obj, platforms[i]);
+            CgravityPlatforms(newObj, obj, plt);
 
             newObj.y = obj.y + obj.jumpSpeed;
-            if (rectIntersect(newObj, platforms[i]))
+            if (rectIntersect(newObj, plt))
             {
-                obj.ground = platforms[i].y + platforms[i].height;
+                obj.ground = plt.y + plt.height;
                 if (obj.jumpSpeed > 0)
                 {
-                    obj.floor = platforms[i].y;
+                    obj.floor = plt.y;
                     sound_down = true;
                 }
                 obj.jnowIntersect = true;
@@ -40,15 +41,16 @@ function Cgravity(obj)
     obj.jnowIntersect = false;
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!obj.jnowIntersect && platforms[i].visible == true && platforms[i].id != obj.id)
+        const plt = platforms[i];
+        if (!obj.jnowIntersect && plt.visible == true && plt.id != obj.id)
         {
             let newObj = { x: obj.x, y: obj.y + obj.jumpSpeed, width: obj.width, height: obj.height, };
-            if (rectIntersect(newObj, platforms[i]))
+            if (rectIntersect(newObj, plt))
             {
-                obj.ground = platforms[i].y + platforms[i].height;
+                obj.ground = plt.y + plt.height;
                 if (obj.jumpSpeed > 0)
                 {
-                    obj.floor = platforms[i].y;
+                    obj.floor = plt.y;
                     sound_down = true;
                 }
                 obj.jnowIntersect = true;
@@ -103,7 +105,8 @@ function CgravityPlatforms(newObj, obj, platform)
 
             for (let i = 0; i < platforms.length; i++)
             {
-                if (rectIntersect(newObj, platforms[i]))
+                const plt = platforms[i];
+                if (rectIntersect(newObj, plt) && plt.id != obj.id)
                 {
                     obj.x = objX;
                 }
@@ -179,13 +182,14 @@ function Cmovement(obj)
     {
         if (!obj.mnowIntersect)
         {
-            if ((platforms[i].visible == true || platforms[i].visible == "true") && platforms[i].id != obj.id) // && platforms[i].type != "enemy"
+            const plt = platforms[i];
+            if ((plt.visible == true || plt.visible == "true") && plt.id != obj.id) // && plt.type != "enemy"
             {
-                if (rectIntersect(newObj, platforms[i]))
+                if (rectIntersect(newObj, plt))
                 {
                     sound_side = true;
                     obj.mnowIntersect = true;
-                    intersectObj = platforms[i];
+                    intersectObj = plt;
                     obj.jmSpeed *= 0.8;
                     obj.flattening = "hit";                //GRC element
                 }

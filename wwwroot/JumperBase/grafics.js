@@ -662,32 +662,32 @@ function GRC_jumper_going()
     switch (Misha.jumperCounter)
     {
         case 1:
-            Misha.jumperImg = 18;
+            Misha.jumperImg = 17;
             break;
 
         case 12:
-            Misha.jumperImg = 19;
+            Misha.jumperImg = 18;
             break;
 
         case 18:
-            Misha.jumperImg = 20;
+            Misha.jumperImg = 19;
             break;
 
         case 24:
+            Misha.jumperImg = 20;
+            break;
+
+        case 30:
             Misha.jumperImg = 21;
             break;
 
-        case 32:
-            Misha.jumperImg = 22;
-            break;
-
         case 36:
-            Misha.jumperImg = 23;
+            Misha.jumperImg = 22;
             break;
 
         case 42:
             Misha.jumperImg = 0;
-            Misha.jumperCounter = 0;
+            Misha.jumperCounter = -5;
             break;
 
         default:

@@ -22,7 +22,7 @@ class Character
         this.jumpForce = jumpForce;
         this.visible = visible;
         this.id = id;
-        this.type = type;
+        this.type = "character";
         this.jumpAcc = 0;
         this.jumpSpeed = 0;
         this.jnowIntersect = false;
@@ -34,7 +34,7 @@ class Character
         this.jmSpeed = 0;
         this.moveSpeed = 0;
         this.moveAcc = 0;
-        this.direction = "null";
+        this.direction = "right";
         this.mnowIntersect = false;
         this.flattening = "null";
         this.mnowStrike = false;
@@ -42,6 +42,9 @@ class Character
         this.massUnchange = mass;
     }
 }
+
+let controlCharacter = 0;
+let selectedCharacter = 0;
 
 const ding = document.getElementById("ding");
 const ding2 = document.getElementById("ding2");
@@ -89,8 +92,109 @@ ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
 //===============
 
+function redrawAll()
+{
+    clipCanva();
+    if (DEVgravity)
+    {
+        Cgravity(jumper);
+        Cmovement(jumper);
+        if (Misha.enemy)
+        {
+            EMY_gravity();
+        }
+    }
+    moveScreen();
 
+    SPL_UnD();
+    SPL_cord_write(level);
 
+    ctx.save();
+
+    ctx.fillStyle = "red"
+    ctx.fillRect(0, -10, canva.width, canva.height);
+    ctx.fillStyle = "lightblue"
+    ctx.fillRect(0, 0, 1200, canva.height);
+    ctx.fillStyle = "green"
+    ctx.fillRect(0, -10, 1200, 10);
+
+    if (Misha.grafics)
+    {
+        GRC_background();
+    }
+
+    ctx.restore();
+
+    ctx.save();
+    ctx.translate(WorldAnchor.x, WorldAnchor.y);
+
+    if (Misha.screens)
+    {
+        SCR_backscreen2(backscreen2);
+    }
+    PLM_logics(platforms);
+    if (Misha.enemy)
+    {
+        EMY_drawEnemys();
+    }
+    drawJumper();
+
+    if (Misha.grafics)
+    {
+        GRC_textures();
+    }
+
+    SPL_lvl_end();
+
+    if (Misha.grafics)
+    {
+        GRC_portal();
+    }
+
+    if (Misha.screens)
+    {
+        SCR_frontscreen(frontscreen);
+    }
+
+    ctx.restore();
+
+    if (Misha.musics)
+    {
+        // MUS_drawAll();
+    }
+    plinks();
+    LVL_triggers();
+    if (Misha.overlays)
+    {
+        OVL_draw1();
+    }
+    requestAnimationFrame(redrawAll);
+}
+
+function levelOnStart(starCount)
+{
+    if (Misha.overlays)
+    {
+        Misha.overlay.stars.count = starCount;
+    }
+    platforms.push(jumper);
+    if (Misha.enemy)
+    {
+        EMY_startset();
+    }
+    SPL_cord_read(level);
+}
+
+function clipCanva()
+{
+    ctx.beginPath();
+    ctx.moveTo(0, -10)
+    ctx.lineTo(0, canva.height);
+    ctx.lineTo(canva.width, canva.height);
+    ctx.lineTo(canva.width, -10);
+    ctx.lineTo(0, -10);
+    ctx.clip();
+}
 
 function drawJumper()
 {
@@ -239,6 +343,15 @@ function KeyDown(event)
                     cv.parentNode.insertBefore(el, cv.nextSibling);
                     loadScript("jumperBase/DEVpanel.js");
                 }
+
+            case 'BracketRight':
+            case 'BracketLeft':
+                if (event.repeat == false)
+                {
+                    controlCharacter += 1;;
+                }
+                break;
+
             default:
                 break;
         }
@@ -247,7 +360,20 @@ function KeyDown(event)
 
 function KeyDownControl(event)
 {
-    CharacterControl(jumper, event, "down");
+    switch (controlCharacter % 2) {
+        case 0:
+            CharacterControl(jumper, event, "down");
+            break;
+
+        case 1:
+            if (Misha.enemy)
+            {
+                CharacterControl(enemys[selectedCharacter], event, "down");
+            }
+            break;
+        default:
+            break;
+    }
 }
 
 
@@ -289,10 +415,21 @@ function KeyUp(event)
 }
 function KeyUpControl(event)
 {
-    CharacterControl(jumper, event, "up");
-}
+    switch (controlCharacter % 2) {
+        case 0:
+            CharacterControl(jumper, event, "up");
+            break;
 
-// jumper.mass = jumperMass * 5;
+        case 1:
+            if (Misha.enemy)
+            {
+                CharacterControl(enemys[selectedCharacter], event, "up");
+            }
+            break;
+        default:
+            break;
+    }
+}
 
 function CharacterControl(character, event, type)
 {
