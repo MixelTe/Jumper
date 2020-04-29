@@ -73,8 +73,8 @@ function redrawAll()
 {
     if (DEVgravity)
     {
-        Jgravity(jumper);
-        Jmovement(jumper);
+        Cgravity(jumper);
+        Cmovement(jumper);
     }
     moveScreen();
 

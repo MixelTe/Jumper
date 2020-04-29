@@ -8,6 +8,41 @@ Misha.musics = false;
 const canva = document.getElementById("canva");
 const ctx = canva.getContext('2d');
 
+class Character
+{
+    constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, type)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = 40;
+        this.height = 40;
+        this.mass = mass;
+        this.speed = maxspeed;
+        this.speedAcc = speedAcc;
+        this.jumpForce = jumpForce;
+        this.visible = visible;
+        this.id = id;
+        this.type = type;
+        this.jumpAcc = 0;
+        this.jumpSpeed = 0;
+        this.jnowIntersect = false;
+        this.ground = 0;
+        this.floor = 0;
+        this.state = "null";
+        this.statePast = "null";
+        this.nowJump = false;
+        this.jmSpeed = 0;
+        this.moveSpeed = 0;
+        this.moveAcc = 0;
+        this.direction = "null";
+        this.mnowIntersect = false;
+        this.flattening = "null";
+        this.mnowStrike = false;
+        this.color = "transparent";
+        this.massUnchange = mass;
+    }
+}
+
 const ding = document.getElementById("ding");
 const ding2 = document.getElementById("ding2");
 const bum = document.getElementById("bum");
@@ -26,7 +61,7 @@ let mnowAcc = 0;
 let jmSpeed = 0;
 const Fg = 0.05;
 const mainFloor = canva.height + 100;
-const jumper = { x: 150, y: 0, width: 40, height: 40, ground: 0, floor: mainFloor, mass: 1.7, jumpSpeed: 14, moveSpeed: 6, moveAcc: 1.5, color: "blue" };
+const jumper = new Character(150, 0, 1.7, 6, 1.5, 14, true, "jumper", "jumper");
 const jumperMass = jumper.mass;
 const WorldAnchor = { x: 0, y: 0};
 const Screen_edge_left = 150;
@@ -67,7 +102,7 @@ function drawJumper()
     if (!Misha.grafics)
     {
         ctx.lineWidth = 5;
-        ctx.strokeStyle = jumper.color;
+        ctx.strokeStyle = "blue";
         ctx.beginPath();
         ctx.arc(jumper.width / 2, jumper.height / 2, 16, 0, Math.PI * 2, true);
         ctx.stroke();
@@ -212,7 +247,7 @@ function KeyDown(event)
 
 function KeyDownControl(event)
 {
-    JumperControl(event, "down");
+    CharacterControl(jumper, event, "down");
 }
 
 
@@ -254,35 +289,36 @@ function KeyUp(event)
 }
 function KeyUpControl(event)
 {
-    JumperControl(event, "up");
+    CharacterControl(jumper, event, "up");
 }
 
-function JumperControl(event, type)
+// jumper.mass = jumperMass * 5;
+
+function CharacterControl(character, event, type)
 {
     if (type == "down")
     {
         switch (event) {
             case "up":
-                if (jnowJump == false)
+                if (character.nowJump == false)
                 {
-                    jnowJump = true;
-                    jnowSpeed = jumper.jumpSpeed;
-                    jmSpeed = mnowSpeed;
-                    Misha.jumperState = "jumping";
+                    character.nowJump = true;
+                    character.jumpSpeed = character.jumpForce;
+                    character.jmSpeed = character.moveSpeed;
+                    character.state = "jumping";
                 }
                 break;
 
             case "right":
-                mnowAcc = jumper.moveAcc;
+                character.moveAcc = character.speedAcc;
                 break;
 
             case "left":
-                mnowAcc = -jumper.moveAcc;
+                character.moveAcc = -character.speedAcc;
                 break;
 
             case "down":
-                jumper.mass = jumperMass * 5;
-                Misha.music.ost.play();
+                character.mass = character.massUnchange * 5;
                 break;
 
             default:
@@ -297,21 +333,21 @@ function JumperControl(event, type)
                 break;
 
             case "right":
-                if (mnowAcc == jumper.moveAcc)
+                if (character.moveAcc == character.speedAcc)
                 {
-                    mnowAcc = 0;
+                    character.moveAcc = 0;
                 }
                 break;
 
             case "left":
-                if (mnowAcc == -jumper.moveAcc)
+                if (character.moveAcc == -character.speedAcc)
                 {
-                    mnowAcc = 0;
+                    character.moveAcc = 0;
                 }
                 break;
 
             case "down":
-                jumper.mass = jumperMass;
+                character.mass = character.massUnchange;
                 break;
 
             default:

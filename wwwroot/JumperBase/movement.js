@@ -1,27 +1,28 @@
 "use strict";
-function Jgravity(obj)
-{
-    jnowAcc -= Fg * obj.mass;
-    jnowSpeed += jnowAcc;
 
-    jnowIntersect = false;
+function Cgravity(obj)
+{
+    obj.jumpAcc -= Fg * obj.mass;
+    obj.jumpSpeed += obj.jumpAcc;
+
+    obj.jnowIntersect = false;
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!jnowIntersect && (platforms[i].visible == true || platforms[i].visible == "true"))
+        if (!obj.jnowIntersect && (platforms[i].visible == true || platforms[i].visible == "true") && platforms[i].id != obj.id)
         {
             let newObj = { x: obj.x, y: obj.y - 2, width: obj.width, height: obj.height, };
-            JgravityPlatforms(newObj, obj, platforms[i]);
+            CgravityPlatforms(newObj, obj, platforms[i]);
 
-            newObj.y = obj.y + jnowSpeed;
+            newObj.y = obj.y + obj.jumpSpeed;
             if (rectIntersect(newObj, platforms[i]))
             {
                 obj.ground = platforms[i].y + platforms[i].height;
-                if (jnowSpeed > 0)
+                if (obj.jumpSpeed > 0)
                 {
                     obj.floor = platforms[i].y;
                     sound_down = true;
                 }
-                jnowIntersect = true;
+                obj.jnowIntersect = true;
             }
             else
             {
@@ -32,25 +33,25 @@ function Jgravity(obj)
 
         }
     }
-    if (jnowSpeed < 0)                   //GRC element
+    if (obj.jumpSpeed < 0)                   //GRC element
     {
-        Misha.jumperState = "falling";                   //GRC element
+        obj.state = "falling";                   //GRC element
     }
-    jnowIntersect = false;
+    obj.jnowIntersect = false;
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!jnowIntersect && platforms[i].visible == true)
+        if (!obj.jnowIntersect && platforms[i].visible == true && platforms[i].id != obj.id)
         {
-            let newObj = { x: obj.x, y: obj.y + jnowSpeed, width: obj.width, height: obj.height, };
+            let newObj = { x: obj.x, y: obj.y + obj.jumpSpeed, width: obj.width, height: obj.height, };
             if (rectIntersect(newObj, platforms[i]))
             {
                 obj.ground = platforms[i].y + platforms[i].height;
-                if (jnowSpeed > 0)
+                if (obj.jumpSpeed > 0)
                 {
                     obj.floor = platforms[i].y;
                     sound_down = true;
                 }
-                jnowIntersect = true;
+                obj.jnowIntersect = true;
             }
             else
             {
@@ -61,25 +62,25 @@ function Jgravity(obj)
         }
     }
 
-    obj.y = Math.min(Math.max(obj.y + jnowSpeed, obj.ground), obj.floor - obj.height);
+    obj.y = Math.min(Math.max(obj.y + obj.jumpSpeed, obj.ground), obj.floor - obj.height);
 
     if (obj.y == obj.ground || obj.y + obj.height == obj.floor)
     {
-        jnowJump = false;
-        jnowAcc = 0;
-        jnowSpeed = -obj.mass * 4.5;
+        obj.nowJump = false;
+        obj.jumpAcc = 0;
+        obj.jumpSpeed = -obj.mass * 4.5;
     }
     else
     {
-        jnowJump = true;
+        obj.nowJump = true;
     }
     if (obj.y == obj.ground)
     {
-        jmSpeed = 0;
-        Misha.jumperState = "stoped";                //GRC element
+        obj.jmSpeed = 0;
+        obj.state = "stoped";                //GRC element
     }
 }
-function JgravityPlatforms(newObj, obj, platform)
+function CgravityPlatforms(newObj, obj, platform)
 {
     if (rectIntersect(newObj, platform))
     {
@@ -91,12 +92,12 @@ function JgravityPlatforms(newObj, obj, platform)
             if (obj.x + obj.width / 2 < platform.x)
             {
                 newObj.x = platform.x - obj.width - 1;
-                jmSpeed = mnowSpeed
+                obj.jmSpeed = obj.moveSpeed;
             }
             else if (obj.x + obj.width / 2 > platform.x + platform.width)
             {
                 newObj.x = platform.x + platform.width + 1;
-                jmSpeed = mnowSpeed
+                obj.jmSpeed = obj.moveSpeed
             }
             obj.x = newObj.x;
 
@@ -109,7 +110,7 @@ function JgravityPlatforms(newObj, obj, platform)
             }
         }
 
-        jnowIntersect = true;
+        obj.jnowIntersect = true;
     }
     else
     {
@@ -117,90 +118,85 @@ function JgravityPlatforms(newObj, obj, platform)
         sound_up = false;
     }
 }
-
-function Jmovement(obj)
+function Cmovement(obj)
 {
-    if (mnowAcc > 0)
+    if (obj.moveAcc > 0)
     {
-        if (mnowSpeed < obj.moveSpeed)
+        if (obj.moveSpeed < obj.speed)
         {
-            mnowSpeed += mnowAcc;
+            obj.moveSpeed += obj.moveAcc;
         }
-        if (jmSpeed == 0)           //GRC element
+        if (obj.jmSpeed == 0)           //GRC element
         {
-            Misha.jumperDirection = "right";
-            Misha.jumperState = "going";                //GRC element
+            obj.direction = "right";
+            obj.state = "going";                //GRC element
         }
     }
-    else if (mnowAcc < 0)
+    else if (obj.moveAcc < 0)
     {
-        if (mnowSpeed > -obj.moveSpeed)
+        if (obj.moveSpeed > -obj.speed)
         {
-            mnowSpeed += mnowAcc;
+            obj.moveSpeed += obj.moveAcc;
         }
-        if (jmSpeed == 0)           //GRC element
+        if (obj.jmSpeed == 0)           //GRC element
         {
-            Misha.jumperDirection = "left";
-            Misha.jumperState = "going";                //GRC element
+            obj.direction = "left";
+            obj.state = "going";                //GRC element
         }
     }
     else
     {
-        if (mnowSpeed != 0)
+        if (obj.moveSpeed != 0)
         {
-            if (mnowSpeed > 0)
+            if (obj.moveSpeed > 0)
             {
-                mnowSpeed += -1
+                obj.moveSpeed += -1
             }
             else
             {
-                mnowSpeed += 1
+                obj.moveSpeed += 1
             }
-            if (mnowSpeed > -1 && mnowSpeed < 1)
+            if (obj.moveSpeed > -1 && obj.moveSpeed < 1)
             {
-                mnowSpeed = 0;
+                obj.moveSpeed = 0;
             }
         }
     }
     let newX = 0;
     if (obj.y > obj.ground)
     {
-        newX = Math.min(Math.max(obj.x + jmSpeed, World_edge_left), World_edge_right - obj.width);
+        newX = Math.min(Math.max(obj.x + obj.jmSpeed, World_edge_left), World_edge_right - obj.width);
     }
     else
     {
-        newX = Math.min(Math.max(obj.x + mnowSpeed, World_edge_left), World_edge_right - obj.width);
+        newX = Math.min(Math.max(obj.x + obj.moveSpeed, World_edge_left), World_edge_right - obj.width);
     }
     const newObj = { x: newX, y: obj.y, width: obj.width, height: obj.height, };
-    mnowIntersect = false;
+    obj.mnowIntersect = false;
     let intersectObj = null;
 
     for (let i = 0; i < platforms.length; i++)
     {
-        if (!mnowIntersect)
+        if (!obj.mnowIntersect)
         {
-            if (platforms[i].visible == true || platforms[i].visible == "true")
+            if ((platforms[i].visible == true || platforms[i].visible == "true") && platforms[i].id != obj.id) // && platforms[i].type != "enemy"
             {
                 if (rectIntersect(newObj, platforms[i]))
                 {
                     sound_side = true;
-                    mnowIntersect = true;
+                    obj.mnowIntersect = true;
                     intersectObj = platforms[i];
-                    jmSpeed *= 0.8;
-                    Misha.jumperflattening = "hit";                //GRC element
+                    obj.jmSpeed *= 0.8;
+                    obj.flattening = "hit";                //GRC element
                 }
             }
         }
     }
-    if (!mnowIntersect)
+    if (!obj.mnowIntersect)
     {
         sound_side = false;
         obj.x = newX;
-        if (obj.y < obj.ground)
-        {
-            // jmSpeed = 0;                                                             //retutn if something goes wrong
-        }
-        mnowStrike = false;
+        obj.mnowStrike = false;
     }
     else
     {
@@ -213,10 +209,10 @@ function Jmovement(obj)
         {
             obj.x = Math.max(newX, intersectObj.x + intersectObj.width);
         }
-        if (!mnowStrike)
+        if (!obj.mnowStrike)
         {
-            jnowSpeed *= 0.5;
-            mnowStrike = true;
+            obj.nowJump *= 0.5;
+            obj.mnowStrike = true;
         }
     }
 }

@@ -13,10 +13,6 @@ Misha.liftStyle = 0;
 
 Misha.jumperImgLoad = 0;
 Misha.jumperImgAll = 2;
-Misha.jumperDirection = "right";
-Misha.jumperState = "stoped";
-Misha.jumperflattening = "normal";
-Misha.jumperStatePast = "stoped";
 Misha.jumperCounter = 0;
 Misha.jumperImg = 0;
 
@@ -491,7 +487,7 @@ function GRC_jumper()
     if (Misha.jumperImgLoad == Misha.jumperImgAll)
     {
         ctx.save();
-        switch (Misha.jumperDirection)
+        switch (jumper.direction)
         {
             case "right":
                 ctx.translate(-10, 53);
@@ -510,7 +506,7 @@ function GRC_jumper()
         ctx.scale(Misha.jumper.scale.x, Misha.jumper.scale.y);
         ctx.translate(Misha.jumper.translate.x, Misha.jumper.translate.y);
 
-        switch (Misha.jumperState)
+        switch (jumper.state)
         {
             case "stoped":
                 GRC_jumper_stoped();
@@ -542,10 +538,10 @@ function GRC_jumper()
             Misha.jumper.translate.y = 0;
         }
 
-        switch (Misha.jumperflattening)
+        switch (jumper.flattening)
         {
             case "hit":
-                if (Misha.jumperStatePast == "falling" || Misha.jumperStatePast == "jumping")
+                if (jumper.statePast == "falling" || jumper.statePast == "jumping")
                 {
                     Misha.jumper.scale.x = 0.6;
                     Misha.jumper.scale.y = 1.2;
@@ -553,16 +549,16 @@ function GRC_jumper()
                     Misha.jumper.translate.y = 0;
 
                     Misha.jumper.scale.counter = 0;
-                    Misha.jumperflattening = "normal";
+                    jumper.flattening = "normal";
                 }
                 break;
             default:
                 break;
         }
 
-        if (Misha.jumperStatePast != Misha.jumperState)
+        if (jumper.statePast != jumper.state)
         {
-            if (Misha.jumperStatePast == "falling")
+            if (jumper.statePast == "falling")
             {
                 Misha.jumper.scale.x = 1.2;
                 Misha.jumper.scale.y = 0.6;
@@ -571,7 +567,7 @@ function GRC_jumper()
 
                 Misha.jumper.scale.counter = 0;
             }
-            Misha.jumperStatePast = Misha.jumperState;
+            jumper.statePast = jumper.state;
             Misha.jumperCounter = 0;
             // Misha.jumperImg = 0;
         }
@@ -731,13 +727,13 @@ function GRC_jumper_stoped()
 
 function GRC_SPL_direction_write()
 {
-    sessionStorage.setItem("GRC_jumperDirection", Misha.jumperDirection);
+    sessionStorage.setItem("GRC_jumperDirection", jumper.direction);
 }
 function GRC_SPL_direction_read()
 {
     if (sessionStorage.getItem("GRC_jumperDirection") != null)
     {
-        Misha.jumperDirection = sessionStorage.getItem("GRC_jumperDirection");
+        jumper.direction = sessionStorage.getItem("GRC_jumperDirection");
     }
 }
 

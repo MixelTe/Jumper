@@ -1,6 +1,6 @@
 "use strict";
 const platforms = [
- { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
+ { id: 1, x: 100, y: 0, width: 100, height: 90, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 500, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
 
 ];
@@ -18,8 +18,10 @@ const World_edge_right = 1000;
 let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 
-const enemy1 = new Enemy(400, 0, 1.7, 6, 1.5, 14, true, "1e");
-platforms.push(enemy1);
+// const enemy1 = new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy");
+// const enemy2 = new Character(500, 0, 1.7, 6, 1.5, 14, true, "2e");
+// platforms.push(enemy1);
+// platforms.push(enemy2);
 //===============
 if (Misha.overlays)
 {
@@ -35,11 +37,14 @@ function redrawAll()
 {
     if (DEVgravity)
     {
-        Jgravity(jumper);
-        Jmovement(jumper);
+        Cgravity(jumper);
+        Cmovement(jumper);
 
-        Egravity(enemy1);
-        Emovement(enemy1);
+        Cgravity(enemy1);
+        Cmovement(enemy1);
+
+        // Cgravity(enemy2);
+        // Cmovement(enemy2);
     }
     moveScreen();
 
@@ -72,6 +77,7 @@ function redrawAll()
     }
     PLM_logics(platforms)
     drawEnemy(enemy1);
+    // drawEnemy(enemy2);
     drawJumper();
 
     if (Misha.grafics)
