@@ -95,6 +95,8 @@ function PLM_door(plm)
                 plm.y = plm.doorHeight - 20;
                 plm.doorState = "open";
                 plm.x = plm.doorX;
+                platforms[blockN].y = plm.doorHeight - 20;
+                platforms[blockN].height = 20;
             }
             break;
 

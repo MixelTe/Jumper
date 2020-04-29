@@ -167,32 +167,28 @@ function KeyDown(event)
             case 'Numpad8':
             case 'KeyW':
             case 'Space':
-                if (jnowJump == false && event.repeat == false)
+                if (event.repeat == false)
                 {
-                    jnowJump = true;
-                    jnowSpeed = jumper.jumpSpeed;
-                    jmSpeed = mnowSpeed;
-                    Misha.jumperState = "jumping";
+                    KeyDownControl("up");
                 }
                 break;
 
             case 'ArrowRight':
             case 'Numpad6':
             case 'KeyD':
-                mnowAcc = jumper.moveAcc;
+                KeyDownControl("right");
                 break;
 
             case 'ArrowLeft':
             case 'Numpad4':
             case 'KeyA':
-                mnowAcc = -jumper.moveAcc;
+                KeyDownControl("left");
                 break;
 
             case 'ArrowDown':
             case 'Numpad2':
             case 'KeyS':
-                jumper.mass = jumperMass * 5;
-                Misha.music.ost.play();
+                KeyDownControl("down");
                 break;
 
             case 'Backslash':
@@ -214,6 +210,12 @@ function KeyDown(event)
     }
 }
 
+function KeyDownControl(event)
+{
+    JumperControl(event, "down");
+}
+
+
 addEventListener('keyup', function (event) { KeyUp(event) })
 function KeyUp(event)
 {
@@ -225,34 +227,99 @@ function KeyUp(event)
             case 'Numpad8':
             case 'KeyW':
             case 'Space':
-
+                KeyUpControl("up");
                 break;
 
             case 'ArrowRight':
             case 'Numpad6':
             case 'KeyD':
+                KeyUpControl("right");
+                break;
+
+            case 'ArrowLeft':
+            case 'Numpad4':
+            case 'KeyA':
+                KeyUpControl("left");
+                break;
+
+            case 'ArrowDown':
+            case 'Numpad2':
+            case 'KeyS':
+                KeyUpControl("down");
+                break;
+            default:
+                break;
+        }
+    }
+}
+function KeyUpControl(event)
+{
+    JumperControl(event, "up");
+}
+
+function JumperControl(event, type)
+{
+    if (type == "down")
+    {
+        switch (event) {
+            case "up":
+                if (jnowJump == false)
+                {
+                    jnowJump = true;
+                    jnowSpeed = jumper.jumpSpeed;
+                    jmSpeed = mnowSpeed;
+                    Misha.jumperState = "jumping";
+                }
+                break;
+
+            case "right":
+                mnowAcc = jumper.moveAcc;
+                break;
+
+            case "left":
+                mnowAcc = -jumper.moveAcc;
+                break;
+
+            case "down":
+                jumper.mass = jumperMass * 5;
+                Misha.music.ost.play();
+                break;
+
+            default:
+                break;
+        }
+    }
+    else if (type == "up")
+    {
+        switch (event) {
+            case "up":
+
+                break;
+
+            case "right":
                 if (mnowAcc == jumper.moveAcc)
                 {
                     mnowAcc = 0;
                 }
                 break;
 
-            case 'ArrowLeft':
-            case 'Numpad4':
-            case 'KeyA':
+            case "left":
                 if (mnowAcc == -jumper.moveAcc)
                 {
                     mnowAcc = 0;
                 }
                 break;
 
-            case 'ArrowDown':
-            case 'Numpad2':
-            case 'KeyS':
+            case "down":
                 jumper.mass = jumperMass;
                 break;
+
             default:
                 break;
         }
+    }
+    else
+    {
+        alert("ERROR: Wrong type of keyboard event");
     }
 }
