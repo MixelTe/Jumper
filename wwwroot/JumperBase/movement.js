@@ -21,7 +21,6 @@ function Cgravity(obj)
                 if (obj.jumpSpeed > 0)
                 {
                     obj.floor = plt.y;
-                    sound_down = true;
                 }
                 obj.jnowIntersect = true;
             }
@@ -29,7 +28,6 @@ function Cgravity(obj)
             {
                 obj.ground = 0;
                 obj.floor = mainFloor;
-                sound_down = false;
             }
 
         }
@@ -51,7 +49,6 @@ function Cgravity(obj)
                 if (obj.jumpSpeed > 0)
                 {
                     obj.floor = plt.y;
-                    sound_down = true;
                 }
                 obj.jnowIntersect = true;
             }
@@ -59,7 +56,6 @@ function Cgravity(obj)
             {
                 obj.ground = 0;
                 obj.floor = mainFloor;
-                sound_down = false;
             }
         }
     }
@@ -86,7 +82,7 @@ function CgravityPlatforms(newObj, obj, platform)
 {
     if (rectIntersect(newObj, platform))
     {
-        sound_up = true;
+        obj.sound_up = true;
 
         if (platform.fallOnEdge == null)            //fall on edge
         {
@@ -118,7 +114,7 @@ function CgravityPlatforms(newObj, obj, platform)
     else
     {
         obj.ground = 0;
-        sound_up = false;
+        // sound_up = false;
     }
 }
 function Cmovement(obj)
@@ -187,7 +183,7 @@ function Cmovement(obj)
             {
                 if (rectIntersect(newObj, plt))
                 {
-                    sound_side = true;
+                    obj.sound_side = true;
                     obj.mnowIntersect = true;
                     intersectObj = plt;
                     obj.jmSpeed *= 0.8;
@@ -198,7 +194,7 @@ function Cmovement(obj)
     }
     if (!obj.mnowIntersect)
     {
-        sound_side = false;
+        // sound_side = false;
         obj.x = newX;
         obj.mnowStrike = false;
     }

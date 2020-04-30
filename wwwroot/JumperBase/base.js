@@ -40,6 +40,47 @@ class Character
         this.mnowStrike = false;
         this.color = "transparent";
         this.massUnchange = mass;
+        this.pastX = 0;
+        this.pastY = 0;
+        this.pastCounter = 0;
+        this.sound_up = false;
+        this.sound_side = false;
+        this.snowding = false;
+        this.snowbum = false;
+        this.alive = true;
+    }
+    writePast()
+    {
+        this.pastX = this.x;
+        this.pastY = this.y;
+    }
+    plinks()
+    {
+        if (this.sound_up)
+        {
+            if (!this.snowding)
+            {
+                ding2.currentTime = 0;
+                ding2.play();
+                this.snowding = true;
+            }
+            this.sound_up = false;
+        }
+        else if (this.sound_side)
+        {
+            if (!this.snowbum)
+            {
+                bum.currentTime = 0;
+                bum.play();
+                this.snowbum = true;
+            }
+            this.sound_side = false;
+        }
+        else
+        {
+            this.snowding = false;
+            this.snowbum  = false;
+        }
     }
 }
 
@@ -49,11 +90,6 @@ let selectedCharacter = 0;
 const ding = document.getElementById("ding");
 const ding2 = document.getElementById("ding2");
 const bum = document.getElementById("bum");
-let snowding = false;
-let snowbum = false;
-let sound_up = false;
-let sound_down = false;
-let sound_side = false;
 
 // j - for jumping, m - for moving
 let jnowJump = false;
@@ -99,6 +135,7 @@ function redrawAll()
     {
         Cgravity(jumper);
         Cmovement(jumper);
+        jumper.plinks();
         if (Misha.enemy)
         {
             EMY_gravity();
@@ -162,7 +199,7 @@ function redrawAll()
     {
         // MUS_drawAll();
     }
-    plinks();
+    // plinks();
     LVL_triggers();
     if (Misha.overlays)
     {
@@ -268,31 +305,6 @@ function DEVdrawCord()
     ctx.restore();
 }
 
-
-function plinks()
-{
-    if (sound_up)
-    {
-        if (!snowding)
-        {
-            ding2.play();
-            snowding = true;
-        }
-    }
-    else if (sound_side)
-    {
-        if (!snowbum)
-        {
-            bum.play();
-            snowbum = true;
-        }
-    }
-    else
-    {
-        snowding = false;
-        snowbum  = false;
-    }
-}
 
 
 addEventListener('keydown', function (event) { KeyDown(event) })
