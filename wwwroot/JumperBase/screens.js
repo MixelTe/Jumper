@@ -1,4 +1,7 @@
 "use strict";
+import {ctx, jumper, DEVparametrs} from "./base.js"
+import {rectIntersect} from "./Functions.js"
+import {drawTexture, GRC_grass} from "./grafics.js"
 window.Misha = window.Misha || Object.create(null);
 Misha.screens = true;
 Misha.screen = {};
@@ -14,7 +17,7 @@ Misha.screen.imgs.jumper.onload = function ()
 
 
 
-function SCR_backscreen2(elements)
+export function backscreen2(elements)
 {
     elements.forEach(el =>
     {
@@ -33,7 +36,7 @@ function SCR_backscreen2(elements)
             }
         }
         ctx.restore();
-        if (DEVscreens)
+        if (DEVparametrs.screens)
         {
             ctx.save();
             ctx.translate(el.x + el.width * 0.7, el.y - 30 + el.height * 0.7)
@@ -46,7 +49,7 @@ function SCR_backscreen2(elements)
     });
 }
 
-function SCR_frontscreen(elements)
+export function frontscreen(elements)
 {
     elements.forEach(el =>
     {
@@ -76,7 +79,7 @@ function SCR_frontscreen(elements)
         obj.width = Math.max(obj.width - jumper.width * 2, 1);
         obj.y = Math.min(obj.y + jumper.height, obj.y + obj.height / 2);
         obj.height = Math.max(obj.height - jumper.height * 2, 1);
-        if (DEVscreens)
+        if (DEVparametrs.screens)
         {
             ctx.save();
             ctx.translate(obj.x, obj.y)

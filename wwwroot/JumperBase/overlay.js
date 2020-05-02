@@ -1,4 +1,5 @@
 "use strict";
+import {ctx, coins, canva} from "./base.js"
 window.Misha = window.Misha || Object.create(null);
 Misha.overlays = true;
 Misha.overlay = {};
@@ -30,7 +31,7 @@ function OVL_loadFiles()
 
 }
 
-function OVL_draw1()
+export function draw1()
 {
     ctx.save();
     ctx.translate(0, canva.height);

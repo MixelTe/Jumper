@@ -1,4 +1,5 @@
 "use strict";
+import {changeLevel, Character, levelOnStart} from "../../JumperBase/base.js"
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 90, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 500, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
@@ -23,14 +24,6 @@ const World_edge_right = 1000;
 let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 
-
-//===============
-levelOnStart(1);
-redrawAll();
-//===============
-
-
-
 function SPL_lvl_write()
 {
 
@@ -44,4 +37,17 @@ function SPL_lvl_read()
 function LVL_triggers()
 {
 
+}
+const forLevelChange = {
+    platforms, backscreen2, frontscreen, enemys, lvlend, World_edge_left,
+    World_edge_right, WScreen_edge_left, WScreen_edge_right, SPL_lvl_write, SPL_lvl_read, LVL_triggers
+}
+
+export function start()
+{
+    console.log('module started');
+    //===============
+    changeLevel(forLevelChange)
+    levelOnStart(1);
+    //===============
 }

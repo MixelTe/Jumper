@@ -1,6 +1,8 @@
 "use strict";
+import {rectIntersect, rectXIntersectINF} from "./Functions.js"
+import {Fg, Screen_edge_left, Screen_edge_right, WorldAnchor, jumper, mainFloor, platforms, World_edge_left, World_edge_right, WScreen_edge_left, WScreen_edge_right} from "./base.js"
 
-function Cgravity(obj)
+export function Cgravity(obj)
 {
     obj.jumpAcc -= Fg * obj.mass;
     obj.jumpSpeed += obj.jumpAcc;
@@ -117,7 +119,7 @@ function CgravityPlatforms(newObj, obj, platform)
         // sound_up = false;
     }
 }
-function Cmovement(obj)
+export function Cmovement(obj)
 {
     if (obj.moveAcc > 0)
     {
@@ -217,7 +219,7 @@ function Cmovement(obj)
     }
 }
 
-function moveScreen()
+export function moveScreen()
 {
     if (jumper.x < Screen_edge_left + -WorldAnchor.x)
     {

@@ -1,32 +1,10 @@
 "use strict";
-let UnDfun = 0;
-let UnDfunb = 0;
-
-
-function SPL_UnD()
-{
-    if (UnDfunb % 2 == 1)
-    {
-        switch (UnDfun % 100)
-        {
-            case 10:
-                ctx.translate(0, canva.height - 20);
-                ctx.scale(1, -1);
-                break;
-
-            case 60:
-                ctx.translate(0, canva.height - 20);
-                ctx.scale(1, -1);
-                break;
-
-            default:
-                break;
-        }
-        UnDfun += 1;
-    }
-}
-
-function SPL_cord_write(lvl)
+import {platforms, SPL_lvl_write, SPL_lvl_read, WorldAnchor, jumper, drawPlatform, coins, lvlend} from "./base.js"
+import {SPL_direction_write, SPL_direction_read} from "./grafics.js"
+import {ost_write} from "./music.js"
+import {rectIntersect} from "./Functions.js"
+import { level, VlevelChange } from "../start.js";
+export function writeInMemory(lvl)
 {
     sessionStorage.setItem("Anc.x" + lvl, WorldAnchor.x);
     sessionStorage.setItem("Anc.y" + lvl, WorldAnchor.y);
@@ -48,16 +26,16 @@ function SPL_cord_write(lvl)
 
     if (Misha.grafics)
     {
-        GRC_SPL_direction_write();
+        SPL_direction_write();
     }
 
     if (Misha.musics)
     {
-        MUS_ost_write();
+        ost_write();
     }
 }
 
-function SPL_cord_read(lvl)
+export function readMemory(lvl)
 {
     if (
         sessionStorage.getItem("Anc.x" + lvl) != null &&
@@ -80,32 +58,37 @@ function SPL_cord_read(lvl)
             platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id);
         }
     }
+    if (sessionStorage.getItem("coins") != null)
+    {
+        coins.value = parseInt(sessionStorage.getItem("coins"));
+    }
 
     SPL_lvl_read(lvl);
 
     if (Misha.grafics)
     {
-        GRC_SPL_direction_read();
+        SPL_direction_read();
     }
+
 }
 
-function SPL_lvl_end()
+export function lvl_end()
 {
-    drawPlatform(lvlend);
     let nowlvl = parseInt(sessionStorage.getItem("level"))
     if (rectIntersect(lvlend, jumper) && level == nowlvl)
     {
-        sessionStorage.setItem("level", -1);
+        VlevelChange(-1)
+        // sessionStorage.setItem("level", -1);
         sessionStorage.setItem("Unlocklevel", nowlvl + 1);
 
-        window.location.reload();
+        // window.location.reload();
     }
     if (rectIntersect(lvlend, jumper))
     {
-        sessionStorage.removeItem("Anc.x" + level);
-        sessionStorage.removeItem("Anc.y" + level);
-        sessionStorage.removeItem("jmp.x" + level);
-        sessionStorage.removeItem("jmp.y" + level);
+        sessionStorage.removeItem("Anc.x" + nowlvl);
+        sessionStorage.removeItem("Anc.y" + nowlvl);
+        sessionStorage.removeItem("jmp.x" + nowlvl);
+        sessionStorage.removeItem("jmp.y" + nowlvl);
         if (Misha.grafics)
         {
             sessionStorage.setItem("GRC_jumperDirection", "right");

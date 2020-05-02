@@ -1,5 +1,7 @@
 "use strict";
-function TRG_lever_door(leverID, doorID)
+import {findWhithId} from "./Functions.js"
+import {platforms} from "./base.js"
+export function TRG_lever_door(leverID, doorID)
 {
     const lever1 = findWhithId(platforms, leverID);
     const door1 = findWhithId(platforms, doorID);

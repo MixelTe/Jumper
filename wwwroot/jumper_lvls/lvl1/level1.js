@@ -1,4 +1,6 @@
 "use strict";
+import {changeLevel, jumper, levelOnStart} from "../../JumperBase/base.js"
+import {TRG_lever_door} from "../../JumperBase/triggers.js"
 const platforms = [
     { id: 1, x: 400, y: 160, width: 40, height: 40, type: "breakable",   color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
     { id: 2, x: 700, y: 80, width: 160, height: 40, type: "simple",      color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
@@ -58,11 +60,6 @@ let WScreen_edge_right = World_edge_right;
 jumper.x = 200;
 jumper.y = 0;
 
-//===============
-levelOnStart(2);
-redrawAll();
-//===============
-
 
 function SPL_lvl_write()
 {
@@ -77,4 +74,18 @@ function SPL_lvl_read()
 function LVL_triggers()
 {
     TRG_lever_door(25, 24);
+}
+
+const forLevelChange = {
+    platforms, backscreen2, frontscreen, enemys, lvlend, World_edge_left,
+    World_edge_right, WScreen_edge_left, WScreen_edge_right, SPL_lvl_write, SPL_lvl_read, LVL_triggers
+}
+
+export function start()
+{
+    console.log('module started');
+    //===============
+    changeLevel(forLevelChange)
+    levelOnStart(2);
+    //===============
 }

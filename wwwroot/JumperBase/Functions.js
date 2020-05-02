@@ -1,4 +1,4 @@
-function rectIntersect(obj1, obj2)
+export function rectIntersect(obj1, obj2)
 {
     return (
         obj1.x + obj1.width > obj2.x &&
@@ -9,7 +9,7 @@ function rectIntersect(obj1, obj2)
 }
 
 
-function rectXIntersectINF(obj1, obj2)
+export function rectXIntersectINF(obj1, obj2)
 {
     const xsec1 = { start: obj1.x, end: obj1.x + obj1.width };
     const xsec2 = { start: obj2.x + obj2.width / 2, end: obj2.x + obj2.width / 2 };
@@ -37,14 +37,14 @@ function isLess(sec1, sec2)
     );
 }
 
-function loadScript(scriptPath)
+export function loadScript(scriptPath)
 {
     const el = document.createElement("script");
     el.src = scriptPath;
     document.head.appendChild(el);
 }
 
-function findWhithId(list, id)
+export function findWhithId(list, id)
 {
     for (let i = 0; i < list.length; i++)
     {
@@ -71,7 +71,7 @@ function DEV_cord_pixel()
     ctx.restore();
 }
 
-function random_upNdown(count)
+export function random_upNdown(count)
 {
     if (Math.random() > 0.5)
     {
@@ -97,7 +97,7 @@ function random_true()
 
 }
 
-function random_num(min, max)
+export function random_num(min, max)
 {
     return min + Math.floor((max - min) * Math.random());
 }

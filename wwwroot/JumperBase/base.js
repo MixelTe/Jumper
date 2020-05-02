@@ -1,14 +1,22 @@
 "use strict";
-
+import {Cgravity, Cmovement, moveScreen} from "./movement.js"
+import {rectIntersect} from "./Functions.js"
+import {level, levelLoaded, ChangeLevel, VlevelChange, game} from "../start.js"
+import * as EMY from "./enemy.js"
+import * as SPL from "./special.js"
+import * as GRC from "./grafics.js"
+import * as SCR from "./screens.js"
+import * as PLM from "./platforms.js"
+import * as MUS from "./music.js"
+import * as OVL from "./overlay.js"
 window.Misha = window.Misha || Object.create(null);
 
-Misha.grafics = false;
-Misha.musics = false;
+export const canva = document.getElementById("canva");
+export const ctx = canva.getContext('2d');
 
-const canva = document.getElementById("canva");
-const ctx = canva.getContext('2d');
+export const DEVparametrs = { gravity: true, id: false, screens: false };
 
-class Character
+export class Character
 {
     constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, type)
     {
@@ -71,7 +79,14 @@ class Character
             if (!this.snowbum)
             {
                 bum.currentTime = 0;
-                bum.play();
+                bum.play()
+                    .catch(e =>
+                    {
+                        if (e.name != 'NotAllowedError')
+                        {
+                            console.error(e);
+                        }
+                    });
                 this.snowbum = true;
             }
             this.sound_side = false;
@@ -87,128 +102,180 @@ class Character
 let controlCharacter = 0;
 let selectedCharacter = 0;
 
-const ding = document.getElementById("ding");
+export const ding = document.getElementById("ding");
 const ding2 = document.getElementById("ding2");
 const bum = document.getElementById("bum");
+bum.onerror = function (e)
+{
+    console.log('audio error', e);
+};
 
-// j - for jumping, m - for moving
-let jnowJump = false;
-let jnowSpeed = 0;
-let jnowAcc = 0;
-let mnowSpeed = 0;
-let mnowAcc = 0;
-let jmSpeed = 0;
-const Fg = 0.05;
-const mainFloor = canva.height + 100;
-const jumper = new Character(150, 0, 1.7, 6, 1.5, 14, true, "jumper", "jumper");
-const jumperMass = jumper.mass;
-const WorldAnchor = { x: 0, y: 0};
-const Screen_edge_left = 150;
-const Screen_edge_right = canva.width - 400;
-// const World_edge_left = -500;
-// const World_edge_right = 1200;
-// let WScreen_edge_left = 0;
-// let WScreen_edge_right = World_edge_right;
-// let Screen_moveTime = 0;
-// let Screen_moveSpeed = 0;
-
-let jnowIntersect = false;
-let mnowIntersect = false;
-let mnowStrike = false;
-
-const coins = { x: (canva.width / 2) - 60, y: 50, color: "red", value: 0 };
-
-let DEVgravity = true;
-let DEVid = false;
-let DEVscreens = false;
+export const Fg = 0.05;
+export const mainFloor = canva.height + 100;
+export const jumper = new Character(150, 0, 1.7, 6, 1.5, 14, true, "jumper", "jumper");
+export const WorldAnchor = { x: 0, y: 0};
+export const Screen_edge_left = 150;
+export const Screen_edge_right = canva.width - 400;
 
 
+export const coins = { x: (canva.width / 2) - 60, y: 50, color: "red", value: 0 };
+
+export let platforms = [
+
+];
+export let backscreen2 = [
+
+]
+export let frontscreen = [
+
+]
+
+export let enemys = [
+
+]
+
+export let lvlend = { };
+
+export let World_edge_left = 0;
+export let World_edge_right = 0;
+export let WScreen_edge_left = 0;
+export let WScreen_edge_right = 0;
+
+export function SPL_lvl_write()
+{
+
+}
+
+export function SPL_lvl_read()
+{
+
+}
+
+function LVL_triggers()
+{
+
+}
+// let level = 1;
 //===============
+GRC.cratePatterns();
+GRC.crateImges();
+canva.addEventListener('click', function (event) { MUS.MUS_click(event) })
 ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
+redrawAll()
 //===============
+
+export function changeLevel(level)
+{
+    platforms = level.platforms;
+    backscreen2 = level.backscreen2;
+    frontscreen = level.frontscreen;
+    enemys = level.enemys;
+    lvlend = level.lvlend;
+    World_edge_left = level.World_edge_left;
+    World_edge_right = level.World_edge_right;
+    WScreen_edge_left = level.WScreen_edge_left;
+    WScreen_edge_right = level.WScreen_edge_right;
+    SPL_lvl_write = level.SPL_lvl_write;
+    SPL_lvl_read = level.SPL_lvl_read;
+    LVL_triggers = level.LVL_triggers;
+}
 
 function redrawAll()
 {
-    clipCanva();
-    if (DEVgravity)
+    if (game.started)
     {
-        Cgravity(jumper);
-        Cmovement(jumper);
-        jumper.plinks();
+        clipCanva();
+        if (DEVparametrs.gravity)
+        {
+            Cgravity(jumper);
+            Cmovement(jumper);
+            jumper.plinks();
+            if (Misha.enemy)
+            {
+                EMY.gravity();
+            }
+        }
+        moveScreen();
+
+        ctx.save();
+
+        ctx.fillStyle = "red"
+        ctx.fillRect(0, -10, canva.width, canva.height);
+        ctx.fillStyle = "lightblue"
+        ctx.fillRect(0, 0, 1200, canva.height);
+        ctx.fillStyle = "green"
+        ctx.fillRect(0, -10, 1200, 10);
+
+        if (Misha.grafics)
+        {
+            GRC.background();
+        }
+
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(WorldAnchor.x, WorldAnchor.y);
+
+        if (Misha.screens)
+        {
+            SCR.backscreen2(backscreen2);
+        }
+
+        PLM.logics(platforms);
+
         if (Misha.enemy)
         {
-            EMY_gravity();
+            EMY.drawEnemys();
+        }
+        drawJumper();
+
+        if (Misha.grafics)
+        {
+            GRC.textures();
+        }
+
+        drawPlatform(lvlend);
+
+        if (Misha.grafics)
+        {
+            GRC.portal();
+        }
+
+        if (Misha.screens)
+        {
+            SCR.frontscreen(frontscreen);
+        }
+        ctx.restore();
+
+        if (Misha.musics)
+        {
+            MUS.drawAll();
+        }
+        LVL_triggers();
+        if (Misha.overlays)
+        {
+            OVL.draw1();
         }
     }
-    moveScreen();
-
-    SPL_UnD();
-    SPL_cord_write(level);
-
-    ctx.save();
-
-    ctx.fillStyle = "red"
-    ctx.fillRect(0, -10, canva.width, canva.height);
-    ctx.fillStyle = "lightblue"
-    ctx.fillRect(0, 0, 1200, canva.height);
-    ctx.fillStyle = "green"
-    ctx.fillRect(0, -10, 1200, 10);
-
-    if (Misha.grafics)
+    if (parseInt(sessionStorage.getItem("level")) != level)
     {
-        GRC_background();
+        sessionStorage.setItem("level", level);
+        ChangeLevel();
     }
 
-    ctx.restore();
-
-    ctx.save();
-    ctx.translate(WorldAnchor.x, WorldAnchor.y);
-
-    if (Misha.screens)
+    if (game.started)
     {
-        SCR_backscreen2(backscreen2);
-    }
-    PLM_logics(platforms);
-    if (Misha.enemy)
-    {
-        EMY_drawEnemys();
-    }
-    drawJumper();
-
-    if (Misha.grafics)
-    {
-        GRC_textures();
-    }
-
-    SPL_lvl_end();
-
-    if (Misha.grafics)
-    {
-        GRC_portal();
-    }
-
-    if (Misha.screens)
-    {
-        SCR_frontscreen(frontscreen);
-    }
-
-    ctx.restore();
-
-    if (Misha.musics)
-    {
-        // MUS_drawAll();
-    }
-    // plinks();
-    LVL_triggers();
-    if (Misha.overlays)
-    {
-        OVL_draw1();
-    }
+        if (levelLoaded)
+        {
+            SPL.writeInMemory(level);
+        }
+        SPL.lvl_end();
+    }   
     requestAnimationFrame(redrawAll);
 }
 
-function levelOnStart(starCount)
+export function levelOnStart(starCount)
 {
     if (Misha.overlays)
     {
@@ -217,9 +284,9 @@ function levelOnStart(starCount)
     platforms.push(jumper);
     if (Misha.enemy)
     {
-        EMY_startset();
+        EMY.startset();
     }
-    SPL_cord_read(level);
+    SPL.readMemory(level);
 }
 
 function clipCanva()
@@ -252,13 +319,13 @@ function drawJumper()
 
     if (Misha.grafics)
     {
-        GRC_jumper()
+        GRC.jumperTextures()
     }
 
     ctx.restore();
 }
 
-function drawPlatform(obj)
+export function drawPlatform(obj)
 {
     ctx.save();
     ctx.translate(obj.x, obj.y);
@@ -279,9 +346,9 @@ function drawPlatform(obj)
 
     if (Misha.grafics)
     {
-        drawTexture(obj);
+        GRC.drawTexture(obj);
     }
-    if (DEVid)
+    if (DEVparametrs.id)
     {
         ctx.save();
         ctx.scale(1, -1);
@@ -353,8 +420,13 @@ function KeyDown(event)
                     el.style = "border: 1px solid black; user-select: none; margin-left: 8px";
                     const cv = document.getElementById("canva");
                     cv.parentNode.insertBefore(el, cv.nextSibling);
-                    loadScript("jumperBase/DEVpanel.js");
+                    // loadScript("jumperBase/DEVpanel.js");
+                    import("./DEVpanel.js").then((m) =>
+                    {
+                        m.start();
+                    });
                 }
+                break;
 
             case 'BracketRight':
             case 'BracketLeft':
@@ -443,7 +515,7 @@ function KeyUpControl(event)
     }
 }
 
-function CharacterControl(character, event, type)
+export function CharacterControl(character, event, type)
 {
     if (type == "down")
     {

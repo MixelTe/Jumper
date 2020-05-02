@@ -1,4 +1,6 @@
 "use strict";
+import {DEVparametrs, jumper, canva, WorldAnchor} from "./base.js"
+import {VlevelChange} from "../start.js"
 
 const canva2 = document.getElementById("canva2");
 const ctx2 = canva2.getContext('2d');
@@ -131,14 +133,14 @@ function DEVclick(event)
             break;
 
         case "Gravity":
-            if (DEVgravity)
+            if (DEVparametrs.gravity)
             {
-                DEVgravity = false;
+                DEVparametrs.gravity = false;
                 btn5.color = "rgb(141, 0, 207)";
             }
             else
             {
-                DEVgravity = true;
+                DEVparametrs.gravity = true;
                 btn5.color = "red";
             }
             DEVredrawAll();
@@ -179,8 +181,9 @@ function DEVclick(event)
             break;
 
         case "tolvl":
-            sessionStorage.setItem("level", tolvl);
-            window.location.reload();
+            // sessionStorage.setItem("level", tolvl);
+            // window.location.reload();
+            VlevelChange(tolvl);
             break;
 
         case "tolvl+":
@@ -194,28 +197,28 @@ function DEVclick(event)
             break;
 
         case "plID":
-            if (DEVid)
+            if (DEVparametrs.id)
             {
-                DEVid = false;
+                DEVparametrs.id = false;
                 btn13.color = "red";
             }
             else
             {
-                DEVid = true;
+                DEVparametrs.id = true;
                 btn13.color = "rgb(141, 0, 207)";
             }
             DEVredrawAll();
             break;
 
         case "screens":
-            if (DEVscreens)
+            if (DEVparametrs.screens)
             {
-                DEVscreens = false;
+                DEVparametrs.screens = false;
                 btn14.color = "red";
             }
             else
             {
-                DEVscreens = true;
+                DEVparametrs.screens = true;
                 btn14.color = "rgb(141, 0, 207)";
             }
             DEVredrawAll();

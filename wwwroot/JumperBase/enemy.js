@@ -1,8 +1,11 @@
 "use strict";
+import {Cgravity, Cmovement} from "./movement.js"
+import {ctx, platforms, enemys, CharacterControl} from "./base.js"
+window.Misha = window.Misha || Object.create(null);
 Misha.enemy = true;
 
 
-function EMY_drawEnemy(enemy)
+function drawEnemy(enemy)
 {
     ctx.save();
     ctx.translate(enemy.x, enemy.y);
@@ -13,14 +16,14 @@ function EMY_drawEnemy(enemy)
     ctx.lineWidth = 5;
     ctx.strokeStyle = "darkorange";
     ctx.beginPath();
-    ctx.arc(jumper.width / 2, jumper.height / 2, 16, 0, Math.PI * 2, true);
+    ctx.arc(enemy.width / 2, enemy.height / 2, 16, 0, Math.PI * 2, true);
     ctx.stroke();
     ctx.lineWidth = 1;
 
     ctx.restore();
 }
 
-function EMY_startset()
+export function startset()
 {
     for (let i = 0; i < enemys.length; i++)
     {
@@ -29,7 +32,7 @@ function EMY_startset()
     }
 }
 
-function EMY_gravity()
+export function gravity()
 {
     for (let i = 0; i < enemys.length; i++)
     {
@@ -38,22 +41,22 @@ function EMY_gravity()
         {
             Cgravity(el);
             Cmovement(el);
-            EMY_enemyAI(el);
+            enemyAI(el);
             el.plinks();
         }
     }
 }
 
-function EMY_drawEnemys()
+export function drawEnemys()
 {
     for (let i = 0; i < enemys.length; i++)
     {
         const el = enemys[i];
-        EMY_drawEnemy(el);
+        drawEnemy(el);
     }
 }
 
-function EMY_enemyAI(chr)
+function enemyAI(chr)
 {
     if (chr.x == chr.pastX && chr.pastCounter > 60)
     {

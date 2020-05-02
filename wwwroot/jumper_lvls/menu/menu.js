@@ -1,4 +1,7 @@
 "use strict";
+import {ctx} from "../../JumperBase/base.js"
+import { ost_write } from "../../JumperBase/music.js";
+import { VlevelChange, ChangeLevel } from "../../start.js";
 const button1 = { x: 80, y: 200, width: 150, height: 200, color: "blue", Tcolor: "yellow", value: "lvl1", Tvalue: "Level 1", Tx: 20, Ty: 85, Tscale: 35};
 const button2 = { x: 310, y: 200, width: 150, height: 200, color: "blue", Tcolor: "yellow", value: "lvl2", Tvalue: "Level 2", Tx: 20, Ty: 85, Tscale: 35};
 const lockerButton2 = { x: 310, y: 200, width: 150, height: 200, color: "rgb(0, 0, 0, 0.7)", Tcolor: "white", value: "lvl2", Tvalue: "Locked", Tx: 20, Ty: 15, Tscale: 35, visible: true};
@@ -12,11 +15,11 @@ background.addColorStop(0.53, 'rgba(5,255,155,1)');
 background.addColorStop(1, 'rgba(0,255,255,1)');
 
 
-//===============
-MN_remove_lockers();
-redrawAll();
-//===============
-
+export function start()
+{
+    MN_remove_lockers();
+    redrawAll();
+}
 
 
 function redrawAll()
@@ -96,25 +99,25 @@ function click(event)
         switch (clickButton.value)
         {
             case "lvl1":
-                sessionStorage.setItem("level", 1);
                 if (Misha.musics == true)
                 {
-                    MUS_ost_write();
+                    ost_write();
                 }
                 sessionStorage.setItem("music.pause", 0);           //music
-                window.location.reload();
+                VlevelChange(1);
+                ChangeLevel();
                 break;
 
             case "lvl2":
                 if (parseInt(sessionStorage.getItem("Unlocklevel")) > 0)
                 {
-                    sessionStorage.setItem("level", 2);
                     if (Misha.musics == true)
                     {
-                        MUS_ost_write();
+                        ost_write();
                     }
                     sessionStorage.setItem("music.pause", 0);           //music
-                    window.location.reload();
+                    VlevelChange(2);
+                    ChangeLevel();
                 }
                 break;
 

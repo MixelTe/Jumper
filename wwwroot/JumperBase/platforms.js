@@ -1,4 +1,6 @@
 "use strict";
+import {ctx, coins, ding, platforms, drawPlatform, jumper} from "./base.js"
+import {rectIntersect, findWhithId} from "./Functions.js"
 window.Misha = window.Misha || Object.create(null);
 Misha.sounds = {}
 function PLM_lifting(plm)
@@ -30,7 +32,7 @@ function PLM_breakable(plm)
         if (rectIntersect(newPlm, jumper))
         {
             coins.value += 1;
-            jnowSpeed = -jumper.mass * 4.5
+            // jnowSpeed = -jumper.mass * 4.5
             ding.currentTime = 0;
             ding.play();
             plm.visible = false;
@@ -212,7 +214,7 @@ function PLM_fake(plm)
     ctx.restore();
 }
 
-function PLM_logics(platforms)
+export function logics(platforms)
 {
     for (let plt of platforms)
     {

@@ -1,4 +1,5 @@
 "use strict";
+import {ctx, canva} from "./base.js"
 
 window.Misha = window.Misha || Object.create(null);
 Misha.music = {};
@@ -10,7 +11,7 @@ Misha.music.ost.autoplay = true;
 Misha.music.ost.loop = true;
 // Misha.music.ost.controls = true;
 document.body.appendChild(Misha.music.ost);
-MUS_ost_read();
+ost_read();
 // Misha.music.ost.onload = function ()
 // {
 //     // Misha.music.ost.play();
@@ -18,7 +19,7 @@ MUS_ost_read();
 // }
 
 
-function MUS_ost_read()
+function ost_read()
 {
     if (sessionStorage.getItem("ost") != null)
     {
@@ -26,13 +27,13 @@ function MUS_ost_read()
     }
 }
 
-function MUS_ost_write()
+export function ost_write()
 {
     sessionStorage.setItem("ost", Misha.music.ost.currentTime);
 }
 
 
-Misha.music.button1 = { x: canva.width / 2 - 125, y: canva.height / 2 - 35, width: 250, height: 70, color: "lime", Tcolor: "black", value: "play", Tvalue: "Continue", Tx: 53, Ty: 23, Tscale: 35};
+Misha.music.button1 = { x: 275, y: 265, width: 250, height: 70, color: "lime", Tcolor: "black", value: "play", Tvalue: "Continue", Tx: 53, Ty: 23, Tscale: 35};
 Misha.music.buttons = [Misha.music.button1]
 Misha.music.pause = 1;
 if (sessionStorage.getItem("music.pause") != null)
@@ -42,7 +43,7 @@ if (sessionStorage.getItem("music.pause") != null)
 }
 
 
-function MUS_drawAll()
+export function drawAll()
 {
     if (Misha.music.pause)
     {
@@ -50,12 +51,12 @@ function MUS_drawAll()
         ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
         ctx.fillRect(0, -10, canva.width, canva.height + 10);
 
-        MUS_drawButton(Misha.music.button1)
+        drawButton(Misha.music.button1)
         ctx.restore();
     }
 }
 
-function MUS_drawButton(button)
+function drawButton(button)
 {
     ctx.save();
     ctx.translate(button.x, button.y);
@@ -72,8 +73,7 @@ function MUS_drawButton(button)
     ctx.restore();
 }
 
-canva.addEventListener('click', function (event) { MUS_click(event) })
-function MUS_click(event)
+export function MUS_click(event)
 {
     let x = event.pageX;
     let y = event.pageY;

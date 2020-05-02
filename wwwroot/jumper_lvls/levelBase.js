@@ -1,4 +1,6 @@
 "use strict";
+import {changeLevel, jumper, Character, levelOnStart} from "../../JumperBase/base.js"
+import {TRG_lever_door} from "../../JumperBase/triggers.js"
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30 },
@@ -44,12 +46,6 @@ let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 
 
-//===============
-levelOnStart(3);  //count of stars on level
-redrawAll();
-//===============
-
-
 
 function SPL_lvl_write()
 {
@@ -65,4 +61,18 @@ function LVL_triggers()
 {
     TRG_lever_door(7, 6); // first number is lever id, second is door id
     //trigger for door with lever
+}
+
+const forLevelChange = {
+    platforms, backscreen2, frontscreen, enemys, lvlend, World_edge_left,
+    World_edge_right, WScreen_edge_left, WScreen_edge_right, SPL_lvl_write, SPL_lvl_read, LVL_triggers
+}
+
+export function start()
+{
+    console.log('module started');
+    //===============
+    levelOnStart(3); //count of stars on level
+    changeLevel(forLevelChange)
+    //===============
 }

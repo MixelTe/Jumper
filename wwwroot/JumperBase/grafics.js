@@ -1,4 +1,7 @@
 "use strict";
+import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend} from "./base.js"
+import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
+import {logics} from "./platforms.js"
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -33,7 +36,6 @@ let ptrnBox;
 let ptrnBox2;
 let ptrnsLift = [];
 let ptrnGrass;
-let ptrnSky;
 let ptrnBackGrass;
 let imgsJumper;
 let ptrnWoodX;
@@ -43,9 +45,9 @@ let ptrnLian;
 let imgsLever;
 
 
-window.onload = function () { cratePatterns(); crateImges(); };
+// window.onload = function () { cratePatterns(); crateImges(); };
 
-function crateImges()
+export function crateImges()
 {
     imgsJumper = new Image();
     imgsJumper.src = "pictures/jumper.png";
@@ -62,7 +64,7 @@ function crateImges()
     }
 }
 
-function cratePatterns()
+export function cratePatterns()
 {
     const imgDirt = new Image();
     imgDirt.src = "pictures/dirt.png";
@@ -195,13 +197,12 @@ function cratePatterns_lift()
         ptrnsLift[8] = ctx.createPattern(imgLift8, 'repeat');
     }
 }
-function GRC_background()
+export function background()
 {
     ctx.save();
     ctx.translate(0, 600);
     ctx.scale(1, -1);
 
-    // ctx.fillStyle = ptrnSky;
     const GRC_background = ctx.createLinearGradient(0, 0, 0, canva.height);
     // GRC_background.addColorStop(0, 'rgb(135, 0, 255)');
     GRC_background.addColorStop(0, 'rgb(0, 0, 0)');
@@ -219,7 +220,7 @@ function GRC_background()
     ctx.fillRect(0, 600, World_edge_right, 10);
 }
 
-function GRC_textures()
+export function textures()
 {
     for (let i = 0; i < platforms.length; i++)
     {
@@ -273,7 +274,7 @@ function GRC_textures()
     GRC_grass(backGrass)
     ctx.restore();
 }
-function drawTexture(obj)
+export function drawTexture(obj)
 {
     ctx.save();
     ctx.translate(0, obj.height);
@@ -344,7 +345,7 @@ function GRC_dirt0(obj)
     ctx.fillRect(-1, -1, obj.width + 2, obj.height);
 }
 
-function GRC_grass(obj)
+export function GRC_grass(obj)
 {
     ctx.fillStyle = ptrnGrass;
     ctx.fillRect(0, -8, obj.width, 8);
@@ -482,7 +483,7 @@ function GRC_lift(obj)
     Misha.lift += 1;
 }
 
-function GRC_jumper()
+export function jumperTextures()
 {
     if (Misha.jumperImgLoad == Misha.jumperImgAll)
     {
@@ -725,11 +726,11 @@ function GRC_jumper_stoped()
 
 
 
-function GRC_SPL_direction_write()
+export function SPL_direction_write()
 {
     sessionStorage.setItem("GRC_jumperDirection", jumper.direction);
 }
-function GRC_SPL_direction_read()
+export function SPL_direction_read()
 {
     if (sessionStorage.getItem("GRC_jumperDirection") != null)
     {
@@ -753,7 +754,7 @@ class Portal
     }
 }
 Misha.grafic.portal = [];
-function GRC_portal()
+export function portal()
 {
     const tempScreen = {};
     tempScreen.x = -WorldAnchor.x;
@@ -792,7 +793,7 @@ function GRC_portal()
             }
             el.counter += random_num(0, 2);
         }
-        PLM_logics(Misha.grafic.portal);
+        logics(Misha.grafic.portal);
         ctx.restore();
     }
 }
