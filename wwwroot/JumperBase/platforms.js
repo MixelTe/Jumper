@@ -32,7 +32,7 @@ function PLM_breakable(plm)
         if (rectIntersect(newPlm, jumper))
         {
             coins.value += 1;
-            // jnowSpeed = -jumper.mass * 4.5
+            jumper.jumpSpeed = -jumper.mass * 4.5
             ding.currentTime = 0;
             ding.play();
             plm.visible = false;
@@ -66,10 +66,17 @@ function PLM_door(plm)
                 Misha.sounds.doorCloseEnd.played = true;
             }
 
+            plm.height = plm.doorHeight;
+            plm.y = plm.doorY;
+            plm.x = plm.doorX;
             break;
 
         case "open":
-
+            plm.height = 20;
+            plm.y = plm.doorHeight - 20;
+            plm.x = plm.doorX;
+            platforms[blockN].y = plm.doorHeight - 20;
+            platforms[blockN].height = 20;
             break;
 
         case "opening":

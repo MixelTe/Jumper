@@ -1,0 +1,129 @@
+"use strict";
+
+import { ctx, TheCounter } from "./base.js";
+import { levelLoadTime, game, levelLoadedChange } from "../start.js";
+import { random_num, random_upNdown } from "./Functions.js";
+import { crateImges, cratePatterns } from "./grafics.js";
+
+let loadingScreenPastCounter = 0;
+let loadingScreentext = "Загрузка";
+class LoadingParticle
+{
+    constructor(x, y, width, height, color)
+    {
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.color = color;
+    }
+}
+const loadingParticles = {};
+loadingParticles.count = 0;
+loadingParticles.particles = [];
+const ls = { x: 40, y: 250, width: 720, height: 100 }
+
+export function loadingScreen()
+{
+    const background = ctx.createLinearGradient(canva.width, canva.height, 0, 200);
+    background.addColorStop(0, 'rgba(255,251,18,1)');
+    background.addColorStop(0.53, 'rgba(5,255,155,1)');
+    background.addColorStop(1, 'rgba(0,255,255,1)');
+
+    ctx.save();
+    ctx.fillStyle = background;
+    ctx.fillRect(0, -10, 800, 600);
+
+    ctx.beginPath();
+    ctx.moveTo(ls.x - 2, ls.y - 2)
+    ctx.lineTo(ls.x - 2, ls.y - 2 + ls.height + 4);
+    ctx.lineTo(ls.x - 2 + ls.width + 4, ls.y - 2 + ls.height + 4);
+    ctx.lineTo(ls.x - 2 + ls.width + 4, ls.y - 2);
+    ctx.lineTo(ls.x - 2, ls.y - 2);
+    ctx.clip();
+
+    ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
+    ctx.fillRect(ls.x, ls.y, ls.width, ls.height);
+
+    if (loadingParticles.particles.length < 230)
+    {
+        const red = random_num(0, 256);
+        const green = random_num(0, 256);
+        const blue = random_num(0, 256);
+        const newColor = `rgb(${red}, ${green}, ${blue})`;
+        loadingParticles.particles.push(new LoadingParticle(ls.x - 20, ls.y + ls.height/2 - 10, 20, 20, newColor));
+    }
+    for (let i = 0; i < loadingParticles.particles.length; i++) {
+        const el = loadingParticles.particles[i];
+        el.x += random_num(3, 5);
+        drawParticle(el);
+        el.y += random_upNdown(3);
+        el.y = Math.max(Math.min(el.y, ls.y + ls.height - el.height/2), ls.y - el.height/2);
+        if (el.x > ls.x + ls.width)
+        {
+            el.x = ls.x - el.width;
+        }
+    }
+
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 4;
+    ctx.strokeRect(ls.x, ls.y, ls.width, ls.height);
+
+    ctx.save();
+    ctx.translate(180, 350);
+    ctx.scale(1, -1)
+    ctx.fillStyle = "white";
+    ctx.font = "80px Arial";
+    if (loadingScreenPastCounter + 20 < TheCounter.counter)
+    {
+        if (loadingScreentext.length < 11)
+        {
+            loadingScreentext += ".";
+        }
+        else
+        {
+            loadingScreentext += " ";
+        }
+        loadingScreenPastCounter = TheCounter.counter;
+        if (loadingScreentext.length > 13)
+        {
+            loadingScreentext = "Загрузка";
+        }
+    }
+    ctx.fillText(loadingScreentext, 40, 70);
+    ctx.restore();
+
+    ctx.restore();
+}
+function drawParticle(p)
+{
+    ctx.fillStyle = p.color;
+    ctx.fillRect(p.x, p.y, p.width, p.height);
+}
+
+export function requestGameChange(toMode, m)
+{
+    if (levelLoadTime + 50 < TheCounter.counter && Misha.grafic.loading == Misha.grafic.loadingFiles)
+    {
+        game.state = toMode;
+        m.start();
+        levelLoadedChange(true);
+    }
+    else
+    {
+        setTimeout(requestGameChange, 100, toMode, m);
+        if (levelLoadTime + 200 < TheCounter.counter && TheCounter.counter < levelLoadTime + 210)
+        {
+            console.group("%crequestGameChange", "color: yellow");
+            console.warn("%cCheck count of files in '%cfunction requestGameChange%c' in '%cMisha.grafic.loading == %c%i%c'", "color: yellow", "color: green", "color: yellow", "color: green", "color: red", Misha.grafic.loadingFiles, "color: yellow" )
+            console.warn("%cRed number %cMUST%c be equivalent to this number: %c%i", "color: yellow", "color: red", "color: yellow", "color: lime", Misha.grafic.loading);
+            console.groupEnd();
+        }
+    }
+}
+
+export async function loadFiles()
+{
+    cratePatterns();
+    crateImges();
+}

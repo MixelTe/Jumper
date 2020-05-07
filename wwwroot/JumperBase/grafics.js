@@ -44,6 +44,8 @@ let ptrnWall;
 let ptrnLian;
 let imgsLever;
 
+Misha.grafic.loading = 0;
+Misha.grafic.loadingFiles = 20;
 
 // window.onload = function () { cratePatterns(); crateImges(); };
 
@@ -54,6 +56,7 @@ export function crateImges()
     imgsJumper.onload = function ()
     {
         Misha.jumperImgLoad += 1;
+        Misha.grafic.loading += 1;
     }
 
     imgsLever = new Image();
@@ -61,6 +64,7 @@ export function crateImges()
     imgsLever.onload = function ()
     {
         Misha.jumperImgLoad += 1;
+        Misha.grafic.loading += 1;
     }
 }
 
@@ -71,6 +75,7 @@ export function cratePatterns()
     imgDirt.onload = function ()
     {
         ptrnDirt = ctx.createPattern(imgDirt, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgDirt2 = new Image();
@@ -78,6 +83,7 @@ export function cratePatterns()
     imgDirt2.onload = function ()
     {
         ptrnDirt2 = ctx.createPattern(imgDirt2, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgGrass = new Image();
@@ -85,6 +91,7 @@ export function cratePatterns()
     imgGrass.onload = function ()
     {
         ptrnGrass = ctx.createPattern(imgGrass, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgBox = new Image();
@@ -92,6 +99,7 @@ export function cratePatterns()
     imgBox.onload = function ()
     {
         ptrnBox = ctx.createPattern(imgBox, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgBox2 = new Image();
@@ -99,6 +107,7 @@ export function cratePatterns()
     imgBox2.onload = function ()
     {
         ptrnBox2 = ctx.createPattern(imgBox2, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgBackGrass = new Image();
@@ -106,6 +115,7 @@ export function cratePatterns()
     imgBackGrass.onload = function ()
     {
         ptrnBackGrass = ctx.createPattern(imgBackGrass, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgWoodX = new Image();
@@ -113,6 +123,7 @@ export function cratePatterns()
     imgWoodX.onload = function ()
     {
         ptrnWoodX = ctx.createPattern(imgWoodX, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgWoodY = new Image();
@@ -120,6 +131,7 @@ export function cratePatterns()
     imgWoodY.onload = function ()
     {
         ptrnWoodY = ctx.createPattern(imgWoodY, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgWall = new Image();
@@ -127,6 +139,7 @@ export function cratePatterns()
     imgWall.onload = function ()
     {
         ptrnWall = ctx.createPattern(imgWall, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLian = new Image();
@@ -134,6 +147,7 @@ export function cratePatterns()
     imgLian.onload = function ()
     {
         ptrnLian = ctx.createPattern(imgLian, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     cratePatterns_lift();
@@ -146,6 +160,7 @@ function cratePatterns_lift()
     imgLift.onload = function ()
     {
         ptrnsLift[1] = ctx.createPattern(imgLift, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift2 = new Image();
@@ -153,6 +168,7 @@ function cratePatterns_lift()
     imgLift2.onload = function ()
     {
         ptrnsLift[2] = ctx.createPattern(imgLift2, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift3 = new Image();
@@ -160,6 +176,7 @@ function cratePatterns_lift()
     imgLift3.onload = function ()
     {
         ptrnsLift[3] = ctx.createPattern(imgLift3, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift4 = new Image();
@@ -167,6 +184,7 @@ function cratePatterns_lift()
     imgLift4.onload = function ()
     {
         ptrnsLift[4] = ctx.createPattern(imgLift4, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift5 = new Image();
@@ -174,6 +192,7 @@ function cratePatterns_lift()
     imgLift5.onload = function ()
     {
         ptrnsLift[5] = ctx.createPattern(imgLift5, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift6 = new Image();
@@ -181,6 +200,7 @@ function cratePatterns_lift()
     imgLift6.onload = function ()
     {
         ptrnsLift[6] = ctx.createPattern(imgLift6, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift7 = new Image();
@@ -188,6 +208,7 @@ function cratePatterns_lift()
     imgLift7.onload = function ()
     {
         ptrnsLift[7] = ctx.createPattern(imgLift7, 'repeat');
+        Misha.grafic.loading += 1;
     }
 
     const imgLift8 = new Image();
@@ -195,6 +216,7 @@ function cratePatterns_lift()
     imgLift8.onload = function ()
     {
         ptrnsLift[8] = ctx.createPattern(imgLift8, 'repeat');
+        Misha.grafic.loading += 1;
     }
 }
 export function background()

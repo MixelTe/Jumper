@@ -1,6 +1,6 @@
 "use strict";
-import {DEVparametrs, jumper, canva, WorldAnchor} from "./base.js"
-import {VlevelChange} from "../start.js"
+import {DEVparametrs, jumper, canva, WorldAnchor, TheCounter} from "./base.js"
+import {VlevelChange, ChangeLevel} from "../start.js"
 
 const canva2 = document.getElementById("canva2");
 const ctx2 = canva2.getContext('2d');
@@ -32,8 +32,9 @@ const btn12 ={
 
 const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "plID", Tvalue: "ID", Tx: 11, Ty: 16, Tscale: 40 };
 const btn14 = { x: 90, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "screens", Tvalue: "Scr", Tx: 4, Ty: 16, Tscale: 35 };
+const btn15 = { x: 260, y: 7, width: 34, height: 30, color: "lightblue", Tcolor: "yellow", value: "fps", Tvalue: "", Tx: 4, Ty: 16, Tscale: 35, counter: 0 };
 
-const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13, btn14]
+const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13, btn14, btn15]
 
 //===============
 ctx2.translate(0, canva.height);
@@ -136,12 +137,12 @@ function DEVclick(event)
             if (DEVparametrs.gravity)
             {
                 DEVparametrs.gravity = false;
-                btn5.color = "rgb(141, 0, 207)";
+                clickButton.color = "rgb(141, 0, 207)";
             }
             else
             {
                 DEVparametrs.gravity = true;
-                btn5.color = "red";
+                clickButton.color = "red";
             }
             DEVredrawAll();
             break;
@@ -170,7 +171,7 @@ function DEVclick(event)
 
         case "toCursor":
             toCursor = true;
-            btn9.color = "rgb(141, 0, 207)";
+            clickButton.color = "rgb(141, 0, 207)";
             DEVredrawAll();
             break;
 
@@ -184,6 +185,7 @@ function DEVclick(event)
             // sessionStorage.setItem("level", tolvl);
             // window.location.reload();
             VlevelChange(tolvl);
+            ChangeLevel();
             break;
 
         case "tolvl+":
@@ -200,12 +202,12 @@ function DEVclick(event)
             if (DEVparametrs.id)
             {
                 DEVparametrs.id = false;
-                btn13.color = "red";
+                clickButton.color = "red";
             }
             else
             {
                 DEVparametrs.id = true;
-                btn13.color = "rgb(141, 0, 207)";
+                clickButton.color = "rgb(141, 0, 207)";
             }
             DEVredrawAll();
             break;
@@ -214,13 +216,28 @@ function DEVclick(event)
             if (DEVparametrs.screens)
             {
                 DEVparametrs.screens = false;
-                btn14.color = "red";
+                clickButton.color = "red";
             }
             else
             {
                 DEVparametrs.screens = true;
-                btn14.color = "rgb(141, 0, 207)";
+                clickButton.color = "rgb(141, 0, 207)";
             }
+            DEVredrawAll();
+            break;
+
+        case "fps":
+            if (clickButton.active)
+            {
+                clickButton.active = false;
+                clickButton.color = "lightblue";
+            }
+            else
+            {
+                clickButton.active = true;
+                clickButton.color = "rgba(141, 0, 207, 0.6)";
+            }
+            DEVinterFrame();
             DEVredrawAll();
             break;
 
@@ -237,6 +254,31 @@ function DEVclick2(event)
         toCursor = false;
         jumper.x = event.pageX - canva.offsetLeft - 15 - WorldAnchor.x;
         jumper.y = Math.abs(event.pageY - canva.offsetTop - canva.height) - 25 - WorldAnchor.y;
+        DEVredrawAll();
+    }
+}
+
+function DEVinterFrame()
+{
+    if (btn15.counter >= 10)
+    {
+        DEVdrawButton(btn15);
+        ctx2.save();
+        ctx2.translate(260, 10);
+        ctx2.scale(1, -1)
+        ctx2.fillStyle = "black";
+        ctx2.font = "30px Arial";
+        ctx2.fillText(parseInt(1000 / parseInt(TheCounter.interFrame)), 0, 0);
+        ctx2.restore();
+        btn15.counter = 0;
+    }
+    btn15.counter += 1;
+    if (btn15.active)
+    {
+        requestAnimationFrame(DEVinterFrame);
+    }
+    else
+    {
         DEVredrawAll();
     }
 }

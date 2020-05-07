@@ -1,22 +1,23 @@
 "use strict";
 import {ctx} from "../../JumperBase/base.js"
 import { ost_write } from "../../JumperBase/music.js";
-import { VlevelChange, ChangeLevel } from "../../start.js";
+import { VlevelChange, ChangeLevel, game, level } from "../../start.js";
 const button1 = { x: 80, y: 200, width: 150, height: 200, color: "blue", Tcolor: "yellow", value: "lvl1", Tvalue: "Level 1", Tx: 20, Ty: 85, Tscale: 35};
 const button2 = { x: 310, y: 200, width: 150, height: 200, color: "blue", Tcolor: "yellow", value: "lvl2", Tvalue: "Level 2", Tx: 20, Ty: 85, Tscale: 35};
 const lockerButton2 = { x: 310, y: 200, width: 150, height: 200, color: "rgb(0, 0, 0, 0.7)", Tcolor: "white", value: "lvl2", Tvalue: "Locked", Tx: 20, Ty: 15, Tscale: 35, visible: true};
 
 const buttons = [button1, button2, lockerButton2];
 
-var background = ctx.createLinearGradient(canva.width, canva.height, 0, 200);
-
-background.addColorStop(0, 'rgba(255,251,18,1)');
-background.addColorStop(0.53, 'rgba(5,255,155,1)');
-background.addColorStop(1, 'rgba(0,255,255,1)');
-
+let background = null;
 
 export function start()
 {
+    console.log('module №' + level + ' started');
+    game.state = "inMenu";
+    background = ctx.createLinearGradient(canva.width, canva.height, 0, 200);
+    background.addColorStop(0, 'rgba(255,251,18,1)');
+    background.addColorStop(0.53, 'rgba(5,255,155,1)');
+    background.addColorStop(1, 'rgba(0,255,255,1)');
     MN_remove_lockers();
     redrawAll();
 }
@@ -75,8 +76,8 @@ function drawButton(button)
     ctx.restore();
 }
 
-canva.addEventListener('click', function (event) { click(event) })
-function click(event)
+// canva.addEventListener('click', function (event) { click(event) })
+export function click(event)
 {
     let x = event.pageX;
     let y = event.pageY;

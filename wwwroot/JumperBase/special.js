@@ -28,11 +28,6 @@ export function writeInMemory(lvl)
     {
         SPL_direction_write();
     }
-
-    if (Misha.musics)
-    {
-        ost_write();
-    }
 }
 
 export function readMemory(lvl)
@@ -75,23 +70,24 @@ export function readMemory(lvl)
 export function lvl_end()
 {
     let nowlvl = parseInt(sessionStorage.getItem("level"))
-    if (rectIntersect(lvlend, jumper) && level == nowlvl)
-    {
-        VlevelChange(-1)
-        // sessionStorage.setItem("level", -1);
-        sessionStorage.setItem("Unlocklevel", nowlvl + 1);
-
-        // window.location.reload();
-    }
     if (rectIntersect(lvlend, jumper))
     {
+        if (level == nowlvl)
+        {
+            VlevelChange(-1)
+            sessionStorage.setItem("Unlocklevel", nowlvl + 1);
+        }
         sessionStorage.removeItem("Anc.x" + nowlvl);
         sessionStorage.removeItem("Anc.y" + nowlvl);
         sessionStorage.removeItem("jmp.x" + nowlvl);
         sessionStorage.removeItem("jmp.y" + nowlvl);
-        if (Misha.grafics)
+        sessionStorage.setItem("GRC_jumperDirection", "right");
+        for (let i = 0; i < platforms.length; i++)
         {
-            sessionStorage.setItem("GRC_jumperDirection", "right");
+            if (platforms[i].type == "breakable")
+            {
+                sessionStorage.removeItem("breakable" + platforms[i].id);
+            }
         }
     }
 }

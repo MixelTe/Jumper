@@ -1,7 +1,7 @@
 "use strict";
 import {Cgravity, Cmovement, moveScreen} from "./movement.js"
 import {rectIntersect} from "./Functions.js"
-import {level, levelLoaded, ChangeLevel, VlevelChange, game} from "../start.js"
+import {level, levelLoaded, ChangeLevel, game} from "../start.js"
 import * as EMY from "./enemy.js"
 import * as SPL from "./special.js"
 import * as GRC from "./grafics.js"
@@ -9,11 +9,17 @@ import * as SCR from "./screens.js"
 import * as PLM from "./platforms.js"
 import * as MUS from "./music.js"
 import * as OVL from "./overlay.js"
+import { click as menuClick} from "../jumper_lvls/menu/menu.js";
+import { loadingScreen, loadFiles} from "./loading.js";
+import { FSC_AllLoaded } from "./firstScreen.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
 export const ctx = canva.getContext('2d');
 
+export const TheCounter = {};
+TheCounter.counter = 0;
+TheCounter.pastFrame = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
 
 export class Character
@@ -97,6 +103,11 @@ export class Character
             this.snowbum  = false;
         }
     }
+    moveTo(x, y)
+    {
+        this.x = x;
+        this.y = y;
+    }
 }
 
 let controlCharacter = 0;
@@ -155,14 +166,13 @@ function LVL_triggers()
 {
 
 }
-// let level = 1;
 //===============
-GRC.cratePatterns();
-GRC.crateImges();
-canva.addEventListener('click', function (event) { MUS.MUS_click(event) })
 ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
-redrawAll()
+redrawAll();
+FSC_AllLoaded()
+ChangeLevel();
+loadFiles();
 //===============
 
 export function changeLevel(level)
@@ -181,9 +191,13 @@ export function changeLevel(level)
     LVL_triggers = level.LVL_triggers;
 }
 
-function redrawAll()
+function redrawAll(time)
 {
-    if (game.started)
+    TheCounter.interFrame = time - TheCounter.pastFrame;
+    TheCounter.pastFrame = time;
+    TheCounter.counter += 1;
+    sessionStorage.setItem("counter", TheCounter.counter)
+    if (game.state == "levelStarted")
     {
         clipCanva();
         if (DEVparametrs.gravity)
@@ -257,21 +271,28 @@ function redrawAll()
         {
             OVL.draw1();
         }
-    }
-    if (parseInt(sessionStorage.getItem("level")) != level)
-    {
-        sessionStorage.setItem("level", level);
-        ChangeLevel();
-    }
 
-    if (game.started)
-    {
+        if (parseInt(sessionStorage.getItem("level")) != level)
+        {
+            sessionStorage.setItem("level", level);
+            ChangeLevel();
+        }
+
         if (levelLoaded)
         {
             SPL.writeInMemory(level);
         }
         SPL.lvl_end();
-    }   
+    }
+
+    if (game.state == "loading" || levelLoaded == false)
+    {
+        loadingScreen()
+    }
+    if (Misha.musics)
+    {
+        MUS.ost_write();
+    }
     requestAnimationFrame(redrawAll);
 }
 
@@ -509,6 +530,10 @@ function KeyUpControl(event)
             {
                 CharacterControl(enemys[selectedCharacter], event, "up");
             }
+            else
+            {
+                console.error("base: line 500: function KeyUpControl: enemy is disable")
+            }
             break;
         default:
             break;
@@ -540,9 +565,11 @@ export function CharacterControl(character, event, type)
 
             case "down":
                 character.mass = character.massUnchange * 5;
+                Misha.music.ost.play();
                 break;
 
             default:
+                console.error("base: line 522: function CharacterControl: type = 'down': event don't exist")
                 break;
         }
     }
@@ -572,11 +599,22 @@ export function CharacterControl(character, event, type)
                 break;
 
             default:
+                console.error("base: line 522: function CharacterControl: type = 'up': event don't exist")
                 break;
         }
     }
     else
     {
         alert("ERROR: Wrong type of keyboard event");
+    }
+}
+
+canva.addEventListener('click', function (event) { onClick(event) })
+function onClick(event)
+{
+    MUS.MUS_click(event)
+    if (game.state == "inMenu")
+    {
+        menuClick(event);
     }
 }

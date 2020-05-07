@@ -1,5 +1,6 @@
 "use strict";
 import {changeLevel, Character, levelOnStart} from "../../JumperBase/base.js"
+import { level } from "../../start.js";
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 90, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 500, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
@@ -45,7 +46,7 @@ const forLevelChange = {
 
 export function start()
 {
-    console.log('module started');
+    console.log('module №' + level + ' started');
     //===============
     changeLevel(forLevelChange)
     levelOnStart(1);

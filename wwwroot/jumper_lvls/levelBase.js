@@ -1,6 +1,7 @@
 "use strict";
-import {changeLevel, jumper, Character, levelOnStart} from "../../JumperBase/base.js"
+import {changeLevel, Character, levelOnStart} from "../../JumperBase/base.js"
 import {TRG_lever_door} from "../../JumperBase/triggers.js"
+import { level } from "../start.js";
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30 },
@@ -70,9 +71,10 @@ const forLevelChange = {
 
 export function start()
 {
-    console.log('module started');
-    //===============
+    console.log('level №' + level + ' started');
+
+    restoreLevel(platforms, level);
+    changeLevel(forLevelChange);
+    jumper.moveTo(50, 0);
     levelOnStart(3); //count of stars on level
-    changeLevel(forLevelChange)
-    //===============
 }
