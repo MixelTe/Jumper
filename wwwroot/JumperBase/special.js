@@ -25,6 +25,14 @@ export function writeInMemory(lvl)
         {
             sessionStorage.setItem("star" + platforms[i].id + lvl, platforms[i].colected);
         }
+        if (platforms[i].type == "door")
+        {
+            sessionStorage.setItem("door" + platforms[i].id + lvl, platforms[i].doorState);
+        }
+        if (platforms[i].type == "lever")
+        {
+            sessionStorage.setItem("lever" + platforms[i].id + lvl, platforms[i].leverState);
+        }
     }
 
     SPL_lvl_write(lvl);
@@ -78,6 +86,18 @@ export function readMemory(lvl)
                     console.error("star.colected", readMemory);
                     break;
             }
+        }
+        if (
+            platforms[i].type == "door" &&
+            sessionStorage.getItem("door" + platforms[i].id + lvl) != null)
+        {
+            platforms[i].doorState = sessionStorage.getItem("door" + platforms[i].id + lvl);
+        }
+        if (
+            platforms[i].type == "lever" &&
+            sessionStorage.getItem("lever" + platforms[i].id + lvl) != null)
+        {
+            platforms[i].leverState = sessionStorage.getItem("lever" + platforms[i].id + lvl);
         }
     }
     if (sessionStorage.getItem("coins") != null)

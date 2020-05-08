@@ -2,6 +2,7 @@
 import {ctx, jumper, DEVparametrs} from "./base.js"
 import {rectIntersect} from "./Functions.js"
 import {drawTexture, GRC_grass} from "./grafics.js"
+import { fileLoaded } from "./loading.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.screens = true;
 Misha.screen = {};
@@ -13,6 +14,7 @@ Misha.screen.imgs.jumper.src = "pictures/jumperfront.png";
 Misha.screen.imgs.jumper.onload = function ()
 {
     Misha.screen.img.jumper = true;
+    fileLoaded();
 }
 
 

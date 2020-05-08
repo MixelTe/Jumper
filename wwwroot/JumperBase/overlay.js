@@ -1,5 +1,6 @@
 "use strict";
 import {ctx, coins, canva} from "./base.js"
+import { fileLoaded } from "./loading.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.overlays = true;
 const overlay = {};
@@ -36,6 +37,7 @@ function OVL_loadFiles()
     {
         star = overlay.imgs.star;
         overlay.img.star = true;
+        fileLoaded();
     }
 
     overlay.imgs.starframe = new Image();
@@ -43,10 +45,15 @@ function OVL_loadFiles()
     overlay.imgs.starframe.onload = function ()
     {
         overlay.img.starframe = true;
+        fileLoaded();
     }
 
     overlay.sounds.starColected = document.createElement("AUDIO");
     overlay.sounds.starColected.src = "sounds/starcolected.mp3";
+    overlay.sounds.starColected.onloadeddata = function ()
+    {
+        fileLoaded();
+    };
     starColected = overlay.sounds.starColected;
 
 }

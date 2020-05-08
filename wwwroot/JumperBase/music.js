@@ -1,5 +1,6 @@
 "use strict";
 import {ctx, canva} from "./base.js"
+import { fileLoaded } from "./loading.js";
 
 window.Misha = window.Misha || Object.create(null);
 Misha.music = {};
@@ -12,11 +13,10 @@ Misha.music.ost.loop = true;
 // Misha.music.ost.controls = true;
 document.body.appendChild(Misha.music.ost);
 ost_read();
-// Misha.music.ost.onload = function ()
-// {
-//     // Misha.music.ost.play();
-//     Misha.music.ost.load();
-// }
+Misha.music.ost.onloadeddata = function ()
+{
+    fileLoaded();
+}
 
 
 function ost_read()

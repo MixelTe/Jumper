@@ -443,13 +443,14 @@ function KeyDown(event)
 
             case 'Backslash':
                 // document.getElementById("canva2").style.display = "inline";
-                if (document.getElementById("canva2") == null)
+                const panel = document.getElementById("canva2");
+                if (panel == null)
                 {
                     const el = document.createElement("canvas");
                     el.id = "canva2";
                     el.width = "300";
                     el.height = "600";
-                    el.style = "border: 1px solid black; user-select: none; margin-left: 8px";
+                    el.style = "border: 1px solid black; user-select: none; margin-left: 8px; display: inline;";
                     const cv = document.getElementById("canva");
                     cv.parentNode.insertBefore(el, cv.nextSibling);
                     // loadScript("jumperBase/DEVpanel.js");
@@ -457,6 +458,14 @@ function KeyDown(event)
                     {
                         m.start();
                     });
+                }
+                if (panel.style.display == "inline")
+                {
+                    panel.style.display = "none";
+                }
+                else
+                {
+                    panel.style.display = "inline";
                 }
                 break;
 

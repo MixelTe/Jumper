@@ -105,9 +105,15 @@ function drawParticle(p)
     ctx.fillRect(p.x, p.y, p.width, p.height);
 }
 
+let filesLoaded = 0;
+let allFiles = 25;
+export function fileLoaded()
+{
+    filesLoaded += 1;
+}
 export function requestGameChange(toMode, m)
 {
-    if (levelLoadTime + 50 < TheCounter.counter && Misha.grafic.loading == Misha.grafic.loadingFiles)
+    if (levelLoadTime + 50 < TheCounter.counter && filesLoaded == allFiles)
     {
         game.state = toMode;
         m.start();
@@ -118,9 +124,9 @@ export function requestGameChange(toMode, m)
         setTimeout(requestGameChange, 100, toMode, m);
         if (levelLoadTime + 200 < TheCounter.counter && TheCounter.counter < levelLoadTime + 210)
         {
-            console.group("%crequestGameChange", "color: yellow");
-            console.warn("%cCheck count of files in '%cfunction requestGameChange%c' in '%cMisha.grafic.loading == %c%i%c'", "color: yellow", "color: green", "color: yellow", "color: green", "color: red", Misha.grafic.loadingFiles, "color: yellow" )
-            console.warn("%cRed number %cMUST%c be equivalent to this number: %c%i", "color: yellow", "color: red", "color: yellow", "color: lime", Misha.grafic.loading);
+            console.groupCollapsed("%crequestGameChange", "color: yellow");
+            console.warn("%cCheck count of files in '%cfunction requestGameChange%c' in '%cfilesLoaded == %c%i%c'", "color: yellow", "color: green", "color: yellow", "color: green", "color: red", allFiles, "color: yellow" )
+            console.warn("%cRed number %cMUST%c be equivalent to this number: %c%i", "color: yellow", "color: red", "color: yellow", "color: lime", filesLoaded);
             console.groupEnd();
         }
     }
