@@ -1,5 +1,5 @@
 "use strict";
-import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend} from "./base.js"
+import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import {logics} from "./platforms.js"
 import { star } from "./overlay.js";
@@ -246,46 +246,49 @@ export function textures()
     for (let i = 0; i < platforms.length; i++)
     {
         const plt = platforms[i];
-        ctx.save();
-        ctx.translate(plt.x, plt.y + plt.height - 1);
-        ctx.scale(1, -1);
-        switch (plt.texture)
+        if (rectIntersect(plt, gameWindow))
         {
-            case "grass":
-                if (plt.visible == true)
-                {
-                    GRC_grass(plt);
-                }
-                break;
-
-            case "wall":
-                if (plt.visible == true && plt.type == "door")
-                {
-                    GRC_lian(plt);
-                }
-                break;
-
-            case "star":
-                if (plt.colected == false && Misha.overlays == true)
-                {
-                    ctx.drawImage(star, plt.width / 2 - 27, plt.height / 2 - 27, 52, 52);
-                }
-                break;
-
-            default:
-                break;
-        }
-        if (plt.type == "fake")
-        {
-            if (rectIntersect(plt, jumper))
-            {
-                ctx.globalAlpha = 0;
-            }
-            ctx.translate(0, plt.height - 2);
+            ctx.save();
+            ctx.translate(plt.x, plt.y + plt.height - 1);
             ctx.scale(1, -1);
-            drawTexture(plt);
+            switch (plt.texture)
+            {
+                case "grass":
+                    if (plt.visible == true)
+                    {
+                        GRC_grass(plt);
+                    }
+                    break;
+
+                case "wall":
+                    if (plt.visible == true && plt.type == "door")
+                    {
+                        GRC_lian(plt);
+                    }
+                    break;
+
+                case "star":
+                    if (plt.colected == false && Misha.overlays == true)
+                    {
+                        ctx.drawImage(star, plt.width / 2 - 27, plt.height / 2 - 27, 52, 52);
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+            if (plt.type == "fake")
+            {
+                if (rectIntersect(plt, jumper))
+                {
+                    ctx.globalAlpha = 0;
+                }
+                ctx.translate(0, plt.height - 2);
+                ctx.scale(1, -1);
+                drawTexture(plt);
+            }
+            ctx.restore();
         }
-        ctx.restore();
     }
 
     ctx.save();

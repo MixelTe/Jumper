@@ -185,7 +185,6 @@ function DEVclick(event)
             // sessionStorage.setItem("level", tolvl);
             // window.location.reload();
             VlevelChange(tolvl);
-            ChangeLevel();
             break;
 
         case "tolvl+":

@@ -1,5 +1,5 @@
 "use strict";
-import {ctx, coins, ding, platforms, drawPlatform, jumper} from "./base.js"
+import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow} from "./base.js"
 import {rectIntersect, findWhithId} from "./Functions.js"
 import { starStaredChange, starColected } from "./overlay.js";
 window.Misha = window.Misha || Object.create(null);
@@ -244,12 +244,18 @@ export function logics(platforms)
                 break;
 
             case "ghost":
-                drawPlatform(plt);
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
                 break;
 
             case "lever":
                 PLM_lever(plt);
-                drawPlatform(plt);
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
                 break;
 
             case "star":
@@ -263,7 +269,7 @@ export function logics(platforms)
             default:
                 break;
         }
-        if (plt.visible == true || plt.visible == "true")
+        if ((plt.visible == true || plt.visible == "true") && rectIntersect(plt, gameWindow))
         {
             drawPlatform(plt);
         }

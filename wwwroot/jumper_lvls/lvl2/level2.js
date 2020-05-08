@@ -14,14 +14,14 @@ const frontscreen = [
 ]
 
 const enemys = [
-    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy"),
+    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy", 260, 0),
 
 ]
 
-const lvlend = { x: 990, y: 0, width: 10, height: 90, type: "ghost", color: "rgb(0, 0, 0, 0.05)", visible: false };
+const lvlend = { x: 1090, y: 0, width: 10, height: 90, type: "ghost", color: "rgb(0, 0, 0, 0.05)", visible: false };
 
 const World_edge_left = 0;
-const World_edge_right = 1000;
+const World_edge_right = 1100;
 let WScreen_edge_left = 0;
 let WScreen_edge_right = World_edge_right;
 

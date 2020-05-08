@@ -1,7 +1,8 @@
 "use strict";
 
-import { changeLevel, TheCounter, jumper } from "./JumperBase/base.js";
+import { changeLevel, TheCounter, jumper, Character } from "./JumperBase/base.js";
 import { requestGameChange } from "./JumperBase/loading.js";
+import { findWhithId } from "./JumperBase/Functions.js";
 
 if (sessionStorage.getItem("level") == null)
 {
@@ -107,7 +108,7 @@ export function ChangeLevel()
 export function restoreLevel(platforms, lvl)
 {
     console.log('%clevel №' + lvl + ' restored', 'color: gray;');
-    for (let i = 0; i < platforms.length; i++) {
+    for (let i = platforms.length - 1; i >= 0; i--) {
         const el = platforms[i];
         if (el.type == "door")
         {
@@ -124,6 +125,11 @@ export function restoreLevel(platforms, lvl)
         if (el.type == "star")
         {
             el.colected = false;
+        }
+        if (el instanceof Character)
+        {
+            const index = findWhithId(platforms, el.id);
+            platforms.splice(index, 1);
         }
     Misha.sounds.doorCloseEnd.played = true;
     }

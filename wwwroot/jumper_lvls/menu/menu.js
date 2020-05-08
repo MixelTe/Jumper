@@ -110,7 +110,6 @@ export function click(event)
                 }
                 sessionStorage.setItem("music.pause", 0);           //music
                 VlevelChange(1);
-                ChangeLevel();
                 break;
 
             case "lvl2":
@@ -122,7 +121,6 @@ export function click(event)
                     }
                     sessionStorage.setItem("music.pause", 0);           //music
                     VlevelChange(2);
-                    ChangeLevel();
                 }
                 break;
 

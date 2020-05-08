@@ -1,6 +1,7 @@
 "use strict";
 import {Cgravity, Cmovement} from "./movement.js"
-import {ctx, platforms, enemys, CharacterControl} from "./base.js"
+import {ctx, platforms, enemys, CharacterControl, gameWindow} from "./base.js"
+import { rectIntersect } from "./Functions.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.enemy = true;
 
@@ -37,7 +38,8 @@ export function gravity()
     for (let i = 0; i < enemys.length; i++)
     {
         const el = enemys[i];
-        if (el.alive)
+        const newEl = { x: el.x - el.movementPath.width, y: el.y - el.movementPath.height, width: el.width + el.movementPath.width*2, height: el.height + el.movementPath.height*2};
+        if (el.alive && rectIntersect(newEl, gameWindow))
         {
             Cgravity(el);
             Cmovement(el);
@@ -62,13 +64,11 @@ function enemyAI(chr)
     {
         if (chr.direction == "left")
         {
-            // CharacterControl(chr, "left", "up");
             CharacterControl(chr, "right", "down");
             chr.pastCounter = 0;
         }
         else if (chr.direction == "right")
         {
-            // CharacterControl(chr, "right", "up");
             CharacterControl(chr, "left", "down");
             chr.pastCounter = 0;
         }

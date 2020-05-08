@@ -24,7 +24,7 @@ export const DEVparametrs = { gravity: true, id: false, screens: false };
 
 export class Character
 {
-    constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, type)
+    constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, type, pathW, pathH)
     {
         this.x = x;
         this.y = y;
@@ -62,6 +62,7 @@ export class Character
         this.snowding = false;
         this.snowbum = false;
         this.alive = true;
+        this.movementPath = {width: pathW, height: pathH};
     }
     writePast()
     {
@@ -173,7 +174,7 @@ function LVL_triggers()
 // Misha.overlays = false;
 // Misha.screens = false;
 
-
+export const gameWindow = { x: 0, y: -10, width: 800, height: 610 }
 //===============
 ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
@@ -202,12 +203,12 @@ export function changeLevel(level)
 function redrawAll(time)
 {
     TheCounter.interFrame = time - TheCounter.pastFrame;
+    // console.log("redrawAll start", Math.round(TheCounter.interFrame));
     TheCounter.pastFrame = time;
     TheCounter.counter += 1;
     sessionStorage.setItem("counter", TheCounter.counter)
     if (game.state == "levelStarted")
     {
-        clipCanva();
         if (DEVparametrs.gravity)
         {
             Cgravity(jumper);
@@ -235,7 +236,8 @@ function redrawAll(time)
         }
 
         ctx.restore();
-
+        gameWindow.x = -WorldAnchor.x;
+        gameWindow.y = -WorldAnchor.y;
         ctx.save();
         ctx.translate(WorldAnchor.x, WorldAnchor.y);
 
@@ -280,12 +282,6 @@ function redrawAll(time)
             OVL.draw1();
         }
 
-        if (parseInt(sessionStorage.getItem("level")) != level)
-        {
-            sessionStorage.setItem("level", level);
-            ChangeLevel();
-        }
-
         if (levelLoaded)
         {
             SPL.writeInMemory(level);
@@ -293,6 +289,11 @@ function redrawAll(time)
         SPL.lvl_end();
     }
 
+    if (parseInt(sessionStorage.getItem("level")) != level)
+    {
+        sessionStorage.setItem("level", level);
+        ChangeLevel();
+    }
     if (game.state == "loading" || levelLoaded == false)
     {
         loadingScreen()

@@ -140,6 +140,14 @@ export function lvl_end()
             {
                 sessionStorage.removeItem("breakable" + el.id + nowlvl);
             }
+            if (el.type == "door")
+            {
+                sessionStorage.removeItem("door" + el.id + nowlvl);
+            }
+            if (el.type == "lever")
+            {
+                sessionStorage.removeItem("lever" + el.id + nowlvl);
+            }
         }
     }
 }

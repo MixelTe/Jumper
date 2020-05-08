@@ -51,9 +51,10 @@ export function findWhithId(list, id)
         const el = list[i];
         if (el.id == id)
         {
-            return i
+            return i;
         }
     }
+    throw new Error('КАШМАР!!!!');
 }
 
 function DEV_cord_pixel()
