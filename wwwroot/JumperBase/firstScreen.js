@@ -47,7 +47,7 @@ function loadingScreen()
     ctx.fillStyle = "rgba(0, 0, 0, 0.6)";
     ctx.fillRect(ls.x, ls.y, ls.width, ls.height);
 
-    if (loadingParticles.particles.length < 230)
+    if (loadingParticles.particles.length < 210)
     {
         const red = random_num(0, 256);
         const green = random_num(0, 256);
@@ -64,6 +64,10 @@ function loadingScreen()
         if (el.x > ls.x + ls.width)
         {
             el.x = ls.x - el.width;
+            const red = random_num(0, 256);
+            const green = random_num(0, 256);
+            const blue = random_num(0, 256);
+            el.color = `rgb(${red}, ${green}, ${blue})`;
         }
     }
 

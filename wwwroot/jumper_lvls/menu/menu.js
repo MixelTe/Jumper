@@ -54,6 +54,10 @@ function MN_remove_lockers()
             lockerButton2.visible = false;
             break;
 
+        case 3:
+            lockerButton2.visible = false;
+            break;
+
         default:
             break;
     }

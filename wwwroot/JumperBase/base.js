@@ -1,7 +1,7 @@
 "use strict";
 import {Cgravity, Cmovement, moveScreen} from "./movement.js"
 import {rectIntersect} from "./Functions.js"
-import {level, levelLoaded, ChangeLevel, game} from "../start.js"
+import {level, levelLoaded, ChangeLevel, game, restoreLevel} from "../start.js"
 import * as EMY from "./enemy.js"
 import * as SPL from "./special.js"
 import * as GRC from "./grafics.js"
@@ -166,11 +166,19 @@ function LVL_triggers()
 {
 
 }
+
+// Misha.enemy = false;
+// Misha.grafics = false;
+// Misha.musics = false;
+// Misha.overlays = false;
+// Misha.screens = false;
+
+
 //===============
 ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
 redrawAll();
-FSC_AllLoaded()
+FSC_AllLoaded();
 ChangeLevel();
 loadFiles();
 //===============
@@ -296,11 +304,14 @@ function redrawAll(time)
     requestAnimationFrame(redrawAll);
 }
 
-export function levelOnStart(starCount)
+export function levelOnStart(starCount, p, l, jx, jy)
 {
+    restoreLevel(p, l);
+    jumper.moveTo(jx, jy);
     if (Misha.overlays)
     {
-        Misha.overlay.stars.count = starCount;
+        OVL.starStaredSet(0);
+        OVL.starCountChange(starCount);
     }
     platforms.push(jumper);
     if (Misha.enemy)

@@ -1,6 +1,7 @@
 "use strict";
 import {ctx, coins, ding, platforms, drawPlatform, jumper} from "./base.js"
 import {rectIntersect, findWhithId} from "./Functions.js"
+import { starStaredChange, starColected } from "./overlay.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.sounds = {}
 function PLM_lifting(plm)
@@ -60,7 +61,7 @@ function PLM_door(plm)
     let blockN = findWhithId(platforms, plm.id + 0.5);
     switch (plm.doorState) {
         case "close":
-            if (Misha.sounds.doorCloseEnd.played == false)
+            if (!Misha.sounds.doorCloseEnd.played)
             {
                 Misha.sounds.doorCloseEnd.s.play();
                 Misha.sounds.doorCloseEnd.played = true;
@@ -201,9 +202,9 @@ function PLM_star(plm)
     {
         if (rectIntersect(plm, jumper))
         {
-            Misha.overlay.stars.stared += 1;
+            starStaredChange(1)
             ding.currentTime = 0;
-            Misha.overlay.sounds.starColected.play();
+            starColected.play();
             plm.colected = true;
         }
         drawPlatform(plm);

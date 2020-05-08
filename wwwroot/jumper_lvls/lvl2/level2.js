@@ -47,8 +47,7 @@ const forLevelChange = {
 export function start()
 {
     console.log('module №' + level + ' started');
-    //===============
-    changeLevel(forLevelChange)
-    levelOnStart(1);
-    //===============
+
+    changeLevel(forLevelChange);
+    levelOnStart(1, platforms, level, 20, 0);
 }

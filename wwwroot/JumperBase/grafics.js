@@ -2,6 +2,7 @@
 import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import {logics} from "./platforms.js"
+import { star } from "./overlay.js";
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -269,7 +270,7 @@ export function textures()
             case "star":
                 if (plt.colected == false && Misha.overlays == true)
                 {
-                    ctx.drawImage(Misha.overlay.imgs.star, plt.width / 2 - 27, plt.height / 2 - 27, 52, 52);
+                    ctx.drawImage(star, plt.width / 2 - 27, plt.height / 2 - 27, 52, 52);
                 }
                 break;
 

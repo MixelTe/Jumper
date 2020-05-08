@@ -4,6 +4,7 @@ import {SPL_direction_write, SPL_direction_read} from "./grafics.js"
 import {ost_write} from "./music.js"
 import {rectIntersect} from "./Functions.js"
 import { level, VlevelChange } from "../start.js";
+import { starStaredSet, staredStarsCount } from "./overlay.js";
 export function writeInMemory(lvl)
 {
     sessionStorage.setItem("Anc.x" + lvl, WorldAnchor.x);
@@ -18,7 +19,11 @@ export function writeInMemory(lvl)
     {
         if (platforms[i].type == "breakable")
         {
-            sessionStorage.setItem("breakable" + platforms[i].id, platforms[i].visible);
+            sessionStorage.setItem("breakable" + platforms[i].id + lvl, platforms[i].visible);
+        }
+        if (platforms[i].type == "star")
+        {
+            sessionStorage.setItem("star" + platforms[i].id + lvl, platforms[i].colected);
         }
     }
 
@@ -27,6 +32,10 @@ export function writeInMemory(lvl)
     if (Misha.grafics)
     {
         SPL_direction_write();
+    }
+    if (Misha.overlays)
+    {
+        sessionStorage.setItem("starsColected" + lvl, staredStarsCount());
     }
 }
 
@@ -48,14 +57,36 @@ export function readMemory(lvl)
     {
         if (
             platforms[i].type == "breakable" &&
-            sessionStorage.getItem("breakable" + platforms[i].id) != null)
+            sessionStorage.getItem("breakable" + platforms[i].id + lvl) != null)
         {
-            platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id);
+            platforms[i].visible = sessionStorage.getItem("breakable" + platforms[i].id + lvl);
+        }
+        if (
+            platforms[i].type == "star" &&
+            sessionStorage.getItem("star" + platforms[i].id + lvl) != null)
+        {
+            switch (sessionStorage.getItem("star" + platforms[i].id + lvl)) {
+                case "true":
+                    platforms[i].colected = true;
+                    break;
+
+                case "false":
+                    platforms[i].colected = false;
+                    break;
+
+                default:
+                    console.error("star.colected", readMemory);
+                    break;
+            }
         }
     }
     if (sessionStorage.getItem("coins") != null)
     {
         coins.value = parseInt(sessionStorage.getItem("coins"));
+    }
+    if (sessionStorage.getItem("starsColected" + lvl) != null && Misha.overlays)
+    {
+        starStaredSet(parseInt(sessionStorage.getItem("starsColected" + lvl)));
     }
 
     SPL_lvl_read(lvl);
@@ -84,9 +115,10 @@ export function lvl_end()
         sessionStorage.setItem("GRC_jumperDirection", "right");
         for (let i = 0; i < platforms.length; i++)
         {
-            if (platforms[i].type == "breakable")
+            const el = platforms[i];
+            if (el.type == "breakable")
             {
-                sessionStorage.removeItem("breakable" + platforms[i].id);
+                sessionStorage.removeItem("breakable" + el.id + nowlvl);
             }
         }
     }

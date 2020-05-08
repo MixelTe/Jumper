@@ -73,8 +73,7 @@ export function start()
 {
     console.log('level №' + level + ' started');
 
-    restoreLevel(platforms, level);
     changeLevel(forLevelChange);
-    jumper.moveTo(50, 0);
-    levelOnStart(3); //count of stars on level
+    levelOnStart(3, platforms, level, 50, 0);
+ // levelOnStart(count of stars on level, don't change, don't change, jumper x, jumper y);
 }

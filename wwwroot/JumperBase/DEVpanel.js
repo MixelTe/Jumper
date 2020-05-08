@@ -14,7 +14,7 @@ const btn2 = { x: 20, y: 470, width: 60, height: 60, color: "blue", Tcolor: "yel
 const btn3 = { x: 140, y: 470, width: 60, height: 60, color: "blue", Tcolor: "yellow", value: "Right", Tvalue: "Right", Tx: 7, Ty: 24, Tscale: 20};
 const btn4 = { x: 80, y: 410, width: 60, height: 60, color: "blue", Tcolor: "yellow", value: "Down", Tvalue: "Down", Tx: 5, Ty: 24, Tscale: 20};
 const btn5 = { x: 80, y: 470, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "Gravity", Tvalue: "Gravity", Tx: 1, Ty: 24, Tscale: 18};
-const btn6 = { x: 20, y: 410, width: 60, height: 60, color: "green", Tcolor: "yellow", value: "moveSpeed+10", Tvalue: "+ 10", Tx: 7, Ty: 22, Tscale: 22};
+const btn6 = { x: 20, y: 410, width: 60, height: 60, color: "green", Tcolor: "yellow", value: "moveSpeed+100", Tvalue: "+100", Tx: 7, Ty: 22, Tscale: 22};
 const btn7 = { x: 140, y: 410, width: 60, height: 60, color: "green", Tcolor: "yellow", value: "moveSpeed+1", Tvalue: "+ 1", Tx: 15, Ty: 22, Tscale: 22};
 const btn8 = { x: 20, y: 530, width: 60, height: 60, color: "green", Tcolor: "yellow", value: "moveSpeed0", Tvalue: "0", Tx: 22, Ty: 19, Tscale: 30};
 const display1 = { x: 140, y: 530, width: 60, height: 60, color: "yellow", Tcolor: "green", value: "moveSpeed", Tvalue: 10, Tx: 10 , Ty: 21, Tscale: 25};
@@ -147,9 +147,9 @@ function DEVclick(event)
             DEVredrawAll();
             break;
 
-        case "moveSpeed+10":
-            DEVmoveSpeed += 10;
-            display1.Tvalue += 10
+        case "moveSpeed+100":
+            DEVmoveSpeed += 100;
+            display1.Tvalue += 100
             DEVredrawAll();
             break;
 

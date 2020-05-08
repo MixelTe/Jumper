@@ -36,11 +36,11 @@ export function ost_write()
 Misha.music.button1 = { x: 275, y: 265, width: 250, height: 70, color: "lime", Tcolor: "black", value: "play", Tvalue: "Continue", Tx: 53, Ty: 23, Tscale: 35};
 Misha.music.buttons = [Misha.music.button1]
 Misha.music.pause = 1;
-if (sessionStorage.getItem("music.pause") != null)
-{
-    Misha.music.pause = parseInt(sessionStorage.getItem("music.pause"));
-    sessionStorage.setItem("music.pause", 1);
-}
+// if (sessionStorage.getItem("music.pause") != null)
+// {
+//     Misha.music.pause = parseInt(sessionStorage.getItem("music.pause"));
+//     sessionStorage.setItem("music.pause", 1);
+// }
 
 
 export function drawAll()
@@ -98,6 +98,7 @@ export function MUS_click(event)
             case "play":
                 Misha.music.pause = 0;
                 Misha.music.ost.play();
+                // sessionStorage.setItem("music.pause", 1);
                 break;
 
             default:
