@@ -1,5 +1,8 @@
 "use strict";
 
+import { changeLevel, TheCounter, jumper } from "./JumperBase/base.js";
+import { requestGameChange } from "./JumperBase/loading.js";
+
 if (sessionStorage.getItem("level") == null)
 {
     sessionStorage.setItem("level", -1);
@@ -10,21 +13,118 @@ if (sessionStorage.getItem("Unlocklevel") == null)
     sessionStorage.setItem("Unlocklevel", 0);
 }
 
-const level = parseInt(sessionStorage.getItem("level"));
-if (level == -1)
+export let level = parseInt(sessionStorage.getItem("level"));
+export let levelLoaded = false;
+export let levelLoadTime = 0;
+// window.level = level;
+
+export function VlevelChange(newlevel)
 {
-    loadScript("jumper_lvls/menu/menu.js");
-}
-else if (level == -2)
-{
-    loadScript("jumper_lvls/levelBase.js");
-}
-else
-{
-    loadScript(`jumper_lvls/lvl${level}/level${level}.js`);
+    level = newlevel;
 }
 
-if (sessionStorage.getItem("coins") != null)
+export function levelLoadedChange(newBoolean)
 {
-    coins.value = parseInt(sessionStorage.getItem("coins"));
+    levelLoaded = newBoolean;
+}
+
+export const game = {};
+game.state = "loading";
+
+
+function clearLevel()
+{
+    let platforms = [ ];
+    let backscreen2 = [];
+    let frontscreen = [];
+    let enemys = [];
+    let lvlend = {};
+    let World_edge_left = 0;
+    let World_edge_right = 0;
+    let WScreen_edge_left = 0;
+    let WScreen_edge_right = 0;
+    function SPL_lvl_write() { };
+    function SPL_lvl_read() { };
+    function LVL_triggers() { };
+    const forLevelChange = {
+        platforms, backscreen2, frontscreen, enemys, lvlend, World_edge_left,
+        World_edge_right, WScreen_edge_left, WScreen_edge_right, SPL_lvl_write, SPL_lvl_read, LVL_triggers
+    };
+    changeLevel(forLevelChange);
+    jumper.moveTo(50, 0);
+    console.log('level cleared');
+}
+
+
+export function ChangeLevel()
+{
+    console.groupCollapsed("%cChange level", 'color: gray;');
+    if (level == -1)
+    {
+        console.log('load module №', level);
+        game.state = "loading";
+        levelLoadTime = TheCounter.counter;
+        levelLoaded = false;
+        clearLevel();
+        import("./jumper_lvls/menu/menu.js").then((m) =>
+        {
+            console.log('%cmodule №' + level + ' loaded', 'color: gray;');
+            requestGameChange("inMenu", m);
+        });
+        console.log('load module 2 №', level);
+    }
+    else if (level == -2)
+    {
+        game.state = "loading";
+        levelLoadTime = TheCounter.counter;
+        levelLoaded = false;
+        clearLevel();
+        import("./jumper_lvls/levelBase.js").then((m) =>
+        {
+            console.log('%cmodule №' + level + ' loaded', 'color: gray;');
+            requestGameChange("levelBase", m);
+        });
+    }
+    else
+    {
+        game.state = "loading";
+        levelLoadTime = TheCounter.counter;
+        levelLoaded = false;
+        console.log('load module №', level);
+        clearLevel();
+        import(`./jumper_lvls/lvl${level}/level${level}.js`).then((m) =>
+        {
+            console.log('%cmodule №' + level + ' loaded', 'color: gray;');
+            requestGameChange("levelStarted", m);
+        });
+
+        console.log('load module 2 №', level);
+    }
+    console.groupEnd();
+}
+
+
+export function restoreLevel(platforms, lvl)
+{
+    console.log('%clevel №' + lvl + ' restored', 'color: gray;');
+    for (let i = 0; i < platforms.length; i++) {
+        const el = platforms[i];
+        if (el.type == "door")
+        {
+            el.doorState = "close";
+        }
+        if (el.type == "lever")
+        {
+            el.leverState = "off";
+        }
+        if (el.type == "breakable")
+        {
+            el.visible = true;
+        }
+        if (el.type == "star")
+        {
+            el.colected = false;
+        }
+    Misha.sounds.doorCloseEnd.played = true;
+    }
 }
