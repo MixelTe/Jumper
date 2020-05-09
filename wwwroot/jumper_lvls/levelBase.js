@@ -1,7 +1,7 @@
 "use strict";
-import {changeLevel, Character, levelOnStart} from "../../JumperBase/base.js"
-import {TRG_lever_door} from "../../JumperBase/triggers.js"
-import { level } from "../start.js";
+import {changeLevel, Character, levelOnStart} from "../JumperBase/base.js" // "../../JumperBase/base.js"
+import {TRG_lever_door} from "../JumperBase/triggers.js" // "../../JumperBase/triggers.js"
+import { level } from "../start.js"; // "../../start.js"
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
  { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30 },
@@ -11,8 +11,8 @@ const platforms = [
 //maximum height where platform can be replaced
  { id: 5, x: 700, y: 0, width: 100, height: 120, type: "simple", color: "green", texture: "grass", visible: true },
 //maximum height of platform
- { id: 6.5, x: 466, y: 0, width: 36, height: 150, type: "ghost",  color: "transparent", texture: "clear", visible: true, blockHeight: 150, blockY: 0 },
- { id: 6, x: 468, y: 0, width: 32, height: 150, type: "door",     color: "brown", texture: "wall", visible: true,
+ { id: 6.5, x: 466, y: 0, width: 36, height: 150, type: "ghost", color: "transparent", texture: "clear", visible: true, blockHeight: 150, blockY: 0 },
+ { id: 6, x: 468, y: 0, width: 32, height: 150, type: "door",    color: "brown", texture: "wall", visible: true,
     doorState: "close", doorHeight: 150, doorY: 0, doorX: 468, doorXd: "left" },
  //second part must be first in array
  //x cords must be equal in "id: 6, x: 468" and "doorX: 468"
@@ -21,8 +21,16 @@ const platforms = [
  //second part of door must has id: [doorID] + 0.5
  //y cords must be equal in "id: 6.5, y: 0" and "blockY: 0"
  //heights must be equal in "id: 6.5, height: 150" and "blockHeight: 150"
- { id: 7, x: 540, y: 0, width: 20, height: 20, type: "lever",   color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
+ { id: 7, x: 540, y: 0, width: 20, height: 20, type: "lever", color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
 //door and lever
+ { id: 8, x: 280, y: 400, width: 40, height: 40, type: "star", color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
+//star
+ { id: 10, x: 500, y: 260, width: 40, height: 40, type: "star", color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
+ { id: 9, x: 468, y: 230, width: 150, height: 100, type: "fake", color: "green", texture: "dirt", visible: false },
+ //it works how ghost platform, but dissapiare when intersect with jumper
+ //star must be behind fake platform
+//fake platform and star combination
+
 ];
 const backscreen2 = [
     { id: 1, x: 630, y: 0, width: 100, height: 60, type: "simple", texture: "grass" },
@@ -34,7 +42,7 @@ const frontscreen = [
 
 ]
 const enemys = [
-    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy"),
+    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy", 50, 0), //50 and 0 is width and height enemy's path
 
 ]
 

@@ -282,7 +282,7 @@ function redrawAll(time)
             OVL.draw1();
         }
 
-        if (levelLoaded)
+        if (levelLoaded && TheCounter.counter % 30 == 0 && !DEVparametrs.SSstop)
         {
             SPL.writeInMemory(level);
         }

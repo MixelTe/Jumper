@@ -29,12 +29,19 @@ const btn12 ={
     x: 20, y: 230, width: 120, height: 60, color: "darkblue", Tcolor: "yellow", value: "SstorageClear",
     Tvalue: "clear", Tx: 3, Ty: 31, Tscale: 20, type: "duble", Tvalue2: "storage", Tx2: 47, Ty2: 18, Tscale2: 20
 };
+const btn125 = { x: 140, y: 230, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "SsorageStop", Tvalue: "SSstop", Tx: 1, Ty: 22, Tscale: 18 };
+
 
 const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "plID", Tvalue: "ID", Tx: 11, Ty: 16, Tscale: 40 };
 const btn14 = { x: 90, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "screens", Tvalue: "Scr", Tx: 4, Ty: 16, Tscale: 35 };
 const btn15 = { x: 260, y: 7, width: 34, height: 30, color: "lightblue", Tcolor: "yellow", value: "fps", Tvalue: "", Tx: 4, Ty: 16, Tscale: 35, counter: 0 };
 
-const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn13, btn14, btn15]
+const btn16 = { x: 218, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_enemy", Tvalue: "E", Tx: 6, Ty: 6, Tscale: 25 };
+const btn18 = { x: 252, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_grafics", Tvalue: "G", Tx: 5, Ty: 6, Tscale: 25 };
+const btn17 = { x: 218, y: 456, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_overlays", Tvalue: "O", Tx: 5, Ty: 6, Tscale: 25 };
+const btn19 = { x: 252, y: 456, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_screens", Tvalue: "S", Tx: 7, Ty: 6, Tscale: 25 };
+
+const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn125, btn13, btn14, btn15, btn16, btn17, btn18, btn19]
 
 //===============
 ctx2.translate(0, canva.height);
@@ -197,6 +204,20 @@ function DEVclick(event)
             sessionStorage.clear();
             break;
 
+         case "SsorageStop":
+            if (DEVparametrs.SSstop)
+            {
+                DEVparametrs.SSstop = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                DEVparametrs.SSstop = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
         case "plID":
             if (DEVparametrs.id)
             {
@@ -237,6 +258,61 @@ function DEVclick(event)
                 clickButton.color = "rgba(141, 0, 207, 0.6)";
             }
             DEVinterFrame();
+            DEVredrawAll();
+            break;
+        case "M_enemy":
+            if (Misha.enemy)
+            {
+                Misha.enemy = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                Misha.enemy = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
+        case "M_grafics":
+            if (Misha.grafics)
+            {
+                Misha.grafics = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                Misha.grafics = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
+        case "M_overlays":
+            if (Misha.overlays)
+            {
+                Misha.overlays = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                Misha.overlays = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
+        case "M_screens":
+            if (Misha.screens)
+            {
+                Misha.screens = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                Misha.screens = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
             DEVredrawAll();
             break;
 

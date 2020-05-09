@@ -214,10 +214,14 @@ function PLM_star(plm)
 function PLM_fake(plm)
 {
     ctx.save();
-    if (Misha.grafics)
-    {
-        plm.visible = false;
-    }
+    // if (Misha.grafics)
+    // {
+    //     plm.visible = false;
+    // }
+    // else
+    // {
+    //     plm.visible = true;
+    // }
     drawPlatform(plm);
     ctx.restore();
 }

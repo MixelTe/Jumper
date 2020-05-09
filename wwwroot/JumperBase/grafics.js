@@ -283,7 +283,7 @@ export function textures()
                 {
                     ctx.globalAlpha = 0;
                 }
-                ctx.translate(0, plt.height - 2);
+                ctx.translate(0, plt.height - 1);
                 ctx.scale(1, -1);
                 drawTexture(plt);
             }
