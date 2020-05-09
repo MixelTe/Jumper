@@ -83,7 +83,7 @@ export function ChangeLevel()
         import("./jumper_lvls/levelBase.js").then((m) =>
         {
             console.log('%cmodule №' + level + ' loaded', 'color: gray;');
-            requestGameChange("levelBase", m);
+            requestGameChange("levelStarted", m);
         });
     }
     else

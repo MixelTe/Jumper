@@ -553,7 +553,7 @@ function KeyUpControl(event)
             }
             else
             {
-                console.error("base: line 500: function KeyUpControl: enemy is disable")
+                console.error("base: function KeyUpControl: enemy is disable")
             }
             break;
         default:
@@ -590,7 +590,7 @@ export function CharacterControl(character, event, type)
                 break;
 
             default:
-                console.error("base: line 522: function CharacterControl: type = 'down': event don't exist")
+                console.error("base: function CharacterControl: type = 'down': event don't exist")
                 break;
         }
     }
@@ -620,7 +620,7 @@ export function CharacterControl(character, event, type)
                 break;
 
             default:
-                console.error("base: line 522: function CharacterControl: type = 'up': event don't exist")
+                console.error("base: function CharacterControl: type = 'up': event don't exist")
                 break;
         }
     }
@@ -633,9 +633,62 @@ export function CharacterControl(character, event, type)
 canva.addEventListener('click', function (event) { onClick(event) })
 function onClick(event)
 {
-    MUS.MUS_click(event)
+    let x = 0;
+    let y = 0;
+    if (fs_active)
+    {
+        x = event.pageX;
+        y = event.pageY;
+
+        x -= (screen.width - canva.width * fs_newScale) / 2;
+        y = y / fs_newScale;
+
+        x = x / fs_newScale;
+        y = Math.abs(y - canva.height);
+        console.log(x, y)
+    }
+    else
+    {
+        x = event.pageX;
+        y = event.pageY;
+
+        x -= canva.offsetLeft;
+        y = Math.abs(y - canva.offsetTop - canva.height);
+    }
+    MUS.MUS_click(event, x, y)
     if (game.state == "inMenu")
     {
-        menuClick(event);
+        menuClick(event, x, y);
+    }
+}
+
+
+document.addEventListener('fullscreenchange', (event) => { fullScreen(); });
+let fs_newScale = 0;
+let fs_newTop = 0;
+let fs_newLeft = 0;
+let fs_active = false;
+const fullScreenbutton = document.getElementById("fullScreenbutton");
+fullScreenbutton.onclick = function () { document.documentElement.requestFullscreen(); };
+function fullScreen()
+{
+    if (fs_active == false)
+    {
+        fs_newScale = screen.height / canva.height;
+        fs_newTop = (canva.height * fs_newScale - canva.height) / 2;
+        fs_newLeft = (canva.width * fs_newScale - canva.width) / 2 + (screen.width - canva.width * fs_newScale) / 2;
+        fs_active = true;
+        canva.style.transform = `scale(${fs_newScale})`;
+        canva.style.position = "absolute";
+        canva.style.top = `${fs_newTop - 3}px`;
+        canva.style.left = `${fs_newLeft}px`;
+        fullScreenbutton.style.display = "none";
+    }
+    else
+    {
+        fs_active = false;
+        canva.style.transform = `scale(1)`;
+        canva.style.position = "unset";
+        fullScreenbutton.style.display = "inline";
     }
 }

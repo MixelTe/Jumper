@@ -81,12 +81,8 @@ function drawButton(button)
 }
 
 // canva.addEventListener('click', function (event) { click(event) })
-export function click(event)
+export function click(event, x, y)
 {
-    let x = event.pageX;
-    let y = event.pageY;
-    x -= canva.offsetLeft;
-    y = Math.abs(y - canva.offsetTop - canva.height);
     let clickButton = null;
     for (let i = 0; i < buttons.length; i++)
     {
