@@ -62,7 +62,16 @@ export class Character
         this.snowding = false;
         this.snowbum = false;
         this.alive = true;
-        this.movementPath = {width: pathW, height: pathH};
+        this.movementPath = { width: pathW, height: pathH };
+        this.scale = {};
+        this.scale.x = 1;
+        this.scale.y = 1;
+        this.scale.counter = 0;
+        this.translate = {};
+        this.translate.x = 0;
+        this.translate.y = 0;
+        this.textureCounter = 0;
+        this.textureImg = 0;
     }
     writePast()
     {
@@ -352,7 +361,7 @@ function drawJumper()
 
     if (Misha.grafics)
     {
-        GRC.jumperTextures()
+        GRC.jumperTextures(jumper)
     }
 
     ctx.restore();

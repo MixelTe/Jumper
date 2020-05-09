@@ -1,5 +1,5 @@
 "use strict";
-import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow} from "./base.js"
+import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, enemys} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import {logics} from "./platforms.js"
 import { star } from "./overlay.js";
@@ -19,18 +19,10 @@ Misha.liftStyle = 0;
 Misha.jumperImgLoad = 0;
 Misha.jumperImgAll = 2;
 Misha.jumperCounter = 0;
-Misha.jumperImg = 0;
 
 Misha.jumper = {};
 Misha.jumper.width = 60;
 Misha.jumper.height = 60;
-Misha.jumper.scale = {};
-Misha.jumper.scale.x = 1;
-Misha.jumper.scale.y = 1;
-Misha.jumper.translate = {};
-Misha.jumper.translate.x = 0;
-Misha.jumper.translate.y = 0;
-Misha.jumper.scale.counter = 0;
 
 let ptrnDirt;
 let ptrnDirt2;
@@ -507,12 +499,12 @@ function GRC_lift(obj)
     Misha.lift += 1;
 }
 
-export function jumperTextures()
+export function jumperTextures(chr)
 {
     if (Misha.jumperImgLoad == Misha.jumperImgAll)
     {
         ctx.save();
-        switch (jumper.direction)
+        switch (chr.direction)
         {
             case "right":
                 ctx.translate(-10, 53);
@@ -528,25 +520,25 @@ export function jumperTextures()
                 break;
         }
 
-        ctx.scale(Misha.jumper.scale.x, Misha.jumper.scale.y);
-        ctx.translate(Misha.jumper.translate.x, Misha.jumper.translate.y);
+        ctx.scale(chr.scale.x, chr.scale.y);
+        ctx.translate(chr.translate.x, chr.translate.y);
 
-        switch (jumper.state)
+        switch (chr.state)
         {
             case "stoped":
-                GRC_jumper_stoped();
+                GRC_jumper_stoped(chr);
                 break;
 
             case "jumping":
-                GRC_jumper_jumping();
+                GRC_jumper_jumping(chr);
                 break;
 
             case "falling":
-                GRC_jumper_falling();
+                GRC_jumper_falling(chr);
                 break;
 
             case "going":
-                GRC_jumper_going();
+                GRC_jumper_going(chr);
                 break;
 
             default:
@@ -554,75 +546,74 @@ export function jumperTextures()
         }
         ctx.restore();
 
-        Misha.jumper.scale.counter += 1;
-        if (Misha.jumper.scale.counter == 8)
+        chr.scale.counter += 1;
+        if (chr.scale.counter == 8)
         {
-            Misha.jumper.scale.x = 1;
-            Misha.jumper.scale.y = 1;
-            Misha.jumper.translate.x = 0;
-            Misha.jumper.translate.y = 0;
+            chr.scale.x = 1;
+            chr.scale.y = 1;
+            chr.translate.x = 0;
+            chr.translate.y = 0;
         }
 
-        switch (jumper.flattening)
+        switch (chr.flattening)
         {
             case "hit":
-                if (jumper.statePast == "falling" || jumper.statePast == "jumping")
+                if (chr.statePast == "falling" || chr.statePast == "jumping")
                 {
-                    Misha.jumper.scale.x = 0.6;
-                    Misha.jumper.scale.y = 1.2;
-                    Misha.jumper.translate.x = 35;
-                    Misha.jumper.translate.y = 0;
+                    chr.scale.x = 0.6;
+                    chr.scale.y = 1.2;
+                    chr.translate.x = 35;
+                    chr.translate.y = 0;
 
-                    Misha.jumper.scale.counter = 0;
-                    jumper.flattening = "normal";
+                    chr.scale.counter = 0;
+                    chr.flattening = "normal";
                 }
                 break;
             default:
                 break;
         }
 
-        if (jumper.statePast != jumper.state)
+        if (chr.statePast != chr.state)
         {
-            if (jumper.statePast == "falling")
+            if (chr.statePast == "falling")
             {
-                Misha.jumper.scale.x = 1.2;
-                Misha.jumper.scale.y = 0.6;
-                Misha.jumper.translate.x = 0;
-                Misha.jumper.translate.y = 35;
+                chr.scale.x = 1.2;
+                chr.scale.y = 0.6;
+                chr.translate.x = 0;
+                chr.translate.y = 35;
 
-                Misha.jumper.scale.counter = 0;
+                chr.scale.counter = 0;
             }
-            jumper.statePast = jumper.state;
-            Misha.jumperCounter = 0;
-            // Misha.jumperImg = 0;
+            chr.statePast = chr.state;
+            chr.textureCounter = 0;
         }
     }
 }
-function GRC_jumper_jumping()
+function GRC_jumper_jumping(chr)
 {
-    ctx.drawImage(imgsJumper, 200 * Misha.jumperImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
+    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
 
-    Misha.jumperCounter += 1;
-    switch (Misha.jumperCounter)
+    chr.textureCounter += 1;
+    switch (chr.textureCounter)
     {
         case 1:
-            Misha.jumperImg = 1;
+            chr.textureImg = 1;
             break;
 
         case 3:
-            Misha.jumperImg = 2;
+            chr.textureImg = 2;
             break;
 
         case 5:
-            Misha.jumperImg = 3;
+            chr.textureImg = 3;
             break;
 
         case 7:
-            Misha.jumperImg = 4;
+            chr.textureImg = 4;
             break;
 
         case 9:
-            Misha.jumperImg = 5;
+            chr.textureImg = 5;
             break;
 
         default:
@@ -631,47 +622,47 @@ function GRC_jumper_jumping()
 
 }
 
-function GRC_jumper_falling()
+function GRC_jumper_falling(chr)
 {
-    ctx.drawImage(imgsJumper, 200 * Misha.jumperImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    Misha.jumperCounter += 1;
-    switch (Misha.jumperCounter)
+    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
+    chr.textureCounter += 1;
+    switch (chr.textureCounter)
     {
         case 1:
-            Misha.jumperImg = 9;
+            chr.textureImg = 9;
             break;
 
         case 2:
-            Misha.jumperImg = 10;
+            chr.textureImg = 10;
             break;
 
         case 4:
-            Misha.jumperImg = 11;
+            chr.textureImg = 11;
             break;
 
         case 6:
-            Misha.jumperImg = 12;
+            chr.textureImg = 12;
             break;
 
         case 8:
-            Misha.jumperImg = 13;
+            chr.textureImg = 13;
             break;
 
         case 10:
-            Misha.jumperImg = 14;
+            chr.textureImg = 14;
             break;
 
         case 12:
-            Misha.jumperImg = 15;
+            chr.textureImg = 15;
             break;
 
         case 14:
-            Misha.jumperImg = 16;
+            chr.textureImg = 16;
             break;
 
         case 16:
-            Misha.jumperImg = 17;
-            Misha.jumperCounter = 0;
+            chr.textureImg = 17;
+            chr.textureCounter = 0;
             break;
 
         default:
@@ -680,39 +671,39 @@ function GRC_jumper_falling()
 
 }
 
-function GRC_jumper_going()
+function GRC_jumper_going(chr)
 {
-    ctx.drawImage(imgsJumper, 200 * Misha.jumperImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    Misha.jumperCounter += 1;
-    switch (Misha.jumperCounter)
+    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
+    chr.textureCounter += 1;
+    switch (chr.textureCounter)
     {
         case 1:
-            Misha.jumperImg = 17;
+            chr.textureImg = 17;
             break;
 
         case 12:
-            Misha.jumperImg = 18;
+            chr.textureImg = 18;
             break;
 
         case 18:
-            Misha.jumperImg = 19;
+            chr.textureImg = 19;
             break;
 
         case 24:
-            Misha.jumperImg = 20;
+            chr.textureImg = 20;
             break;
 
         case 30:
-            Misha.jumperImg = 21;
+            chr.textureImg = 21;
             break;
 
         case 36:
-            Misha.jumperImg = 22;
+            chr.textureImg = 22;
             break;
 
         case 42:
-            Misha.jumperImg = 0;
-            Misha.jumperCounter = -5;
+            chr.textureImg = 0;
+            chr.textureCounter = -5;
             break;
 
         default:
@@ -720,34 +711,33 @@ function GRC_jumper_going()
     }
 }
 
-function GRC_jumper_stoped()
+function GRC_jumper_stoped(chr)
 {
     // ctx.drawImage(imgsJumper[1], 0, 0, Misha.jumper.width, Misha.jumper.height);
-    ctx.drawImage(imgsJumper, 200 * Misha.jumperImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    Misha.jumperCounter += 1;
-    switch (Misha.jumperCounter)
+    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
+    chr.textureCounter += 1;
+    switch (chr.textureCounter)
     {
         case 1:
-            Misha.jumperImg = 0;
+            chr.textureImg = 0;
             break;
 
         case 90:
-            Misha.jumperImg = 23;
+            chr.textureImg = 23;
             break;
 
         case 95:
-            Misha.jumperImg = 0;
+            chr.textureImg = 0;
             break;
 
         case 400:
-            Misha.jumperCounter = 0;
+            chr.textureCounter = 0;
             break;
 
         default:
             break;
     }
 }
-
 
 
 export function SPL_direction_write()
@@ -780,12 +770,7 @@ class Portal
 Misha.grafic.portal = [];
 export function portal()
 {
-    const tempScreen = {};
-    tempScreen.x = -WorldAnchor.x;
-    tempScreen.y = -WorldAnchor.y;
-    tempScreen.width = canva.width;
-    tempScreen.height = canva.height;
-    if (rectIntersect(lvlend, tempScreen))
+    if (rectIntersect(lvlend, gameWindow))
     {
         ctx.save();
         // ctx.beginPath();

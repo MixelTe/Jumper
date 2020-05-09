@@ -2,6 +2,7 @@
 import {Cgravity, Cmovement} from "./movement.js"
 import {ctx, platforms, enemys, CharacterControl, gameWindow} from "./base.js"
 import { rectIntersect } from "./Functions.js";
+import { jumperTextures } from "./grafics.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.enemy = true;
 
@@ -11,15 +12,21 @@ function drawEnemy(enemy)
     ctx.save();
     ctx.translate(enemy.x, enemy.y);
 
+    if (Misha.grafics)
+    {
+        jumperTextures(enemy);
+    }
+    else
+    {
+        ctx.lineWidth = 5;
+        ctx.strokeStyle = "darkorange";
+        ctx.beginPath();
+        ctx.arc(enemy.width / 2, enemy.height / 2, 16, 0, Math.PI * 2, true);
+        ctx.stroke();
+        ctx.lineWidth = 1;
+    }
     // ctx.strokeStyle = "white";
     // ctx.strokeRect(0, 0, jumper.width, jumper.height);
-
-    ctx.lineWidth = 5;
-    ctx.strokeStyle = "darkorange";
-    ctx.beginPath();
-    ctx.arc(enemy.width / 2, enemy.height / 2, 16, 0, Math.PI * 2, true);
-    ctx.stroke();
-    ctx.lineWidth = 1;
 
     ctx.restore();
 }
