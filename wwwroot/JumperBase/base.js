@@ -121,8 +121,8 @@ export class Character
     }
 }
 
-let controlCharacter = 0;
-let selectedCharacter = 0;
+export let controlCharacter = 0;
+export let selectedCharacter = 0;
 
 export const ding = document.getElementById("ding");
 const ding2 = document.getElementById("ding2");
@@ -511,7 +511,18 @@ function KeyDownControl(event)
         case 1:
             if (Misha.enemy)
             {
-                CharacterControl(enemys[selectedCharacter], event, "down");
+                if (enemys.length > 0)
+                {
+                    CharacterControl(enemys[selectedCharacter], event, "down");
+                }
+                else
+                {
+                    console.error("base: function KeyDownControl: enemy list is empty");
+                }
+            }
+            else
+            {
+                console.error("base: function KeyDownControl: enemy is disable");
             }
             break;
         default:
@@ -566,7 +577,14 @@ function KeyUpControl(event)
         case 1:
             if (Misha.enemy)
             {
-                CharacterControl(enemys[selectedCharacter], event, "up");
+                if (enemys.length > 0)
+                {
+                    CharacterControl(enemys[selectedCharacter], event, "up");
+                }
+                else
+                {
+                    console.error("base: function KeyUpControl: enemy list is empty");
+                }
             }
             else
             {

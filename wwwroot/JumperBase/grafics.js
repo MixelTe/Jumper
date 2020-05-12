@@ -547,7 +547,7 @@ export function jumperTextures(chr)
         ctx.restore();
 
         chr.scale.counter += 1;
-        if (chr.scale.counter == 8)
+        if (chr.scale.counter == 5)
         {
             chr.scale.x = 1;
             chr.scale.y = 1;

@@ -1,6 +1,6 @@
 "use strict";
 import {Cgravity, Cmovement} from "./movement.js"
-import {ctx, platforms, enemys, CharacterControl, gameWindow} from "./base.js"
+import {ctx, platforms, enemys, CharacterControl, gameWindow, selectedCharacter, controlCharacter} from "./base.js"
 import { rectIntersect } from "./Functions.js";
 import { jumperTextures } from "./grafics.js";
 window.Misha = window.Misha || Object.create(null);
@@ -50,7 +50,10 @@ export function gravity()
         {
             Cgravity(el);
             Cmovement(el);
-            enemyAI(el);
+            if (controlCharacter % 2 == 0 || selectedCharacter != i )
+            {
+                enemyAI(el);
+            }
             el.plinks();
         }
     }
