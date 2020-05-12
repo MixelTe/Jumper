@@ -4,11 +4,11 @@ import { fileLoaded } from "./loading.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.overlays = true;
 const overlay = {};
-overlay.imgs = {};
-overlay.img = {};
-overlay.sounds = {};
+overlay.files = {};
 
 overlay.stars = { x: 20, y: 20, count: 3, stared: 0 };
+overlay.Vlife = { x: 685, y: 5, width: 90, height: 90, count: 4 };
+window.Vlife = overlay.Vlife;
 export let star = null;
 export let starColected = null;
 export function starCountChange(newCount)
@@ -31,30 +31,42 @@ export function staredStarsCount()
 OVL_loadFiles();
 function OVL_loadFiles()
 {
-    overlay.imgs.star = new Image();
-    overlay.imgs.star.src = "pictures/star.png";
-    overlay.imgs.star.onload = function ()
+    overlay.files.star = {};
+    overlay.files.star.f = new Image();
+    overlay.files.star.f.src = "pictures/star.png";
+    overlay.files.star.f.onload = function ()
     {
-        star = overlay.imgs.star;
-        overlay.img.star = true;
+        star = overlay.files.star.f;
+        overlay.files.star.loaded = true;
         fileLoaded();
     }
 
-    overlay.imgs.starframe = new Image();
-    overlay.imgs.starframe.src = "pictures/starframe.png";
-    overlay.imgs.starframe.onload = function ()
+    overlay.files.starframe = {};
+    overlay.files.starframe.f = new Image();
+    overlay.files.starframe.f.src = "pictures/starframe.png";
+    overlay.files.starframe.f.onload = function ()
     {
-        overlay.img.starframe = true;
+        overlay.files.starframe.loaded = true;
         fileLoaded();
     }
 
-    overlay.sounds.starColected = document.createElement("AUDIO");
-    overlay.sounds.starColected.src = "sounds/starcolected.mp3";
-    overlay.sounds.starColected.onloadeddata = function ()
+    overlay.files.starColected = {};
+    overlay.files.starColected.f = document.createElement("AUDIO");
+    overlay.files.starColected.f.src = "sounds/starcolected.mp3";
+    overlay.files.starColected.f.onloadeddata = function ()
     {
+        starColected = overlay.files.starColected.f;
         fileLoaded();
     };
-    starColected = overlay.sounds.starColected;
+
+    overlay.files.Vlife = {};
+    overlay.files.Vlife.f = new Image();
+    overlay.files.Vlife.f.src = "pictures/Vlife.png";
+    overlay.files.Vlife.f.onload = function ()
+    {
+        overlay.files.Vlife.loaded = true;
+        fileLoaded();
+    }
 
 }
 
@@ -73,20 +85,25 @@ export function draw1()
     ctx.fillText("Coins: " + coins.value, 0, 0);
     ctx.restore();
 
-    if (overlay.img.starframe == true)
+    if (overlay.files.starframe.loaded == true)
     {
         for (let i = 0; i < overlay.stars.count; i++)
         {
-            ctx.drawImage(overlay.imgs.starframe, 20 + 74 * i, 20, 64, 64);
+            ctx.drawImage(overlay.files.starframe.f, 20 + 74 * i, 20, 64, 64);
         }
     }
 
-    if (overlay.img.star == true)
+    if (overlay.files.star.loaded == true)
     {
         for (let i = 0; i < overlay.stars.stared; i++)
         {
-            ctx.drawImage(overlay.imgs.star, 20 + 74 * i, 20, 64, 64);
+            ctx.drawImage(overlay.files.star.f, 20 + 74 * i, 20, 64, 64);
         }
+    }
+
+    if (overlay.files.Vlife.loaded == true)
+    {
+        ctx.drawImage(overlay.files.Vlife.f, 250 * overlay.Vlife.count, 0, 250, 250, overlay.Vlife.x, overlay.Vlife.y, overlay.Vlife.width, overlay.Vlife.height);
     }
 
     ctx.restore();
