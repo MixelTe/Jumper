@@ -1,10 +1,11 @@
 "use strict";
-import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, enemys} from "./base.js"
+import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, TheCounter} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import { star } from "./overlay.js";
 import { fileLoaded } from "./loading.js";
 import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../jumperAnimations/jumper.js";
 import { enemy_stoped, enemy_going } from "../jumperAnimations/enemy.js";
+import { drawPlatforms } from "./platforms.js";
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -18,7 +19,7 @@ Misha.lift = 0;
 Misha.liftStyle = 0;
 
 Misha.jumperImgLoad = 0;
-Misha.jumperImgAll = 3;
+Misha.jumperImgAll = 5;
 Misha.jumperCounter = 0;
 
 let ptrnDirt;
@@ -30,13 +31,13 @@ let ptrnGrass;
 let ptrnBackGrass;
 export let imgsJumper;
 export let imgsEnemy;
+let imgsPortal;
+let imgsPortal2;
 let ptrnWoodX;
 let ptrnWoodY;
 let ptrnWall;
 let ptrnLian;
 let imgsLever;
-
-// window.onload = function () { cratePatterns(); crateImges(); };
 
 export function crateImges()
 {
@@ -63,6 +64,23 @@ export function crateImges()
         Misha.jumperImgLoad += 1;
         fileLoaded();
     }
+
+    imgsPortal = new Image();
+    imgsPortal.src = "pictures/portal.png";
+    imgsPortal.onload = function ()
+    {
+        Misha.jumperImgLoad += 1;
+        fileLoaded();
+    }
+
+    imgsPortal2 = new Image();
+    imgsPortal2.src = "pictures/portal2.png";
+    imgsPortal2.onload = function ()
+    {
+        Misha.jumperImgLoad += 1;
+        fileLoaded();
+    }
+
 }
 
 export function cratePatterns()
@@ -666,7 +684,11 @@ class Portal
         this.counter = counter;
     }
 }
-Misha.grafic.portal = [];
+const EndPortal = {};
+EndPortal.particles = [];
+EndPortal.frameImg = 0;
+EndPortal.border = -2;
+
 export function portal()
 {
     if (rectIntersect(lvlend, gameWindow))
@@ -675,21 +697,22 @@ export function portal()
         // ctx.beginPath();
         // ctx.arc(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, 25, 0, Math.PI * 2);
         // ctx.clip();
-        if (Misha.grafic.portal.length < 50)
+        if (EndPortal.particles.length < 70)
         {
             const red = random_num(255, 255);
             const green = random_num(0, 255);
             const blue = random_num(0, 0);
             const newColor = `rgb(${red}, ${green}, ${blue})`;
-            Misha.grafic.portal.push(new Portal(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, 8, 8, "ghost", newColor, false, 0));
+            const width = random_num(6, 10);
+            EndPortal.particles.push(new Portal(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, width, width, "ghost", newColor, false, 0));
         }
-        for (let i = 0; i < Misha.grafic.portal.length; i++)
+        for (let i = 0; i < EndPortal.particles.length; i++)
         {
-            const el = Misha.grafic.portal[i];
+            const el = EndPortal.particles[i];
             el.x += random_upNdown(1);
-            el.x = Math.max(Math.min(el.x, lvlend.x + lvlend.width), lvlend.x);
+            el.x = Math.max(Math.min(el.x, lvlend.x + lvlend.width - EndPortal.border), lvlend.x - el.width + EndPortal.border);
             el.y += random_upNdown(1);
-            el.y = Math.max(Math.min(el.y, lvlend.y + lvlend.height), lvlend.y);
+            el.y = Math.max(Math.min(el.y, lvlend.y + lvlend.height - EndPortal.border), lvlend.y - el.height + EndPortal.border);
 
             if (el.counter == 10)
             {
@@ -701,6 +724,41 @@ export function portal()
             }
             el.counter += random_num(0, 2);
         }
+        ctx.restore();
+    }
+}
+
+export function drawPortal()
+{
+    let alpha = 0
+    let alphaI = 1
+    let a = 50;
+    if (TheCounter.counter % a > a/2)
+    {
+        alpha = ((TheCounter.counter % a)) / a;
+        alphaI = (a - (TheCounter.counter % a)) / a;
+    }
+    else
+    {
+        alpha = (a - (TheCounter.counter % a)) / a;
+        alphaI = ((TheCounter.counter % a)) / a;
+    }
+
+    drawPlatforms(EndPortal.particles);
+    if (Misha.jumperImgLoad == Misha.jumperImgAll)
+    {
+        ctx.save();
+        ctx.translate(lvlend.x + lvlend.width / 2, lvlend.y + lvlend.height / 2);
+        ctx.rotate((TheCounter.counter % 360) * (Math.PI / 90));
+        ctx.globalAlpha = alpha;
+        ctx.drawImage(imgsPortal, -(lvlend.width / 2 + 10), -(lvlend.height / 2 + 10), lvlend.width + 20, lvlend.height + 20);
+        ctx.restore();
+
+        ctx.save();
+        ctx.translate(lvlend.x + lvlend.width / 2, lvlend.y + lvlend.height / 2);
+        ctx.rotate(-(TheCounter.counter % 360) * (Math.PI / 90));
+        ctx.globalAlpha = alphaI;
+        ctx.drawImage(imgsPortal2, -(lvlend.width / 2 + 15), -(lvlend.height / 2 + 15), lvlend.width + 30, lvlend.height + 30);
         ctx.restore();
     }
 }

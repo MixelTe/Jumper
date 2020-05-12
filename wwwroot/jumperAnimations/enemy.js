@@ -4,7 +4,7 @@ import { ctx, coins } from "../JumperBase/base.js";
 const width = 64;
 const height = 64;
 const x = 0;
-const y = 5;
+const y = 4;
 
 
 export function enemy_going(chr)

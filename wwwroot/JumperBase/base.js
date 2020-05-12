@@ -286,7 +286,7 @@ function redrawAll(time)
 
             if (Misha.grafics)
             {
-                PLM.drawPlatforms(Misha.grafic.portal);
+                GRC.drawPortal()
             }
 
             if (Misha.screens)
@@ -324,6 +324,14 @@ function redrawAll(time)
     {
         MUS.ost_write();
     }
+    // ctx.save();
+    // ctx.translate(20, 20);
+    // ctx.scale(1, -1)
+    // ctx.fillStyle = "black";
+    // ctx.font = "30px Arial";
+    // ctx.fillText(TheCounter.counter % 12, 35, 0);
+    // ctx.restore();
+
     requestAnimationFrame(redrawAll);
 }
 
