@@ -74,6 +74,7 @@ export class Character
         this.translate.y = 0;
         this.textureCounter = 0;
         this.textureImg = 0;
+        this.restoreInformation = { x, y, visible, direction: this.direction };
     }
     writePast()
     {

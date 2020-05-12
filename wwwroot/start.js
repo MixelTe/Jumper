@@ -131,6 +131,20 @@ export function restoreLevel(platforms, lvl)
         {
             const index = findWhithId(platforms, el.id);
             platforms.splice(index, 1);
+
+            el.jumpAcc = 0;
+            el.jumpSpeed = 0;
+            el.ground = 0;
+            el.floor = 0;
+            el.jmSpeed = 0;
+            el.moveSpeed = 0;
+            el.moveAcc = 0;
+            el.alive = true;
+
+            el.x = el.restoreInformation.x;
+            el.y = el.restoreInformation.y;
+            el.visible = el.restoreInformation.visible;
+            el.direction = el.restoreInformation.direction;
         }
         PLM_forLevelRestore();
     }
