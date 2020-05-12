@@ -659,7 +659,7 @@ export function CharacterControl(character, event, type)
 
             case "down":
                 character.mass = character.massUnchange * 5;
-                Misha.music.ost.play();
+                MUS.ost.play();
                 break;
 
             default:

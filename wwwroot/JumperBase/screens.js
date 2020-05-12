@@ -5,15 +5,15 @@ import {drawTexture, GRC_grass} from "./grafics.js"
 import { fileLoaded } from "./loading.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.screens = true;
-Misha.screen = {};
-Misha.screen.imgs = {};
-Misha.screen.img = {};
+const screen = {};
+screen.imgs = {};
+screen.img = {};
 
-Misha.screen.imgs.jumper = new Image();
-Misha.screen.imgs.jumper.src = "pictures/jumperfront.png";
-Misha.screen.imgs.jumper.onload = function ()
+screen.imgs.jumper = new Image();
+screen.imgs.jumper.src = "pictures/jumperfront.png";
+screen.imgs.jumper.onload = function ()
 {
-    Misha.screen.img.jumper = true;
+    screen.img.jumper = true;
     fileLoaded();
 }
 
@@ -98,7 +98,7 @@ export function frontscreen(elements)
                 ctx.fillText(el.id, -jumper.width, 0);
                 ctx.restore();
             }
-            if (rectIntersect(obj, jumper) && obj.width != 1 && Misha.screen.img.jumper == true)
+            if (rectIntersect(obj, jumper) && obj.width != 1 && screen.img.jumper == true)
             {
                 ctx.translate(jumper.x + jumper.width / 2 - 20, jumper.y + jumper.height / 2 + 20);
                 ctx.globalAlpha = 0.4;
@@ -110,7 +110,7 @@ export function frontscreen(elements)
                 ctx.fill();
 
                 ctx.globalAlpha = 0.6;
-                ctx.drawImage(Misha.screen.imgs.jumper, 0, 0, 40, 40);
+                ctx.drawImage(screen.imgs.jumper, 0, 0, 40, 40);
             }
             ctx.restore();
         }

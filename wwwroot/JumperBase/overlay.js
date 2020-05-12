@@ -19,9 +19,9 @@ export function starStaredChange(count)
 {
     overlay.stars.stared += count;
 }
-export function starStaredSet(count)
+export function starStaredSet(newCount)
 {
-    overlay.stars.stared = count;
+    overlay.stars.stared = newCount;
 }
 export function staredStarsCount()
 {

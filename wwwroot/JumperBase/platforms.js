@@ -3,7 +3,7 @@ import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow} from "./b
 import {rectIntersect, findWhithId} from "./Functions.js"
 import { starStaredChange, starColected } from "./overlay.js";
 window.Misha = window.Misha || Object.create(null);
-Misha.sounds = {}
+const sounds = {}
 function PLM_lifting(plm)
 {
     if (plm.height < plm.heightMax && plm.direction == "up")
@@ -40,20 +40,25 @@ function PLM_breakable(plm)
         }
     }
 }
-Misha.sounds.doorOpen = {};
-Misha.sounds.doorOpen.s = document.createElement("AUDIO");
-Misha.sounds.doorOpen.s.src = "sounds/doorOpen.mp3";
-Misha.sounds.doorOpen.played = false;
+sounds.doorOpen = {};
+sounds.doorOpen.s = document.createElement("AUDIO");
+sounds.doorOpen.s.src = "sounds/doorOpen.mp3";
+sounds.doorOpen.played = false;
 
-Misha.sounds.doorClose = {};
-Misha.sounds.doorClose.s = document.createElement("AUDIO");
-Misha.sounds.doorClose.s.src = "sounds/doorClose.mp3";
-Misha.sounds.doorClose.played = false;
+sounds.doorClose = {};
+sounds.doorClose.s = document.createElement("AUDIO");
+sounds.doorClose.s.src = "sounds/doorClose.mp3";
+sounds.doorClose.played = false;
 
-Misha.sounds.doorCloseEnd = {};
-Misha.sounds.doorCloseEnd.s = document.createElement("AUDIO");
-Misha.sounds.doorCloseEnd.s.src = "sounds/doorCloseEnd.mp3";
-Misha.sounds.doorCloseEnd.played = true;
+sounds.doorCloseEnd = {};
+sounds.doorCloseEnd.s = document.createElement("AUDIO");
+sounds.doorCloseEnd.s.src = "sounds/doorCloseEnd.mp3";
+sounds.doorCloseEnd.played = true;
+
+export function PLM_forLevelRestore()
+{
+    sounds.doorCloseEnd.played = true;
+}
 
 function PLM_door(plm)
 {
@@ -61,10 +66,10 @@ function PLM_door(plm)
     let blockN = findWhithId(platforms, plm.id + 0.5);
     switch (plm.doorState) {
         case "close":
-            if (!Misha.sounds.doorCloseEnd.played)
+            if (!sounds.doorCloseEnd.played)
             {
-                Misha.sounds.doorCloseEnd.s.play();
-                Misha.sounds.doorCloseEnd.played = true;
+                sounds.doorCloseEnd.s.play();
+                sounds.doorCloseEnd.played = true;
             }
 
             plm.height = plm.doorHeight;
@@ -81,8 +86,8 @@ function PLM_door(plm)
             break;
 
         case "opening":
-            Misha.sounds.doorCloseEnd.played = false;
-            Misha.sounds.doorClose.played = false;
+            sounds.doorCloseEnd.played = false;
+            sounds.doorClose.played = false;
             if (plm.y < plm.doorHeight - 20)
             {
                 plm.y += speed;
@@ -90,13 +95,13 @@ function PLM_door(plm)
                 PLM_door_shake(plm);
                 platforms[blockN].y += speed;
                 platforms[blockN].height -= speed;
-                if (Misha.sounds.doorOpen.played == false)
+                if (sounds.doorOpen.played == false)
                 {
-                    Misha.sounds.doorClose.s.pause();
-                    Misha.sounds.doorClose.s.currentTime = 0;
+                    sounds.doorClose.s.pause();
+                    sounds.doorClose.s.currentTime = 0;
 
-                    Misha.sounds.doorOpen.s.play();
-                    Misha.sounds.doorOpen.played = true;
+                    sounds.doorOpen.s.play();
+                    sounds.doorOpen.played = true;
                 }
             }
             else
@@ -111,7 +116,7 @@ function PLM_door(plm)
             break;
 
         case "closing":
-            Misha.sounds.doorOpen.played = false;
+            sounds.doorOpen.played = false;
             platforms[blockN].y = platforms[blockN].blockY;
             platforms[blockN].height = platforms[blockN].blockHeight;
             if (plm.y > plm.doorY)
@@ -119,13 +124,13 @@ function PLM_door(plm)
                 plm.y -= speed;
                 plm.height += speed;
                 PLM_door_shake(plm);
-                if (Misha.sounds.doorClose.played == false)
+                if (sounds.doorClose.played == false)
                 {
-                    Misha.sounds.doorOpen.s.pause();
-                    Misha.sounds.doorOpen.s.currentTime = 0;
+                    sounds.doorOpen.s.pause();
+                    sounds.doorOpen.s.currentTime = 0;
 
-                    Misha.sounds.doorClose.s.play();
-                    Misha.sounds.doorClose.played = true;
+                    sounds.doorClose.s.play();
+                    sounds.doorClose.played = true;
                 }
             }
             else
@@ -163,8 +168,8 @@ function PLM_door_shake(plm)
     }
 }
 
-Misha.sounds.lever = document.createElement("AUDIO");
-Misha.sounds.lever.src = "sounds/leverClick.mp3";
+sounds.lever = document.createElement("AUDIO");
+sounds.lever.src = "sounds/leverClick.mp3";
 
 function PLM_lever(plm)
 {
@@ -176,12 +181,12 @@ function PLM_lever(plm)
             {
                 case "off":
                     plm.leverState = "on";
-                    Misha.sounds.lever.play();
+                    sounds.lever.play();
                     break;
 
                 case "on":
                     plm.leverState = "off";
-                    Misha.sounds.lever.play();
+                    sounds.lever.play();
                     break;
 
                 default:

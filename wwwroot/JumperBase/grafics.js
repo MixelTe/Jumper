@@ -14,13 +14,11 @@ window.Misha = window.Misha || Object.create(null);
 // var z = 3; // портит window, то же самое, что window.z = 3
 
 Misha.grafics = true;
-Misha.grafic = {};
-Misha.lift = 0;
-Misha.liftStyle = 0;
+let lift = 0;
+let liftStyle = 0;
 
-Misha.jumperImgLoad = 0;
-Misha.jumperImgAll = 5;
-Misha.jumperCounter = 0;
+let jumperImgLoad = 0;
+const jumperImgAll = 5;
 
 let ptrnDirt;
 let ptrnDirt2;
@@ -45,7 +43,7 @@ export function crateImges()
     imgsJumper.src = "pictures/jumper.png";
     imgsJumper.onload = function ()
     {
-        Misha.jumperImgLoad += 1;
+        jumperImgLoad += 1;
         fileLoaded();
     }
 
@@ -53,7 +51,7 @@ export function crateImges()
     imgsEnemy.src = "pictures/enemy.png";
     imgsEnemy.onload = function ()
     {
-        Misha.jumperImgLoad += 1;
+        jumperImgLoad += 1;
         fileLoaded();
     }
 
@@ -61,7 +59,7 @@ export function crateImges()
     imgsLever.src = "pictures/lever.png";
     imgsLever.onload = function ()
     {
-        Misha.jumperImgLoad += 1;
+        jumperImgLoad += 1;
         fileLoaded();
     }
 
@@ -69,7 +67,7 @@ export function crateImges()
     imgsPortal.src = "pictures/portal.png";
     imgsPortal.onload = function ()
     {
-        Misha.jumperImgLoad += 1;
+        jumperImgLoad += 1;
         fileLoaded();
     }
 
@@ -77,7 +75,7 @@ export function crateImges()
     imgsPortal2.src = "pictures/portal2.png";
     imgsPortal2.onload = function ()
     {
-        Misha.jumperImgLoad += 1;
+        jumperImgLoad += 1;
         fileLoaded();
     }
 
@@ -425,7 +423,7 @@ function GRC_Wall(obj)
 
 function GRC_Lever(obj)
 {
-    if (Misha.jumperImgLoad == Misha.jumperImgAll)
+    if (jumperImgLoad == jumperImgAll)
     {
         switch (obj.leverState) {
             case "off":
@@ -454,57 +452,33 @@ function GRC_lift(obj)
     ctx.fillStyle = ptrnsLift[7];
     ctx.fillRect(0, 0, obj.width, obj.height);
 
-    switch (Misha.lift % 100)
+    switch (lift % 100)
     {
         case 0:
-            Misha.liftStyle = 0;
+            liftStyle = 0;
             break;
 
         case 20:
-            Misha.liftStyle = 1;
+            liftStyle = 1;
             break;
 
         case 40:
-            Misha.liftStyle = 2;
+            liftStyle = 2;
             break;
 
         case 60:
-            Misha.liftStyle = 3;
+            liftStyle = 3;
             break;
 
         case 80:
-            Misha.liftStyle = 4;
+            liftStyle = 4;
             break;
 
         default:
             break;
     }
 
-    switch (Misha.liftStyle)
-    {
-        case 0:
-            ctx.fillStyle = ptrnsLift[1];
-            break;
-
-        case 1:
-            ctx.fillStyle = ptrnsLift[2];
-            break;
-
-        case 2:
-            ctx.fillStyle = ptrnsLift[3];
-            break;
-
-        case 3:
-            ctx.fillStyle = ptrnsLift[4];
-            break;
-
-        case 4:
-            ctx.fillStyle = ptrnsLift[5];
-            break;
-
-        default:
-            break;
-    }
+    ctx.fillStyle = ptrnsLift[liftStyle + 1];
 
     ctx.save();
     ctx.translate(obj.width / 2 - 20, 0);
@@ -520,12 +494,12 @@ function GRC_lift(obj)
     ctx.fillStyle = ptrnsLift[8];
     ctx.fillRect(0, 0, obj.width, 16);
 
-    Misha.lift += 1;
+    lift += 1;
 }
 
 export function jumperTextures(chr)
 {
-    if (Misha.jumperImgLoad == Misha.jumperImgAll)
+    if (jumperImgLoad == jumperImgAll)
     {
         ctx.save();
         switch (chr.direction)
@@ -745,7 +719,7 @@ export function drawPortal()
     }
 
     drawPlatforms(EndPortal.particles);
-    if (Misha.jumperImgLoad == Misha.jumperImgAll)
+    if (jumperImgLoad == jumperImgAll)
     {
         ctx.save();
         ctx.translate(lvlend.x + lvlend.width / 2, lvlend.y + lvlend.height / 2);

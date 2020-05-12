@@ -3,6 +3,7 @@
 import { changeLevel, TheCounter, jumper, Character } from "./JumperBase/base.js";
 import { requestGameChange } from "./JumperBase/loading.js";
 import { findWhithId } from "./JumperBase/Functions.js";
+import { PLM_forLevelRestore } from "./JumperBase/platforms.js";
 
 if (sessionStorage.getItem("level") == null)
 {
@@ -131,6 +132,6 @@ export function restoreLevel(platforms, lvl)
             const index = findWhithId(platforms, el.id);
             platforms.splice(index, 1);
         }
-    Misha.sounds.doorCloseEnd.played = true;
+        PLM_forLevelRestore();
     }
 }
