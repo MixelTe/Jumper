@@ -14,7 +14,7 @@ const frontscreen = [
 ]
 
 const enemys = [
-    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy", 260, 0),
+    new Character(400, 0, 1.7, 1.1, 1.5, 14, true, "1e", "enemy", 260, 0),
 
 ]
 

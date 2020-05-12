@@ -25,7 +25,7 @@ export const DEVparametrs = { gravity: true, id: false, screens: false };
 
 export class Character
 {
-    constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, type, pathW, pathH)
+    constructor(x, y, mass, maxspeed, speedAcc, jumpForce, visible, id, AnimType, pathW, pathH)
     {
         this.x = x;
         this.y = y;
@@ -38,6 +38,7 @@ export class Character
         this.visible = visible;
         this.id = id;
         this.type = "character";
+        this.AnimType = AnimType;
         this.jumpAcc = 0;
         this.jumpSpeed = 0;
         this.jnowIntersect = false;

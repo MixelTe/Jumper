@@ -4,6 +4,8 @@ import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import {logics} from "./platforms.js"
 import { star } from "./overlay.js";
 import { fileLoaded } from "./loading.js";
+import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../jumperAnimations/jumper.js";
+import { enemy_stoped, enemy_going } from "../jumperAnimations/enemy.js";
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -17,12 +19,8 @@ Misha.lift = 0;
 Misha.liftStyle = 0;
 
 Misha.jumperImgLoad = 0;
-Misha.jumperImgAll = 2;
+Misha.jumperImgAll = 3;
 Misha.jumperCounter = 0;
-
-Misha.jumper = {};
-Misha.jumper.width = 60;
-Misha.jumper.height = 60;
 
 let ptrnDirt;
 let ptrnDirt2;
@@ -31,7 +29,8 @@ let ptrnBox2;
 let ptrnsLift = [];
 let ptrnGrass;
 let ptrnBackGrass;
-let imgsJumper;
+export let imgsJumper;
+export let imgsEnemy;
 let ptrnWoodX;
 let ptrnWoodY;
 let ptrnWall;
@@ -47,7 +46,15 @@ export function crateImges()
     imgsJumper.onload = function ()
     {
         Misha.jumperImgLoad += 1;
-        fileLoaded()
+        fileLoaded();
+    }
+
+    imgsEnemy = new Image();
+    imgsEnemy.src = "pictures/enemy.png";
+    imgsEnemy.onload = function ()
+    {
+        Misha.jumperImgLoad += 1;
+        fileLoaded();
     }
 
     imgsLever = new Image();
@@ -55,7 +62,7 @@ export function crateImges()
     imgsLever.onload = function ()
     {
         Misha.jumperImgLoad += 1;
-        fileLoaded()
+        fileLoaded();
     }
 }
 
@@ -523,22 +530,13 @@ export function jumperTextures(chr)
         ctx.scale(chr.scale.x, chr.scale.y);
         ctx.translate(chr.translate.x, chr.translate.y);
 
-        switch (chr.state)
-        {
-            case "stoped":
-                GRC_jumper_stoped(chr);
+        switch (chr.AnimType) {
+            case "jumper":
+                switchAnimations_jumper(chr);
                 break;
 
-            case "jumping":
-                GRC_jumper_jumping(chr);
-                break;
-
-            case "falling":
-                GRC_jumper_falling(chr);
-                break;
-
-            case "going":
-                GRC_jumper_going(chr);
+            case "enemy":
+                switchAnimations_enemy(chr);
                 break;
 
             default:
@@ -589,121 +587,25 @@ export function jumperTextures(chr)
         }
     }
 }
-function GRC_jumper_jumping(chr)
+
+function switchAnimations_jumper(chr)
 {
-    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-
-    chr.textureCounter += 1;
-    switch (chr.textureCounter)
+    switch (chr.state)
     {
-        case 1:
-            chr.textureImg = 1;
+        case "stoped":
+            jumper_stoped(chr);
             break;
 
-        case 3:
-            chr.textureImg = 2;
+        case "jumping":
+            jumper_jumping(chr);
             break;
 
-        case 5:
-            chr.textureImg = 3;
+        case "falling":
+            jumper_falling(chr);
             break;
 
-        case 7:
-            chr.textureImg = 4;
-            break;
-
-        case 9:
-            chr.textureImg = 5;
-            break;
-
-        default:
-            break;
-    }
-
-}
-
-function GRC_jumper_falling(chr)
-{
-    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    chr.textureCounter += 1;
-    switch (chr.textureCounter)
-    {
-        case 1:
-            chr.textureImg = 9;
-            break;
-
-        case 2:
-            chr.textureImg = 10;
-            break;
-
-        case 4:
-            chr.textureImg = 11;
-            break;
-
-        case 6:
-            chr.textureImg = 12;
-            break;
-
-        case 8:
-            chr.textureImg = 13;
-            break;
-
-        case 10:
-            chr.textureImg = 14;
-            break;
-
-        case 12:
-            chr.textureImg = 15;
-            break;
-
-        case 14:
-            chr.textureImg = 16;
-            break;
-
-        case 16:
-            chr.textureImg = 17;
-            chr.textureCounter = 0;
-            break;
-
-        default:
-            break;
-    }
-
-}
-
-function GRC_jumper_going(chr)
-{
-    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    chr.textureCounter += 1;
-    switch (chr.textureCounter)
-    {
-        case 1:
-            chr.textureImg = 17;
-            break;
-
-        case 12:
-            chr.textureImg = 18;
-            break;
-
-        case 18:
-            chr.textureImg = 19;
-            break;
-
-        case 24:
-            chr.textureImg = 20;
-            break;
-
-        case 30:
-            chr.textureImg = 21;
-            break;
-
-        case 36:
-            chr.textureImg = 22;
-            break;
-
-        case 42:
-            chr.textureImg = 0;
-            chr.textureCounter = -5;
+        case "going":
+            jumper_going(chr);
             break;
 
         default:
@@ -711,34 +613,32 @@ function GRC_jumper_going(chr)
     }
 }
 
-function GRC_jumper_stoped(chr)
+function switchAnimations_enemy(chr)
 {
-    // ctx.drawImage(imgsJumper[1], 0, 0, Misha.jumper.width, Misha.jumper.height);
-    ctx.drawImage(imgsJumper, 200 * chr.textureImg, 0, 200, 200, 0, 0, Misha.jumper.width, Misha.jumper.height);
-    chr.textureCounter += 1;
-    switch (chr.textureCounter)
+    switch (chr.state)
     {
-        case 1:
-            chr.textureImg = 0;
+        case "stoped":
+            enemy_stoped(chr);
             break;
 
-        case 90:
-            chr.textureImg = 23;
+        case "jumping":
+            // enemy_jumping(chr);
+            enemy_stoped(chr);
             break;
 
-        case 95:
-            chr.textureImg = 0;
+        case "falling":
+            // enemy_falling(chr);
+            enemy_stoped(chr);
             break;
 
-        case 400:
-            chr.textureCounter = 0;
+        case "going":
+            enemy_going(chr);
             break;
 
         default:
             break;
     }
 }
-
 
 export function SPL_direction_write()
 {

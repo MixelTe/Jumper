@@ -26,7 +26,7 @@ function drawEnemy(enemy)
         ctx.lineWidth = 1;
     }
     // ctx.strokeStyle = "white";
-    // ctx.strokeRect(0, 0, jumper.width, jumper.height);
+    // ctx.strokeRect(0, 0, enemy.width, enemy.height);
 
     ctx.restore();
 }

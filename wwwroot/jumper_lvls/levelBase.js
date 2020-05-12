@@ -42,7 +42,7 @@ const frontscreen = [
 
 ]
 const enemys = [
-    new Character(400, 0, 1.7, 6, 1.5, 14, true, "1e", "enemy", 50, 0), //50 and 0 is width and height enemy's path
+    new Character(400, 0, 1.7, 1.1, 1.5, 14, true, "1e", "enemy", 50, 0), //50 and 0 is width and height enemy's path
 
 ]
 
@@ -82,6 +82,6 @@ export function start()
     console.log('level №' + level + ' started');
 
     changeLevel(forLevelChange);
-    levelOnStart(3, platforms, level, 50, 0);
+    levelOnStart(2, platforms, level, 50, 0);
  // levelOnStart(count of stars on level, don't change, don't change, jumper x, jumper y);
 }
