@@ -501,7 +501,18 @@ function KeyDown(event)
                 break;
 
             case 'BracketRight':
+                if (event.repeat == false)
+                {
+                    selectedCharacter = Math.min(selectedCharacter + 1, enemys.length - 1);
+                }
+                break;
             case 'BracketLeft':
+                if (event.repeat == false)
+                {
+                    selectedCharacter = Math.max(selectedCharacter - 1, 0);
+                }
+                break;
+            case 'Quote':
                 if (event.repeat == false)
                 {
                     controlCharacter += 1;;
@@ -526,7 +537,14 @@ function KeyDownControl(event)
             {
                 if (enemys.length > 0)
                 {
-                    CharacterControl(enemys[selectedCharacter], event, "down");
+                    if (selectedCharacter < enemys.length)
+                    {
+                        CharacterControl(enemys[selectedCharacter], event, "down");
+                    }
+                    else
+                    {
+                        console.error("base: function KeyDownControl: selected enemy %i don't exist", selectedCharacter);
+                    }
                 }
                 else
                 {
@@ -592,7 +610,14 @@ function KeyUpControl(event)
             {
                 if (enemys.length > 0)
                 {
-                    CharacterControl(enemys[selectedCharacter], event, "up");
+                    if (selectedCharacter < enemys.length)
+                    {
+                        CharacterControl(enemys[selectedCharacter], event, "up");
+                    }
+                    else
+                    {
+                        console.error("base: function KeyUpControl: selected enemy %i don't exist", selectedCharacter);
+                    }
                 }
                 else
                 {

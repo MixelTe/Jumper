@@ -25,6 +25,11 @@ function drawEnemy(enemy)
         ctx.stroke();
         ctx.lineWidth = 1;
     }
+    if (enemy.isControled)
+    {
+        ctx.fillStyle = "orange";
+        ctx.fillRect(enemy.width / 2 - 4, enemy.height + 5, 8, 8);
+    }
     // ctx.strokeStyle = "white";
     // ctx.strokeRect(0, 0, enemy.width, enemy.height);
 
@@ -46,11 +51,20 @@ export function gravity()
     {
         const el = enemys[i];
         const newEl = { x: el.x - el.movementPath.width, y: el.y - el.movementPath.height, width: el.width + el.movementPath.width*2, height: el.height + el.movementPath.height*2};
+        if (controlCharacter % 2 == 0 || selectedCharacter != i)
+        {
+            el.isControled = false
+        }
+        else
+        {
+            el.isControled = true;
+        }
+
         if (el.alive && rectIntersect(newEl, gameWindow))
         {
             Cgravity(el);
             Cmovement(el);
-            if (controlCharacter % 2 == 0 || selectedCharacter != i )
+            if (!el.isControled)
             {
                 enemyAI(el);
             }
