@@ -234,6 +234,10 @@ function redrawAll(time)
 
         PLM.logics(platforms);
         LVL_triggers();
+        if (Misha.grafics)
+        {
+            GRC.portal();
+        }
         gameWindow.x = -WorldAnchor.x;
         gameWindow.y = -WorldAnchor.y;
 
@@ -282,7 +286,7 @@ function redrawAll(time)
 
             if (Misha.grafics)
             {
-                GRC.portal();
+                PLM.drawPlatforms(Misha.grafic.portal);
             }
 
             if (Misha.screens)

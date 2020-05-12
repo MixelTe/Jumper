@@ -1,7 +1,6 @@
 "use strict";
 import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, enemys} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
-import {logics} from "./platforms.js"
 import { star } from "./overlay.js";
 import { fileLoaded } from "./loading.js";
 import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../jumperAnimations/jumper.js";
@@ -702,7 +701,6 @@ export function portal()
             }
             el.counter += random_num(0, 2);
         }
-        logics(Misha.grafic.portal);
         ctx.restore();
     }
 }
