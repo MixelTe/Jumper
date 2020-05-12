@@ -34,7 +34,7 @@ const btn125 = { x: 140, y: 230, width: 60, height: 60, color: "red", Tcolor: "y
 
 const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "plID", Tvalue: "ID", Tx: 11, Ty: 16, Tscale: 40 };
 const btn14 = { x: 90, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "screens", Tvalue: "Scr", Tx: 4, Ty: 16, Tscale: 35 };
-const btn15 = { x: 260, y: 7, width: 34, height: 30, color: "lightblue", Tcolor: "yellow", value: "fps", Tvalue: "", Tx: 4, Ty: 16, Tscale: 35, counter: 0 };
+const btn15 = { x: 226, y: 7, width: 68, height: 30, color: "lightblue", Tcolor: "yellow", value: "fps", Tvalue: "", Tx: 4, Ty: 16, Tscale: 35, counter: 0 };
 
 const btn16 = { x: 218, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_enemy", Tvalue: "E", Tx: 6, Ty: 6, Tscale: 25 };
 const btn18 = { x: 252, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_grafics", Tvalue: "G", Tx: 5, Ty: 6, Tscale: 25 };
@@ -255,7 +255,7 @@ function DEVclick(event)
             else
             {
                 clickButton.active = true;
-                clickButton.color = "rgba(141, 0, 207, 0.6)";
+                clickButton.color = "rgb(141, 0, 207)";
             }
             DEVinterFrame();
             DEVredrawAll();
@@ -339,12 +339,21 @@ function DEVinterFrame()
     {
         DEVdrawButton(btn15);
         ctx2.save();
-        ctx2.translate(260, 10);
+        ctx2.translate(btn15.x, btn15.y + 3);
         ctx2.scale(1, -1)
         ctx2.fillStyle = "black";
         ctx2.font = "30px Arial";
-        ctx2.fillText(parseInt(1000 / parseInt(TheCounter.interFrame)), 0, 0);
+        ctx2.fillText(parseInt(1000 / TheCounter.interFrame), 0, 0);
         ctx2.restore();
+
+        ctx2.save();
+        ctx2.translate(btn15.x, btn15.y + 3);
+        ctx2.scale(1, -1)
+        ctx2.fillStyle = "black";
+        ctx2.font = "30px Arial";
+        ctx2.fillText(parseInt(1000 / TheCounter.interRedraw), 35, 0);
+        ctx2.restore();
+
         btn15.counter = 0;
     }
     btn15.counter += 1;

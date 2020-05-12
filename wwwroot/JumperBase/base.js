@@ -20,6 +20,7 @@ export const ctx = canva.getContext('2d');
 export const TheCounter = {};
 TheCounter.counter = 0;
 TheCounter.pastFrame = 0;
+TheCounter.pastRedraw = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
 
 export class Character
@@ -230,67 +231,74 @@ function redrawAll(time)
         }
         moveScreen();
 
-        ctx.save();
-
-        ctx.fillStyle = "red"
-        ctx.fillRect(0, -10, canva.width, canva.height);
-        ctx.fillStyle = "lightblue"
-        ctx.fillRect(0, 0, 1200, canva.height);
-        ctx.fillStyle = "green"
-        ctx.fillRect(0, -10, 1200, 10);
-
-        if (Misha.grafics)
-        {
-            GRC.background();
-        }
-
-        ctx.restore();
+        PLM.logics(platforms);
+        LVL_triggers();
         gameWindow.x = -WorldAnchor.x;
         gameWindow.y = -WorldAnchor.y;
-        ctx.save();
-        ctx.translate(WorldAnchor.x, WorldAnchor.y);
 
-        if (Misha.screens)
+        if (time > TheCounter.pastRedraw + 32)
         {
-            SCR.backscreen2(backscreen2);
+            TheCounter.interRedraw = time - TheCounter.pastRedraw;
+            TheCounter.pastRedraw = time;
+            ctx.save();
+
+            ctx.fillStyle = "red"
+            ctx.fillRect(0, -10, canva.width, canva.height);
+            ctx.fillStyle = "lightblue"
+            ctx.fillRect(0, 0, 1200, canva.height);
+            ctx.fillStyle = "green"
+            ctx.fillRect(0, -10, 1200, 10);
+
+            if (Misha.grafics)
+            {
+                GRC.background();
+            }
+
+            ctx.restore();
+
+            ctx.save();
+            ctx.translate(WorldAnchor.x, WorldAnchor.y);
+
+            if (Misha.screens)
+            {
+                SCR.backscreen2(backscreen2);
+            }
+
+            PLM.drawPlatforms(platforms);
+
+            if (Misha.enemy)
+            {
+                EMY.drawEnemys();
+            }
+            drawJumper();
+
+            if (Misha.grafics)
+            {
+                GRC.textures();
+            }
+
+            drawPlatform(lvlend);
+
+            if (Misha.grafics)
+            {
+                GRC.portal();
+            }
+
+            if (Misha.screens)
+            {
+                SCR.frontscreen(frontscreen);
+            }
+            ctx.restore();
+
+            if (Misha.musics)
+            {
+                MUS.drawAll();
+            }
+            if (Misha.overlays)
+            {
+                OVL.draw1();
+            }
         }
-
-        PLM.logics(platforms);
-
-        if (Misha.enemy)
-        {
-            EMY.drawEnemys();
-        }
-        drawJumper();
-
-        if (Misha.grafics)
-        {
-            GRC.textures();
-        }
-
-        drawPlatform(lvlend);
-
-        if (Misha.grafics)
-        {
-            GRC.portal();
-        }
-
-        if (Misha.screens)
-        {
-            SCR.frontscreen(frontscreen);
-        }
-        ctx.restore();
-
-        if (Misha.musics)
-        {
-            MUS.drawAll();
-        }
-        LVL_triggers();
-        if (Misha.overlays)
-        {
-            OVL.draw1();
-        }
-
         if (levelLoaded && TheCounter.counter % 30 == 0 && !DEVparametrs.SSstop)
         {
             SPL.writeInMemory(level);

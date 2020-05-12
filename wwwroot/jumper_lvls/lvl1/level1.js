@@ -11,7 +11,7 @@ const platforms = [
     { id: 6, x: 1356, y: 100, width: 128, height: 80, type: "simple",    color: "green", texture: "grass", visible: true },
     { id: 7, x: 1484, y: 50, width: 128, height: 190, type: "simple",    color: "green", texture: "grass", visible: true },
     { id: 10.5, x: 1400, y: 40, width: 40, height: 40, type: "star",     color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
-    { id: 7.5, x: 1356, y: 0, width: 256, height: 100, type: "fake",     color: "green", texture: "dirt", visible: true },
+    { id: 7.5, x: 1356, y: 0, width: 256, height: 100, type: "fake",     color: "green", texture: "dirt", visible: false },
     { id: 8, x: 1220, y: 300, width: 120, height: 40, type: "simple",    color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 9, x: 980, y: 370, width: 120, height: 40, type: "simple",     color: "rgb(0, 0, 0, 0.1)", texture: "planks", visible: true },
     { id: 10, x: 1020, y: 480, width: 40, height: 40, type: "star",      color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },

@@ -207,7 +207,6 @@ function PLM_star(plm)
             starColected.play();
             plm.colected = true;
         }
-        drawPlatform(plm);
     }
 }
 
@@ -222,7 +221,6 @@ function PLM_fake(plm)
     // {
     //     plm.visible = true;
     // }
-    drawPlatform(plm);
     ctx.restore();
 }
 
@@ -248,18 +246,10 @@ export function logics(platforms)
                 break;
 
             case "ghost":
-                if (rectIntersect(plt, gameWindow))
-                {
-                    drawPlatform(plt);
-                }
                 break;
 
             case "lever":
                 PLM_lever(plt);
-                if (rectIntersect(plt, gameWindow))
-                {
-                    drawPlatform(plt);
-                }
                 break;
 
             case "star":
@@ -268,6 +258,45 @@ export function logics(platforms)
 
             case "fake":
                 PLM_fake(plt);
+                break;
+
+            default:
+                break;
+        }
+    }
+}
+
+export function drawPlatforms(platforms)
+{
+    for (let plt of platforms)
+    {
+        switch (plt.type)
+        {
+            case "ghost":
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
+                break;
+
+            case "lever":
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
+                break;
+
+            case "fake":
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
+
+            case "star":
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt);
+                }
                 break;
 
             default:
