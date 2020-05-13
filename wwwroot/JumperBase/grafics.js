@@ -718,7 +718,7 @@ export function drawPortal()
         alphaI = ((TheCounter.counter % a)) / a;
     }
 
-    drawPlatforms(EndPortal.particles);
+    drawPlatforms(EndPortal.particles, true);
     if (jumperImgLoad == jumperImgAll)
     {
         ctx.save();

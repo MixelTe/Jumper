@@ -96,27 +96,27 @@ export function jumper_going(chr)
             chr.textureImg = 17;
             break;
 
-        case 12:
+        case 8:
             chr.textureImg = 18;
             break;
 
-        case 18:
+        case 12:
             chr.textureImg = 19;
             break;
 
-        case 24:
+        case 16:
             chr.textureImg = 20;
             break;
 
-        case 30:
+        case 20:
             chr.textureImg = 21;
             break;
 
-        case 36:
+        case 24:
             chr.textureImg = 22;
             break;
 
-        case 42:
+        case 28:
             chr.textureImg = 0;
             chr.textureCounter = -5;
             break;

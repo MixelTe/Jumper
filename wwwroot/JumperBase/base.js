@@ -403,22 +403,31 @@ function drawJumper()
     ctx.restore();
 }
 
-export function drawPlatform(obj)
+export function drawPlatform(obj, p)
 {
     ctx.save();
     ctx.translate(obj.x, obj.y);
 
-    const newObj = { x: obj.x - 2, y: obj.y - 1, width: obj.width + 4, height: obj.height + 2, };
-    if (rectIntersect(newObj, jumper) && obj.changecolor == true)
+    if (obj.changecolor == true)
     {
-        ctx.fillStyle = "lightgreen";
+        const newObj = { x: obj.x - 2, y: obj.y - 1, width: obj.width + 4, height: obj.height + 2, };
+        if (rectIntersect(newObj, jumper))
+        {
+            ctx.fillStyle = "lightgreen";
+        }
+        else
+        {
+            ctx.fillStyle = obj.color;
+        }
     }
     else
     {
         ctx.fillStyle = obj.color;
     }
-
-    ctx.fillRect(0, 0, obj.width, obj.height);
+    if (!Misha.grafics || p)
+    {
+        ctx.fillRect(0, 0, obj.width, obj.height);
+    }
     // ctx.strokeStyle = "black";
     // ctx.strokeRect(0, 0, obj.width, obj.height);
 

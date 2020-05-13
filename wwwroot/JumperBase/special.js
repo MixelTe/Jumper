@@ -1,5 +1,5 @@
 "use strict";
-import {platforms, SPL_lvl_write, SPL_lvl_read, WorldAnchor, jumper, drawPlatform, coins, lvlend} from "./base.js"
+import {platforms, SPL_lvl_write, SPL_lvl_read, WorldAnchor, jumper, coins, lvlend} from "./base.js"
 import {SPL_direction_write, SPL_direction_read} from "./grafics.js"
 import {ost_write} from "./music.js"
 import {rectIntersect} from "./Functions.js"

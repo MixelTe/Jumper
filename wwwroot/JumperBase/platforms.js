@@ -271,7 +271,7 @@ export function logics(platforms)
     }
 }
 
-export function drawPlatforms(platforms)
+export function drawPlatforms(platforms, p)
 {
     for (let plt of platforms)
     {
@@ -280,27 +280,27 @@ export function drawPlatforms(platforms)
             case "ghost":
                 if (rectIntersect(plt, gameWindow))
                 {
-                    drawPlatform(plt);
+                    drawPlatform(plt, p);
                 }
                 break;
 
             case "lever":
                 if (rectIntersect(plt, gameWindow))
                 {
-                    drawPlatform(plt);
+                    drawPlatform(plt, p);
                 }
                 break;
 
             case "fake":
                 if (rectIntersect(plt, gameWindow))
                 {
-                    drawPlatform(plt);
+                    drawPlatform(plt, p);
                 }
 
             case "star":
                 if (rectIntersect(plt, gameWindow))
                 {
-                    drawPlatform(plt);
+                    drawPlatform(plt, p);
                 }
                 break;
 
@@ -309,7 +309,7 @@ export function drawPlatforms(platforms)
         }
         if ((plt.visible == true || plt.visible == "true") && rectIntersect(plt, gameWindow))
         {
-            drawPlatform(plt);
+            drawPlatform(plt, p);
         }
     }
 }
