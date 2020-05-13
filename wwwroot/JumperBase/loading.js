@@ -4,6 +4,8 @@ import { ctx, TheCounter } from "./base.js";
 import { levelLoadTime, game, levelLoadedChange } from "../start.js";
 import { random_num, random_upNdown } from "./Functions.js";
 import { crateImges, cratePatterns } from "./grafics.js";
+import {loadFiles as SloadFiles} from "../jumperSounds/soundsEffects.js"
+import {loadFiles as SPloadFiles} from "../jumperSounds/platformsSounds.js"
 
 let loadingScreenPastCounter = 0;
 let loadingScreentext = "Загрузка";
@@ -106,7 +108,7 @@ function drawParticle(p)
 }
 
 let filesLoaded = 0;
-let allFiles = 29;
+let allFiles = 42;
 export function fileLoaded()
 {
     filesLoaded += 1;
@@ -136,4 +138,6 @@ export async function loadFiles()
 {
     cratePatterns();
     crateImges();
+    SloadFiles();
+    SPloadFiles();
 }

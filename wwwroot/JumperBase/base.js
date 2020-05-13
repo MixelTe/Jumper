@@ -12,6 +12,8 @@ import * as OVL from "./overlay.js"
 import { click as menuClick} from "../jumper_lvls/menu/menu.js";
 import { loadingScreen, loadFiles} from "./loading.js";
 import { FSC_AllLoaded } from "./firstScreen.js";
+import { characterSounds } from "../jumperSounds/soundsEffects.js";
+import { platformsSounds } from "../jumperSounds/platformsSounds.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
@@ -185,6 +187,7 @@ function LVL_triggers()
 // Misha.musics = false;
 // Misha.overlays = false;
 // Misha.screens = false;
+Misha.soundsEffect = false;
 
 export const gameWindow = { x: 0, y: -10, width: 800, height: 610 }
 //===============
@@ -225,11 +228,22 @@ function redrawAll(time)
         {
             Cgravity(jumper);
             Cmovement(jumper);
-            jumper.plinks();
+            if (Misha.soundsEffect)
+            {
+                characterSounds(jumper)
+            }
+            else
+            {
+                jumper.plinks();
+            }
             if (Misha.enemy)
             {
                 EMY.gravity();
             }
+        }
+        if (Misha.soundsEffect)
+        {
+            platformsSounds(platforms, lvlend, jumper);
         }
         moveScreen();
 
