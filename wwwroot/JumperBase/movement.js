@@ -84,7 +84,10 @@ function CgravityPlatforms(newObj, obj, platform)
 {
     if (rectIntersect(newObj, platform))
     {
-        obj.sound_up = true;
+        if (!Misha.soundsEffect)
+        {
+            obj.sound_up = true;
+        }
 
         if (platform.fallOnEdge == null)            //fall on edge
         {
@@ -185,7 +188,10 @@ export function Cmovement(obj)
             {
                 if (rectIntersect(newObj, plt))
                 {
-                    obj.sound_side = true;
+                    if (!Misha.soundsEffect)
+                    {
+                        obj.sound_side = true;
+                    }
                     obj.mnowIntersect = true;
                     intersectObj = plt;
                     obj.jmSpeed *= 0.8;
@@ -196,7 +202,6 @@ export function Cmovement(obj)
     }
     if (!obj.mnowIntersect)
     {
-        // sound_side = false;
         obj.x = newX;
         obj.mnowStrike = false;
     }

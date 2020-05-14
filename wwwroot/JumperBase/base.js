@@ -187,7 +187,7 @@ function LVL_triggers()
 // Misha.musics = false;
 // Misha.overlays = false;
 // Misha.screens = false;
-Misha.soundsEffect = false;
+// Misha.soundsEffect = false;
 
 export const gameWindow = { x: 0, y: -10, width: 800, height: 610 }
 //===============
@@ -259,7 +259,7 @@ function redrawAll_level(time)
         Cmovement(jumper);
         if (Misha.soundsEffect)
         {
-            characterSounds(jumper)
+            characterSounds(jumper, platforms)
         }
         else
         {
