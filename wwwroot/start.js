@@ -4,6 +4,7 @@ import { changeLevel, TheCounter, jumper, Character } from "./JumperBase/base.js
 import { requestGameChange } from "./JumperBase/loading.js";
 import { findWhithId } from "./JumperBase/Functions.js";
 import { PLM_forLevelRestore } from "./JumperBase/platforms.js";
+import { portal_clearParticles } from "./JumperBase/grafics.js";
 
 if (sessionStorage.getItem("level") == null)
 {
@@ -147,5 +148,6 @@ export function restoreLevel(platforms, lvl)
             el.direction = el.restoreInformation.direction;
         }
         PLM_forLevelRestore();
+        portal_clearParticles();
     }
 }

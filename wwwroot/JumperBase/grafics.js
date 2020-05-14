@@ -766,3 +766,8 @@ export function drawPortal()
         ctx.restore();
     }
 }
+
+export function portal_clearParticles()
+{
+    EndPortal.particles = [];
+}
