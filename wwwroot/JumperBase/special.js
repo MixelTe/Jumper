@@ -39,7 +39,7 @@ export function writeInMemory(lvl)
 
     if (Misha.grafics)
     {
-        SPL_direction_write();
+        SPL_direction_write(jumper);
     }
     if (Misha.overlays)
     {
@@ -113,7 +113,7 @@ export function readMemory(lvl)
 
     if (Misha.grafics)
     {
-        SPL_direction_read();
+        SPL_direction_read(jumper);
     }
 
 }

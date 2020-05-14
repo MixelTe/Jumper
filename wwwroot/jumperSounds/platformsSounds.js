@@ -25,15 +25,20 @@ export function platformsSounds(plts, lvlEnd, chr)
     if (distance < 300 && distance > 0)
     {
         sounds.portal.files[0].play();
-        sounds.portal.files[0].volume = (300 - distance) / 300;
+        sounds.portal.files[0].volume = Math.min(((300 - distance) / 300) * 2, 1);
     }
     else if (distance > -300 && distance < 0)
     {
         sounds.portal.files[0].play();
-        sounds.portal.files[0].volume = (300 + distance) / 300;
+        sounds.portal.files[0].volume = Math.min(((300 + distance) / 300) * 2, 1);
     }
     else
     {
         sounds.portal.files[0].pause();
     }
+}
+
+export function stopAllSounds()
+{
+    sounds.portal.files[0].pause();
 }

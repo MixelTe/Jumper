@@ -271,7 +271,6 @@ function redrawAll_level(time)
         }
     }
 
-
     if (Misha.soundsEffect)
     {
         platformsSounds(platforms, lvlend, jumper);
@@ -291,17 +290,18 @@ function redrawAll_level(time)
 
     if (time > TheCounter.pastRedraw + 32)
     {
-        redrawFrame(time);
+        redrawAll_level_frame(time);
     }
     if (levelLoaded && TheCounter.counter % 30 == 0 && !DEVparametrs.SSstop)
     {
         SPL.writeInMemory(level);
     }
-    GRC.character_animations_statePast_write(enemys, jumper);
     SPL.lvl_end();
+    GRC.character_animations_statePast_write(enemys, jumper);
+    jumper.writePast();
 }
 
-function redrawFrame(time)
+function redrawAll_level_frame(time)
 {
     TheCounter.interRedraw = time - TheCounter.pastRedraw;
     TheCounter.pastRedraw = time;
@@ -526,16 +526,19 @@ function KeyDown(event)
                     // loadScript("jumperBase/DEVpanel.js");
                     import("./DEVpanel.js").then((m) =>
                     {
-                        m.start();
+                        // m.start();
                     });
-                }
-                if (panel.style.display == "inline")
-                {
-                    panel.style.display = "none";
                 }
                 else
                 {
-                    panel.style.display = "inline";
+                    if (panel.style.display == "inline")
+                    {
+                        panel.style.display = "none";
+                    }
+                    else
+                    {
+                        panel.style.display = "inline";
+                    }
                 }
                 break;
 

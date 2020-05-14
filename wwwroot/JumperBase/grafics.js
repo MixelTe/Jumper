@@ -618,7 +618,15 @@ function switchAnimations_jumper(chr)
             break;
 
         case "going":
-            jumper_going(chr);
+            if (chr.x != chr.pastX)
+            {
+                jumper_going(chr);
+            }
+            else
+            {
+                chr.textureCounter = 0;
+                jumper_stoped(chr);
+            }
             break;
 
         default:

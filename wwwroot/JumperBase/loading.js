@@ -5,7 +5,7 @@ import { levelLoadTime, game, levelLoadedChange } from "../start.js";
 import { random_num, random_upNdown } from "./Functions.js";
 import { crateImges, cratePatterns } from "./grafics.js";
 import {loadFiles as SloadFiles} from "../jumperSounds/soundsEffects.js"
-import {loadFiles as SPloadFiles} from "../jumperSounds/platformsSounds.js"
+import {loadFiles as SPloadFiles, stopAllSounds} from "../jumperSounds/platformsSounds.js"
 
 let loadingScreenPastCounter = 0;
 let loadingScreentext = "Загрузка";
@@ -115,6 +115,7 @@ export function fileLoaded()
 }
 export function requestGameChange(toMode, m)
 {
+    stopAllSounds();
     if (levelLoadTime + 50 < TheCounter.counter && filesLoaded == allFiles)
     {
         game.state = toMode;
