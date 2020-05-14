@@ -8,6 +8,7 @@ Misha.musics = true;
 
 music.ost = document.createElement("AUDIO");
 music.ost.src = "sounds/ost.mp3";
+music.ost.volume = 0.7;
 music.ost.autoplay = true;
 music.ost.loop = true;
 // music.ost.controls = true;

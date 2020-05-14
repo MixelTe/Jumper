@@ -108,7 +108,7 @@ function drawParticle(p)
 }
 
 let filesLoaded = 0;
-let allFiles = 35;
+let allFiles = 33;
 export function fileLoaded()
 {
     filesLoaded += 1;
