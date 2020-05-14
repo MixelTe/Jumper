@@ -84,7 +84,7 @@ function CgravityPlatforms(newObj, obj, platform)
 {
     if (rectIntersect(newObj, platform))
     {
-        if (!Misha.soundsEffect)
+        if (obj.id != "jumper" || !Misha.soundsEffect)
         {
             obj.sound_up = true;
         }
@@ -188,7 +188,7 @@ export function Cmovement(obj)
             {
                 if (rectIntersect(newObj, plt))
                 {
-                    if (!Misha.soundsEffect)
+                    if (obj.id != "jumper" || !Misha.soundsEffect)
                     {
                         obj.sound_side = true;
                     }

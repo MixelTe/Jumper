@@ -75,6 +75,7 @@ function PLM_door(plm)
             plm.height = plm.doorHeight;
             plm.y = plm.doorY;
             plm.x = plm.doorX;
+            sounds.doorOpen.played = false;
             break;
 
         case "open":
@@ -95,7 +96,7 @@ function PLM_door(plm)
                 PLM_door_shake(plm);
                 platforms[blockN].y += speed;
                 platforms[blockN].height -= speed;
-                if (sounds.doorOpen.played == false)
+                if (!sounds.doorOpen.played)
                 {
                     sounds.doorClose.s.pause();
                     sounds.doorClose.s.currentTime = 0;
