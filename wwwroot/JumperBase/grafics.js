@@ -544,39 +544,61 @@ export function jumperTextures(chr)
             chr.translate.y = 0;
         }
 
-        switch (chr.flattening)
-        {
-            case "hit":
-                if (chr.statePast == "falling" || chr.statePast == "jumping")
-                {
-                    chr.scale.x = 0.6;
-                    chr.scale.y = 1.2;
-                    chr.translate.x = 35;
-                    chr.translate.y = 0;
+    }
+}
 
-                    chr.scale.counter = 0;
-                    chr.flattening = "normal";
-                }
-                break;
-            default:
-                break;
-        }
+export function character_animations_statePast(enemysList, jmpr)
+{
+    for (let i = 0; i < enemysList.length; i++) {
+        character_animations_statePast_single(enemysList[i]);
+    }
+    character_animations_statePast_single(jmpr);
+}
 
-        if (chr.statePast != chr.state)
-        {
-            if (chr.statePast == "falling")
+export function character_animations_statePast_write(enemysList, jmpr)
+{
+    for (let i = 0; i < enemysList.length; i++)
+    {
+        const chr = enemysList[i];
+        chr.statePast = chr.state;
+    }
+    jmpr.statePast = jmpr.state;
+}
+
+function character_animations_statePast_single(chr)
+{
+    switch (chr.flattening)
+    {
+        case "hit":
+            if (chr.statePast == "falling" || chr.statePast == "jumping")
             {
-                chr.scale.x = 1.2;
-                chr.scale.y = 0.6;
-                chr.translate.x = 0;
-                chr.translate.y = 35;
+                chr.scale.x = 0.6;
+                chr.scale.y = 1.2;
+                chr.translate.x = 35;
+                chr.translate.y = 0;
 
                 chr.scale.counter = 0;
+                chr.flattening = "normal";
             }
-            chr.statePast = chr.state;
-            chr.textureCounter = 0;
-        }
+            break;
+        default:
+            break;
     }
+
+    if (chr.statePast != chr.state)
+    {
+        if (chr.statePast == "falling")
+        {
+            chr.scale.x = 1.2;
+            chr.scale.y = 0.6;
+            chr.translate.x = 0;
+            chr.translate.y = 35;
+
+            chr.scale.counter = 0;
+        }
+        chr.textureCounter = 0;
+    }
+
 }
 
 function switchAnimations_jumper(chr)
@@ -631,15 +653,15 @@ function switchAnimations_enemy(chr)
     }
 }
 
-export function SPL_direction_write()
+export function SPL_direction_write(jmpr)
 {
-    sessionStorage.setItem("GRC_jumperDirection", jumper.direction);
+    sessionStorage.setItem("GRC_jumperDirection", jmpr.direction);
 }
-export function SPL_direction_read()
+export function SPL_direction_read(jmpr)
 {
     if (sessionStorage.getItem("GRC_jumperDirection") != null)
     {
-        jumper.direction = sessionStorage.getItem("GRC_jumperDirection");
+        jmpr.direction = sessionStorage.getItem("GRC_jumperDirection");
     }
 }
 
