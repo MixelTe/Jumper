@@ -16,7 +16,7 @@ window.Misha = window.Misha || Object.create(null);
 Misha.grafics = true;
 
 let jumperImgLoad = 0;
-const jumperImgAll = 5;
+const jumperImgAll = 6;
 
 let ptrnDirt;
 let ptrnDirt2;
@@ -29,6 +29,7 @@ export let imgsJumper;
 export let imgsEnemy;
 let imgsPortal;
 let imgsPortal2;
+let imgsShield;
 let ptrnWoodX;
 let ptrnWoodY;
 let ptrnWall;
@@ -72,6 +73,14 @@ export function crateImges()
     imgsPortal2 = new Image();
     imgsPortal2.src = "pictures/portal2.png";
     imgsPortal2.onload = function ()
+    {
+        jumperImgLoad += 1;
+        fileLoaded();
+    }
+
+    imgsShield = new Image();
+    imgsShield.src = "pictures/shield.png";
+    imgsShield.onload = function ()
     {
         jumperImgLoad += 1;
         fileLoaded();
@@ -533,6 +542,10 @@ export function jumperTextures(chr)
         }
         ctx.restore();
 
+        if (chr.immortal.active)
+        {
+            drawShield(chr);
+        }
         chr.scale.counter += 1;
         if (chr.scale.counter == 5)
         {
@@ -657,6 +670,16 @@ function switchAnimations_enemy(chr)
         default:
             break;
     }
+}
+
+function drawShield(chr)
+{
+    ctx.save();
+    ctx.globalAlpha = 0.9;
+    ctx.translate(chr.width / 2, chr.height / 2);
+    ctx.rotate((TheCounter.counter % 360) * -(Math.PI / 45));
+    ctx.drawImage(imgsShield, -(chr.width / 2 + 15), -(chr.height / 2 + 15), chr.width + 30, chr.height + 30);
+    ctx.restore();
 }
 
 export function SPL_direction_write(jmpr)
