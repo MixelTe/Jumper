@@ -21,21 +21,21 @@ export function loadFiles()
 
 export function platformsSounds(plts, lvlEnd, chr)
 {
-    const distance = lvlEnd.x - chr.x;
-    if (distance < 300 && distance > 0)
-    {
-        sounds.portal.files[0].play();
-        sounds.portal.files[0].volume = Math.min(((300 - distance) / 300) * 2, 1);
-    }
-    else if (distance > -300 && distance < 0)
-    {
-        sounds.portal.files[0].play();
-        sounds.portal.files[0].volume = Math.min(((300 + distance) / 300) * 2, 1);
-    }
-    else
-    {
-        sounds.portal.files[0].pause();
-    }
+    // const distance = lvlEnd.x - chr.x;
+    // if (distance < 300 && distance > 0)
+    // {
+    //     sounds.portal.files[0].play();
+    //     sounds.portal.files[0].volume = Math.min(((300 - distance) / 300) * 2, 1);
+    // }
+    // else if (distance > -300 && distance < 0)
+    // {
+    //     sounds.portal.files[0].play();
+    //     sounds.portal.files[0].volume = Math.min(((300 + distance) / 300) * 2, 1);
+    // }
+    // else
+    // {
+    //     sounds.portal.files[0].pause();
+    // }
 }
 
 export function stopAllSounds()
