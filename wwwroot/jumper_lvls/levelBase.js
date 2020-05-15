@@ -2,43 +2,35 @@
 import {changeLevel, Character, levelOnStart} from "../JumperBase/base.js" // "../../JumperBase/base.js"
 import {TRG_lever_door} from "../JumperBase/triggers.js" // "../../JumperBase/triggers.js"
 import { level } from "../start.js"; // "../../start.js"
+import { Platform_simple, Platform_lever, Platform_door, Platform_door_border, Platform_star, Platform_lifting, Platform_box, Platform_screens } from "../JumperBase/platformBase.js";
 const platforms = [
- { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
- { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30, liftStyle: 0, lift: 0 },
- { id: 3, x: 400, y: 190, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
+ new Platform_simple(1, 100, 0, 100, 60, "simple", "green", "grass", true),
+ new Platform_lifting(2, 250, 0, 100, 30, true, 2, 290, 30),
+ new Platform_box(3, 400, 190),
 //maximum height where box can be replaced
- { id: 4, x: 500, y: 110, width: 100, height: 40, type: "simple", color: "green", texture: "grass", visible: true },
+ new Platform_simple(4, 500, 110, 100, 40, "simple", "green", "grass", true),
 //maximum height where platform can be replaced
- { id: 5, x: 700, y: 0, width: 100, height: 120, type: "simple", color: "green", texture: "grass", visible: true },
+ new Platform_simple(5, 700, 0, 100, 120, "simple", "green", "grass", true),
 //maximum height of platform
- { id: 6.5, x: 466, y: 0, width: 36, height: 150, type: "ghost", color: "transparent", texture: "clear", visible: true, blockHeight: 150, blockY: 0 },
- { id: 6, x: 468, y: 0, width: 32, height: 150, type: "door",    color: "brown", texture: "wall", visible: true,
-    doorState: "close", doorHeight: 150, doorY: 0, doorX: 468, doorXd: "left" },
- //second part must be first in array
- //x cords must be equal in "id: 6, x: 468" and "doorX: 468"
- //heights must be equal in "id: 6, height: 150", "doorHeight: 150" and "id: 6.5, height: 150"
- //second part of door must has x cord equal: [doorX] - 2, width equal: [doorWidth] + 4
- //second part of door must has id: [doorID] + 0.5
- //y cords must be equal in "id: 6.5, y: 0" and "blockY: 0"
- //heights must be equal in "id: 6.5, height: 150" and "blockHeight: 150"
- { id: 7, x: 540, y: 0, width: 20, height: 20, type: "lever", color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
+ new Platform_door(6, 468, 0, 32, 150, "door", "brown", "wall", true, "close"),
+ new Platform_lever(7, 540, 0),
 //door and lever
- { id: 8, x: 280, y: 400, width: 40, height: 40, type: "star", color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
+ new Platform_star(8, 280, 400),
 //star
- { id: 10, x: 500, y: 260, width: 40, height: 40, type: "star", color: "rgb(0, 0, 0, 0.1)", texture: "star", visible: false, colected: false },
- { id: 9, x: 468, y: 230, width: 150, height: 100, type: "fake", color: "green", texture: "dirt", visible: false },
+ new Platform_star(9, 500, 260),
+ new Platform_simple(10, 468, 230, 150, 100, "fake", "green", "dirt", false),
  //it works how ghost platform, but dissapiare when intersect with jumper
  //star must be behind fake platform
 //fake platform and star combination
 
 ];
 const backscreen2 = [
-    { id: 1, x: 630, y: 0, width: 100, height: 60, type: "simple", texture: "grass" },
+ new Platform_screens(1, 630, 0, 100, 60, "simple", "grass"),
 
 ]
 const frontscreen = [
-    { id: 1, x: 730, y: -11, width: 90, height: 40, type: "simple", texture: "grass" },
-    { id: 2, x: 760, y: 34, width: 16, height: 261, type: "simple", texture: "WoodY", tranparent: true },
+ new Platform_screens(1, 730, -11, 90, 40, "simple", "grass"),
+ new Platform_screens(2, 760, 34, 16, 261, "simple", "WoodY", true),
 
 ]
 const enemys = [
@@ -77,10 +69,23 @@ const forLevelChange = {
     World_edge_right, WScreen_edge_left, WScreen_edge_right, SPL_lvl_write, SPL_lvl_read, LVL_triggers
 }
 
+function platforms_edit()
+{
+    for (let i = 0; i < platforms.length; i++) {
+        const el = platforms[i];
+        if (el.type == "door")
+        {
+            platforms.splice(i, 0, new Platform_door_border(el));
+            i++;
+        }
+    }
+}
+
 export function start()
 {
     console.log('level №' + level + ' started');
 
+    platforms_edit();
     changeLevel(forLevelChange);
     levelOnStart(2, platforms, level, 50, 0);
  // levelOnStart(count of stars on level, don't change, don't change, jumper x, jumper y);
