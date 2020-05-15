@@ -78,7 +78,7 @@ export class Character
         this.textureCounter = 0;
         this.textureImg = 0;
         this.restoreInformation = { x, y, visible, direction: this.direction };
-        this.immortal = {active: false, activTime: 0 };
+        this.immortal = {active: false, activTime: -1 };
     }
     writePast()
     {

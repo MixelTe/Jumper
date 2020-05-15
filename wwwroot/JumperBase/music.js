@@ -20,6 +20,14 @@ music.ost.onloadeddata = function ()
 }
 export const ost = music.ost;
 
+export function change_ost_volume(num)
+{
+    music.ost.volume = num || 0.5;
+}
+export function get_ost_volume()
+{
+    return music.ost.volume;
+}
 
 function ost_read()
 {
