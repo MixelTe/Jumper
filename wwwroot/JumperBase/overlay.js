@@ -1,14 +1,13 @@
 "use strict";
 import {ctx, coins, canva} from "./base.js"
 import { fileLoaded } from "./loading.js";
+import { get_Vlife } from "./lifeSystem.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.overlays = true;
 const overlay = {};
 overlay.files = {};
 
 overlay.stars = { x: 20, y: 20, count: 3, stared: 0 };
-overlay.Vlife = { x: 685, y: 5, width: 90, height: 90, count: 4 };
-window.Vlife = overlay.Vlife;
 export let star = null;
 export let starColected = null;
 export function starCountChange(newCount)
@@ -103,7 +102,8 @@ export function draw1()
 
     if (overlay.files.Vlife.loaded == true)
     {
-        ctx.drawImage(overlay.files.Vlife.f, 250 * overlay.Vlife.count, 0, 250, 250, overlay.Vlife.x, overlay.Vlife.y, overlay.Vlife.width, overlay.Vlife.height);
+        const vlife = get_Vlife();
+        ctx.drawImage(overlay.files.Vlife.f, 250 * vlife.count, 0, 250, 250, vlife.x, vlife.y, vlife.width, vlife.height);
     }
 
     ctx.restore();

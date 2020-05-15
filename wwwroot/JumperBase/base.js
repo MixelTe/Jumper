@@ -14,6 +14,7 @@ import { loadingScreen, loadFiles} from "./loading.js";
 import { FSC_AllLoaded } from "./firstScreen.js";
 import { characterSounds } from "../jumperSounds/soundsEffects.js";
 import { platformsSounds } from "../jumperSounds/platformsSounds.js";
+import { lifeSystem } from "./lifeSystem.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
@@ -77,6 +78,7 @@ export class Character
         this.textureCounter = 0;
         this.textureImg = 0;
         this.restoreInformation = { x, y, visible, direction: this.direction };
+        this.immortal = {active: false, activTime: 0 };
     }
     writePast()
     {
@@ -269,6 +271,7 @@ function redrawAll_level(time)
         {
             EMY.gravity();
         }
+        lifeSystem(jumper, enemys);
     }
 
     if (Misha.soundsEffect)
