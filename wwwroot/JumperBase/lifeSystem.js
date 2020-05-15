@@ -10,7 +10,7 @@ export function lifeSystem(chr, enemys)
 {
     if (!chr.immortal.active)
     {
-        const newChr = { x: chr.x - 1, y: chr.y - 1, width: chr.width + 2, height: chr.height + 2 };
+        const newChr = { x: chr.x - 2, y: chr.y - 2, width: chr.width + 4, height: chr.height + 4 };
         for (let i = 0; i < enemys.length; i++)
         {
             const el = enemys[i];
@@ -19,6 +19,14 @@ export function lifeSystem(chr, enemys)
                 Vlife.count = Math.max(Vlife.count - 1, 0);
                 chr.immortal.active = true;
                 chr.immortal.activTime = 0;
+                if (el.x > chr.x)
+                {
+                    el.moveSpeed = 20;
+                }
+                else
+                {
+                    el.moveSpeed = -20;
+                }
             }
         }
     }

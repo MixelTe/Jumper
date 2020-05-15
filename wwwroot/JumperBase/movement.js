@@ -166,6 +166,20 @@ export function Cmovement(obj)
             }
         }
     }
+    if (obj.moveAcc > 0)
+    {
+        if (obj.moveSpeed > obj.speed)
+        {
+            obj.moveSpeed -= 1;
+        }
+    }
+    else if (obj.moveAcc < 0)
+    {
+        if (obj.moveSpeed < -obj.speed)
+        {
+            obj.moveSpeed += 1;
+        }
+    }
     let newX = 0;
     if (obj.y > obj.ground)
     {
