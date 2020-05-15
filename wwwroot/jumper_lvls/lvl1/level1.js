@@ -33,7 +33,7 @@ const platforms = [
     { id: 24.5, x: 4294, y: 0, width: 36, height: 190, type: "ghost",  color: "transparent", texture: "clear", visible: true, blockHeight: 190, blockY: 0 },
     { id: 24, x: 4296, y: 0, width: 32, height: 190, type: "door",     color: "brown", texture: "wall", visible: true,
         doorState: "close", doorHeight: 190, doorY: 0, doorX: 4296, doorXd: "left" },
-    { id: 25, x: 4360, y: 430, width: 20, height: 20, type: "lever",   color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
+    { id: 25, x: 4370, y: 430, width: 20, height: 20, type: "lever",   color: "rgb(0, 0, 0, 0.1)", texture: "lever", visible: false, leverState: "off", leverChange: false },
 
 ];
 

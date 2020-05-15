@@ -14,8 +14,6 @@ window.Misha = window.Misha || Object.create(null);
 // var z = 3; // портит window, то же самое, что window.z = 3
 
 Misha.grafics = true;
-let lift = 0;
-let liftStyle = 0;
 
 let jumperImgLoad = 0;
 const jumperImgAll = 5;
@@ -426,11 +424,11 @@ function GRC_Lever(obj)
     if (jumperImgLoad == jumperImgAll)
     {
         switch (obj.leverState) {
-            case "off":
+            case "on":
                 ctx.drawImage(imgsLever, 0, 0, 81, 84, -obj.width / 2, -40 + obj.height, 40, 40);
                 break;
 
-            case "on":
+            case "off":
                 ctx.drawImage(imgsLever, 81, 0, 81, 84, -obj.width / 2, -40 + obj.height, 40, 40);
                 break;
 
@@ -452,33 +450,33 @@ function GRC_lift(obj)
     ctx.fillStyle = ptrnsLift[7];
     ctx.fillRect(0, 0, obj.width, obj.height);
 
-    switch (lift % 100)
+    switch (obj.lift % 100)
     {
         case 0:
-            liftStyle = 0;
+            obj.liftStyle = 0;
             break;
 
         case 20:
-            liftStyle = 1;
+            obj.liftStyle = 1;
             break;
 
         case 40:
-            liftStyle = 2;
+            obj.liftStyle = 2;
             break;
 
         case 60:
-            liftStyle = 3;
+            obj.liftStyle = 3;
             break;
 
         case 80:
-            liftStyle = 4;
+            obj.liftStyle = 4;
             break;
 
         default:
             break;
     }
 
-    ctx.fillStyle = ptrnsLift[liftStyle + 1];
+    ctx.fillStyle = ptrnsLift[obj.liftStyle + 1];
 
     ctx.save();
     ctx.translate(obj.width / 2 - 20, 0);
@@ -494,7 +492,7 @@ function GRC_lift(obj)
     ctx.fillStyle = ptrnsLift[8];
     ctx.fillRect(0, 0, obj.width, 16);
 
-    lift += 1;
+    obj.lift += 1;
 }
 
 export function jumperTextures(chr)

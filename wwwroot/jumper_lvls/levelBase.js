@@ -4,7 +4,7 @@ import {TRG_lever_door} from "../JumperBase/triggers.js" // "../../JumperBase/tr
 import { level } from "../start.js"; // "../../start.js"
 const platforms = [
  { id: 1, x: 100, y: 0, width: 100, height: 60, type: "simple", color: "green", texture: "grass", visible: true },
- { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30 },
+ { id: 2, x: 250, y: 0, width: 100, height: 30, type: "lifting", color: "rgb(0, 0, 0, 0.1)", texture: "lift", visible: true, speed: 2, direction: "down", heightMax: 290, heightMin: 30, liftStyle: 0, lift: 0 },
  { id: 3, x: 400, y: 190, width: 40, height: 40, type: "breakable", color: "rgb(0, 0, 0, 0.1)", texture: "box", visible: true },
 //maximum height where box can be replaced
  { id: 4, x: 500, y: 110, width: 100, height: 40, type: "simple", color: "green", texture: "grass", visible: true },
