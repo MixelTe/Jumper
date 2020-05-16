@@ -17,7 +17,7 @@ export class Platform_simple {
 export class Platform_box extends Platform_simple {
     constructor(id, x, y)
     {
-        super(id, x, y, 40, 40, "breakable", "rgb(0, 0, 0, 0.1)", "box", true);
+        super(id, x, y, 40, 40, "breakable", "brown", "box", true);
         this.leverState = "off";
         this.leverChange = false;
     }
@@ -26,7 +26,7 @@ export class Platform_box extends Platform_simple {
 export class Platform_star extends Platform_simple {
     constructor(id, x, y)
     {
-        super(id, x, y, 40, 40, "star", "rgb(0, 0, 0, 0.1)", "star", false);
+        super(id, x, y, 40, 40, "star", "yellow", "star", false);
         this.colected = false;
     }
 }
@@ -44,7 +44,15 @@ export class Platform_lifting extends Platform_simple {
     }
 }
 
-
+export class Platform_savePoint extends Platform_simple {
+    constructor(id, savePointID, x, y)
+    {
+        super(id, x, y, 40, 10, "savePoint", "rgb(0, 256, 0)", "savePoint", false);
+        this.pointID = savePointID;
+        this.particles = [];
+        this.counter = 0;
+    }
+}
 
 
 

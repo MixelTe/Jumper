@@ -15,6 +15,7 @@ import { FSC_AllLoaded } from "./firstScreen.js";
 import { characterSounds } from "../jumperSounds/soundsEffects.js";
 import { platformsSounds } from "../jumperSounds/platformsSounds.js";
 import { lifeSystem } from "./lifeSystem.js";
+import { movies } from "./movies.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
@@ -25,6 +26,18 @@ TheCounter.counter = 0;
 TheCounter.pastFrame = 0;
 TheCounter.pastRedraw = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
+const parametrs = { movie: false }
+export function switchMovie()
+{
+    if (parametrs.movie)
+    {
+        parametrs.movie = false;
+    }
+    else
+    {
+        parametrs.movie = true;
+    }
+}
 
 export class Character
 {
@@ -79,6 +92,7 @@ export class Character
         this.textureImg = 0;
         this.restoreInformation = { x, y, visible, direction: this.direction };
         this.immortal = {active: false, activTime: -1 };
+        this.shield = {active: false };
     }
     writePast()
     {
@@ -190,6 +204,8 @@ function LVL_triggers()
 // Misha.overlays = false;
 // Misha.screens = false;
 // Misha.soundsEffect = false;
+// Misha.noControl = false;
+// Misha.noControlDown = false;
 
 export const gameWindow = { x: 0, y: -10, width: 800, height: 610 }
 //===============
@@ -257,9 +273,12 @@ function redrawAll_level(time)
 {
     if (DEVparametrs.gravity)
     {
-        Cgravity(jumper);
-        Cmovement(jumper);
-        if (Misha.soundsEffect)
+        if (!parametrs.movie)
+        {
+            Cgravity(jumper);
+            Cmovement(jumper);
+        }
+        if (Misha.soundsEffect && !parametrs.movie)
         {
             characterSounds(jumper, platforms)
         }
@@ -274,6 +293,11 @@ function redrawAll_level(time)
         lifeSystem(jumper, enemys);
     }
 
+    if (parametrs.movie)
+    {
+        movies();
+    }
+
     if (Misha.soundsEffect)
     {
         platformsSounds(platforms, lvlend, jumper);
@@ -285,6 +309,7 @@ function redrawAll_level(time)
     if (Misha.grafics)
     {
         GRC.portal();
+        GRC.savePoints(platforms);
     }
     gameWindow.x = -WorldAnchor.x;
     gameWindow.y = -WorldAnchor.y;
@@ -350,6 +375,7 @@ function redrawAll_level_frame(time)
     if (Misha.grafics)
     {
         GRC.drawPortal()
+        GRC.drawSavePoints(platforms);
     }
 
     if (Misha.screens)
@@ -482,90 +508,93 @@ function DEVdrawCord()
 addEventListener('keydown', function (event) { KeyDown(event) })
 function KeyDown(event)
 {
-    if (Misha.noControl != true)
+    if (!Misha.noControl)
     {
-        switch (event.code)
+        if (!Misha.noControlDown)
         {
-            case 'ArrowUp':
-            case 'Numpad8':
-            case 'KeyW':
-            case 'Space':
-                if (event.repeat == false)
-                {
-                    KeyDownControl("up");
-                }
-                break;
-
-            case 'ArrowRight':
-            case 'Numpad6':
-            case 'KeyD':
-                KeyDownControl("right");
-                break;
-
-            case 'ArrowLeft':
-            case 'Numpad4':
-            case 'KeyA':
-                KeyDownControl("left");
-                break;
-
-            case 'ArrowDown':
-            case 'Numpad2':
-            case 'KeyS':
-                KeyDownControl("down");
-                break;
-
-            case 'Backslash':
-                // document.getElementById("canva2").style.display = "inline";
-                const panel = document.getElementById("canva2");
-                if (panel == null)
-                {
-                    const el = document.createElement("canvas");
-                    el.id = "canva2";
-                    el.width = "300";
-                    el.height = "600";
-                    el.style = "border: 1px solid black; user-select: none; margin-left: 8px; display: inline;";
-                    const cv = document.getElementById("canva");
-                    cv.parentNode.insertBefore(el, cv.nextSibling);
-                    // loadScript("jumperBase/DEVpanel.js");
-                    import("./DEVpanel.js").then((m) =>
+            switch (event.code)
+            {
+                case 'ArrowUp':
+                case 'Numpad8':
+                case 'KeyW':
+                case 'Space':
+                    if (event.repeat == false)
                     {
-                        // m.start();
-                    });
-                }
-                else
-                {
-                    if (panel.style.display == "inline")
+                        KeyDownControl("up");
+                    }
+                    break;
+
+                case 'ArrowRight':
+                case 'Numpad6':
+                case 'KeyD':
+                    KeyDownControl("right");
+                    break;
+
+                case 'ArrowLeft':
+                case 'Numpad4':
+                case 'KeyA':
+                    KeyDownControl("left");
+                    break;
+
+                case 'ArrowDown':
+                case 'Numpad2':
+                case 'KeyS':
+                    KeyDownControl("down");
+                    break;
+
+                case 'Backslash':
+                    // document.getElementById("canva2").style.display = "inline";
+                    const panel = document.getElementById("canva2");
+                    if (panel == null)
                     {
-                        panel.style.display = "none";
+                        const el = document.createElement("canvas");
+                        el.id = "canva2";
+                        el.width = "300";
+                        el.height = "600";
+                        el.style = "border: 1px solid black; user-select: none; margin-left: 8px; display: inline;";
+                        const cv = document.getElementById("canva");
+                        cv.parentNode.insertBefore(el, cv.nextSibling);
+                        // loadScript("jumperBase/DEVpanel.js");
+                        import("./DEVpanel.js").then((m) =>
+                        {
+                            // m.start();
+                        });
                     }
                     else
                     {
-                        panel.style.display = "inline";
+                        if (panel.style.display == "inline")
+                        {
+                            panel.style.display = "none";
+                        }
+                        else
+                        {
+                            panel.style.display = "inline";
+                        }
                     }
-                }
-                break;
+                    break;
 
-            case 'BracketRight':
-                if (event.repeat == false)
-                {
-                    selectedCharacter = Math.min(selectedCharacter + 1, enemys.length - 1);
-                }
-                break;
-            case 'BracketLeft':
-                if (event.repeat == false)
-                {
-                    selectedCharacter = Math.max(selectedCharacter - 1, 0);
-                }
-                break;
-            case 'Quote':
-                if (event.repeat == false)
-                {
-                    controlCharacter += 1;;
-                }
-                break;
+                case 'BracketRight':
+                    if (event.repeat == false)
+                    {
+                        selectedCharacter = Math.min(selectedCharacter + 1, enemys.length - 1);
+                    }
+                    break;
+                case 'BracketLeft':
+                    if (event.repeat == false)
+                    {
+                        selectedCharacter = Math.max(selectedCharacter - 1, 0);
+                    }
+                    break;
+                case 'Quote':
+                    if (event.repeat == false)
+                    {
+                        controlCharacter += 1;;
+                    }
+                    break;
 
-            default:
-                break;
+                default:
+                    break;
+            }
         }
     }
 }

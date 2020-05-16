@@ -2,6 +2,7 @@
 import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow} from "./base.js"
 import {rectIntersect, findWhithId} from "./Functions.js"
 import { starStaredChange, starColected } from "./overlay.js";
+import { requestChange_savePoint_current } from "./lifeSystem.js";
 window.Misha = window.Misha || Object.create(null);
 const sounds = {}
 function PLM_lifting(plm)
@@ -230,6 +231,14 @@ function PLM_fake(plm)
     ctx.restore();
 }
 
+function PLM_savePoint(plm)
+{
+    if (rectIntersect(plm, jumper))
+    {
+        requestChange_savePoint_current(plm);
+    }
+}
+
 export function logics(platforms)
 {
     for (let plt of platforms)
@@ -266,6 +275,10 @@ export function logics(platforms)
                 PLM_fake(plt);
                 break;
 
+            case "savePoint":
+                PLM_savePoint(plt);
+                break;
+
             default:
                 break;
         }
@@ -299,6 +312,12 @@ export function drawPlatforms(platforms, p)
                 }
 
             case "star":
+                if (rectIntersect(plt, gameWindow))
+                {
+                    drawPlatform(plt, p);
+                }
+
+            case "savePoint":
                 if (rectIntersect(plt, gameWindow))
                 {
                     drawPlatform(plt, p);

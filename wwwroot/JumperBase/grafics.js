@@ -6,6 +6,7 @@ import { fileLoaded } from "./loading.js";
 import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../jumperAnimations/jumper.js";
 import { enemy_stoped, enemy_going } from "../jumperAnimations/enemy.js";
 import { drawPlatforms } from "./platforms.js";
+import { get_savePoint_curent } from "./lifeSystem.js";
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -542,7 +543,7 @@ export function jumperTextures(chr)
         }
         ctx.restore();
 
-        if (chr.immortal.active)
+        if (chr.immortal.active || chr.shield.active)
         {
             drawShield(chr);
         }
@@ -695,7 +696,7 @@ export function SPL_direction_read(jmpr)
 }
 
 
-class Portal
+class Particle
 {
     constructor(x, y, width, height, type, color, visible, counter)
     {
@@ -706,7 +707,7 @@ class Portal
         this.visible = visible;
         this.type = type;
         this.color = color;
-        this.counter = counter;
+        this.counter = counter || 0;
     }
 }
 const EndPortal = {};
@@ -729,7 +730,7 @@ export function portal()
             const blue = random_num(0, 0);
             const newColor = `rgb(${red}, ${green}, ${blue})`;
             const width = random_num(6, 10);
-            EndPortal.particles.push(new Portal(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, width, width, "ghost", newColor, false, 0));
+            EndPortal.particles.push(new Particle(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, width, width, "ghost", newColor, false));
         }
         for (let i = 0; i < EndPortal.particles.length; i++)
         {
@@ -791,4 +792,60 @@ export function drawPortal()
 export function portal_clearParticles()
 {
     EndPortal.particles = [];
+}
+
+export function savePoints(plms)
+{
+    for (let i = 0; i < plms.length; i++)
+    {
+        const el = plms[i];
+        if (el.type == "savePoint")
+        {
+            const point = el;
+            ctx.save();
+            if (point.particles.length < 30 && point.counter % 3 == 0)
+            {
+                let alpha = 0.4;
+                if (get_savePoint_curent() == point.pointID)
+                {
+                    alpha = 1;
+                }
+                const red = random_num(0, 160);
+                const green = random_num(255, 255);
+                const blue = random_num(0, 102);
+                const newColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+                const width = random_num(6, 10);
+                point.particles.push(new Particle(point.x + random_num(0, point.width), point.y + point.height / 2, width, width, "ghost", newColor, false, point.counter + 1));
+            }
+            for (let i = 0; i < point.particles.length; i++)
+            {
+                const el = point.particles[i];
+                el.x += random_upNdown(random_num(0, 3));
+                // el.x = Math.max(Math.min(el.x, lvlend.x + lvlend.width - EndPortal.border), lvlend.x - el.width + EndPortal.border);
+                el.y += random_num(1, 10) / 10;
+
+                let alpha = parseFloat(el.color.slice(el.color.lastIndexOf('.') - 1, -1));
+                alpha -= (el.counter % 7 + 1) / 200;
+                el.color = el.color.slice(0, el.color.lastIndexOf(',')) + `, ${alpha})`;
+                if (alpha <= 0)
+                {
+                    point.particles.splice(i, 1);
+                }
+            }
+            ctx.restore();
+        }
+        el.counter += 1;
+    }
+}
+
+export function drawSavePoints(plms)
+{
+    for (let i = 0; i < plms.length; i++)
+    {
+        const el = plms[i];
+        if (el.type == "savePoint" && rectIntersect(el, gameWindow))
+        {
+            drawPlatforms(el.particles, true);
+        }
+    }
 }
