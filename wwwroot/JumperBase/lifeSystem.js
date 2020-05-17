@@ -40,6 +40,7 @@ export function get_savePoint_curent()
 }
 export function onlvlloadChange_savePoint_current(x, y)
 {
+    savePoint.point = {};
     savePoint.point.x = x;
     savePoint.point.y = y;
 }
