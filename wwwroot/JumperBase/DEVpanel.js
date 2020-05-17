@@ -7,6 +7,7 @@ const ctx2 = canva2.getContext('2d');
 let DEVmoveSpeed = 10;
 let tolvl = 1;
 let toCursor = false;
+let followCursor = { active: false, now: false};
 
 
 const btn1 = { x: 80, y: 530, width: 60, height: 60, color: "blue", Tcolor: "yellow", value: "Up", Tvalue: "Up", Tx: 17, Ty: 24, Tscale: 20};
@@ -36,12 +37,17 @@ const btn13 = { x: 20, y: 20, width: 60, height: 60, color: "red", Tcolor: "yell
 const btn14 = { x: 90, y: 20, width: 60, height: 60, color: "red", Tcolor: "yellow", value: "screens", Tvalue: "Scr", Tx: 4, Ty: 16, Tscale: 35 };
 const btn15 = { x: 226, y: 7, width: 68, height: 30, color: "lightblue", Tcolor: "yellow", value: "fps", Tvalue: "", Tx: 4, Ty: 16, Tscale: 35, counter: 0 };
 
-const btn16 = { x: 218, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_enemy", Tvalue: "E", Tx: 6, Ty: 6, Tscale: 25 };
-const btn18 = { x: 252, y: 490, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_grafics", Tvalue: "G", Tx: 5, Ty: 6, Tscale: 25 };
-const btn17 = { x: 218, y: 456, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_overlays", Tvalue: "O", Tx: 5, Ty: 6, Tscale: 25 };
-const btn19 = { x: 252, y: 456, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_screens", Tvalue: "S", Tx: 7, Ty: 6, Tscale: 25 };
+const btn16 = { x: 218, y: 444, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_enemy", Tvalue: "E", Tx: 6, Ty: 6, Tscale: 25 };
+const btn18 = { x: 252, y: 444, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_grafics", Tvalue: "G", Tx: 5, Ty: 6, Tscale: 25 };
+const btn17 = { x: 218, y: 410, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_overlays", Tvalue: "O", Tx: 5, Ty: 6, Tscale: 25 };
+const btn19 = { x: 252, y: 410, width: 30, height: 30, color: "rgb(141, 0, 207)", Tcolor: "yellow", value: "M_screens", Tvalue: "S", Tx: 7, Ty: 6, Tscale: 25 };
 
-const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn125, btn13, btn14, btn15, btn16, btn17, btn18, btn19]
+const btn20 ={
+    x: 220, y: 487, width: 60, height: 30, color: "red", Tcolor: "yellow", value: "followCursor",
+    Tvalue: "follow", Tx: 2, Ty: 17, Tscale: 15, type: "duble", Tvalue2: "cursor", Tx2: 14, Ty2: 3, Tscale2: 15
+};
+
+const btns = [btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, display1, btn9, btn10, display2, btn11, btn12, btn125, btn13, btn14, btn15, btn16, btn17, btn18, btn19, btn20]
 
 //===============
 ctx2.translate(0, canva.height);
@@ -105,6 +111,7 @@ function DEVdrawButton(btn)
 
 canva2.addEventListener('click', function (event) { DEVclick(event) })
 canva.addEventListener('click', function (event) { DEVclick2(event) })
+canva.addEventListener('mousemove', function (event) { DEVmove(event) })
 function DEVclick(event)
 {
     let x = event.pageX;
@@ -316,6 +323,20 @@ function DEVclick(event)
             DEVredrawAll();
             break;
 
+        case "followCursor":
+            if (followCursor.active)
+            {
+                followCursor.active = false;
+                clickButton.color = "red";
+            }
+            else
+            {
+                followCursor.active = true;
+                clickButton.color = "rgb(141, 0, 207)";
+            }
+            DEVredrawAll();
+            break;
+
         default:
             break;
     }
@@ -330,6 +351,17 @@ function DEVclick2(event)
         jumper.x = event.pageX - canva.offsetLeft - 15 - WorldAnchor.x;
         jumper.y = Math.abs(event.pageY - canva.offsetTop - canva.height) - 25 - WorldAnchor.y;
         DEVredrawAll();
+    }
+    if (followCursor.active == true)
+    {
+        if (followCursor.now)
+        {
+            followCursor.now = false;
+        }
+        else
+        {
+            followCursor.now = true;
+        }
     }
 }
 
@@ -364,5 +396,14 @@ function DEVinterFrame()
     else
     {
         DEVredrawAll();
+    }
+}
+
+function DEVmove(e)
+{
+    if (followCursor.now == true)
+    {
+        jumper.x = e.pageX - canva.offsetLeft - 15 - WorldAnchor.x;
+        jumper.y = Math.abs(e.pageY - canva.offsetTop - canva.height) - 25 - WorldAnchor.y;
     }
 }
