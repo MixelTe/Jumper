@@ -14,8 +14,8 @@ import { loadingScreen, loadFiles} from "./loading.js";
 import { FSC_AllLoaded } from "./firstScreen.js";
 import { characterSounds } from "../jumperSounds/soundsEffects.js";
 import { platformsSounds } from "../jumperSounds/platformsSounds.js";
-import { lifeSystem } from "./lifeSystem.js";
-import { movies } from "./movies.js";
+import { lifeSystem, onlvlloadChange_savePoint_current } from "./lifeSystem.js";
+import { movies, moviesDraw, onlvlload } from "./movies.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
@@ -382,6 +382,11 @@ function redrawAll_level_frame(time)
     {
         SCR.frontscreen(frontscreen);
     }
+
+    if (parametrs.movie)
+    {
+        moviesDraw();
+    }
     ctx.restore();
 
     if (Misha.musics)
@@ -398,6 +403,8 @@ export function levelOnStart(starCount, p, l, jx, jy)
 {
     restoreLevel(p, l);
     jumper.moveTo(jx, jy);
+    onlvlloadChange_savePoint_current(jx, jy);
+    onlvlload();
     if (Misha.overlays)
     {
         OVL.starStaredSet(0);
@@ -447,7 +454,7 @@ function drawJumper()
     ctx.restore();
 }
 
-export function drawPlatform(obj, p)
+export function drawPlatform(obj)
 {
     ctx.save();
     ctx.translate(obj.x, obj.y);
@@ -468,7 +475,7 @@ export function drawPlatform(obj, p)
     {
         ctx.fillStyle = obj.color;
     }
-    if (!Misha.grafics || p)
+    if (!Misha.grafics)
     {
         ctx.fillRect(0, 0, obj.width, obj.height);
     }

@@ -7,6 +7,7 @@ import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../
 import { enemy_stoped, enemy_going } from "../jumperAnimations/enemy.js";
 import { drawPlatforms } from "./platforms.js";
 import { get_savePoint_curent } from "./lifeSystem.js";
+import { drawParticles, Particle } from "./particles.js";
 
 window.Misha = window.Misha || Object.create(null);
 
@@ -696,20 +697,7 @@ export function SPL_direction_read(jmpr)
 }
 
 
-class Particle
-{
-    constructor(x, y, width, height, type, color, visible, counter)
-    {
-        this.x = x;
-        this.y = y;
-        this.width = width;
-        this.height = height;
-        this.visible = visible;
-        this.type = type;
-        this.color = color;
-        this.counter = counter || 0;
-    }
-}
+
 const EndPortal = {};
 EndPortal.particles = [];
 EndPortal.frameImg = 0;
@@ -770,7 +758,7 @@ export function drawPortal()
         alphaI = ((TheCounter.counter % a)) / a;
     }
 
-    drawPlatforms(EndPortal.particles, true);
+    drawParticles(EndPortal.particles, true);
     if (jumperImgLoad == jumperImgAll)
     {
         ctx.save();
@@ -845,7 +833,7 @@ export function drawSavePoints(plms)
         const el = plms[i];
         if (el.type == "savePoint" && rectIntersect(el, gameWindow))
         {
-            drawPlatforms(el.particles, true);
+            drawParticles(el.particles, true);
         }
     }
 }

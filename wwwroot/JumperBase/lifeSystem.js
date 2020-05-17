@@ -1,8 +1,7 @@
 import { rectIntersect } from "./Functions.js";
 import { fileLoaded } from "./loading.js";
 import { change_ost_volume, get_ost_volume } from "./music.js";
-import { switchMovie } from "./base.js";
-import { moveTo } from "./movies.js";
+import { movie_toSavePoint } from "./movies.js";
 
 const sounds = {};
 sounds.shieldActivation = document.createElement("AUDIO");
@@ -39,6 +38,11 @@ export function get_savePoint_curent()
 {
     return savePoint.current;
 }
+export function onlvlloadChange_savePoint_current(x, y)
+{
+    savePoint.point.x = x;
+    savePoint.point.y = y;
+}
 
 export function lifeSystem(chr, enemys)
 {
@@ -53,8 +57,7 @@ export function lifeSystem(chr, enemys)
                 Vlife.count = Math.max(Vlife.count - 1, 0);
                 chr.immortal.active = true;
                 chr.immortal.activTime = 0;
-                switchMovie();
-                moveTo(savePoint.point.x, savePoint.point.y, chr, 10)
+                movie_toSavePoint(chr, savePoint.point);
             }
         }
     }
