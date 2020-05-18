@@ -32,10 +32,11 @@ export function onlvlload()
 
 export function movies()
 {
-    for (let i = 0; i < comands.length; i++) {
+    for (let i = 0; i < comands.length;) {
         const el = comands[i];
         if (!el.done)
         {
+            i++
             switch (el.type) {
                 case "moveObj":
                     movementTo(el.obj, el.fx, el.fy, el.sx, el.sy, el.speedX, el.speedY, el);
@@ -54,7 +55,7 @@ export function movies()
             }
             if (el.way == "toEnding")
             {
-                i = comands.length;
+                break;
             }
             else if (el.way == "continue")
             {
@@ -68,7 +69,6 @@ export function movies()
         else
         {
             comands.splice(i, 1);
-            i -= 1;
         }
     }
     if (movie.toSavePoint.boolean && !movie.toSavePoint.changed && movie.toSavePoint.counter == 2)
