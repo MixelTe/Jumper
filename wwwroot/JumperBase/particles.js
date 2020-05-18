@@ -3,13 +3,12 @@ import { gameWindow, ctx } from "./base.js";
 
 export class Particle
 {
-    constructor(x, y, width, height, type, color, visible, counter)
+    constructor(x, y, width, height, type, color, counter)
     {
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
-        this.visible = visible;
         this.type = type;
         this.color = color;
         this.counter = counter || 0;

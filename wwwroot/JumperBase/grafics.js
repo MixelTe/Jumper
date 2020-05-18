@@ -718,7 +718,7 @@ export function portal()
             const blue = random_num(0, 0);
             const newColor = `rgb(${red}, ${green}, ${blue})`;
             const width = random_num(6, 10);
-            EndPortal.particles.push(new Particle(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, width, width, "ghost", newColor, false));
+            EndPortal.particles.push(new Particle(lvlend.x + lvlend.width/2, lvlend.y + lvlend.height/2, width, width, "simple", newColor));
         }
         for (let i = 0; i < EndPortal.particles.length; i++)
         {
@@ -803,7 +803,7 @@ export function savePoints(plms)
                 const blue = random_num(0, 102);
                 const newColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
                 const width = random_num(6, 10);
-                point.particles.push(new Particle(point.x + random_num(0, point.width), point.y + point.height / 2, width, width, "ghost", newColor, false, point.counter + 1));
+                point.particles.push(new Particle(point.x + random_num(0, point.width), point.y + point.height / 2, width, width, "simple", newColor, point.counter + 1));
             }
             for (let i = 0; i < point.particles.length; i++)
             {

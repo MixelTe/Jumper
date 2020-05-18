@@ -26,17 +26,15 @@ TheCounter.counter = 0;
 TheCounter.pastFrame = 0;
 TheCounter.pastRedraw = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
-const parametrs = { movie: false }
-export function switchMovie()
+const parametrs = { movie: false, moveScreen: true }
+export function switchMovie(boolean)
 {
-    if (parametrs.movie)
-    {
-        parametrs.movie = false;
-    }
-    else
-    {
-        parametrs.movie = true;
-    }
+    parametrs.movie = boolean;
+}
+export function switchMoveScreen(boolean)
+{
+    parametrs.moveScreen = boolean;
+
 }
 
 export class Character
@@ -208,6 +206,7 @@ function LVL_triggers()
 // Misha.noControlDown = false;
 
 export const gameWindow = { x: 0, y: -10, width: 800, height: 610 }
+export const gameWindowStatic = { x: Screen_edge_left, y: 0, width: Screen_edge_right - Screen_edge_left, height: 600 }
 //===============
 ctx.translate(0, canva.height - 10);
 ctx.scale(1, -1);
@@ -277,20 +276,20 @@ function redrawAll_level(time)
         {
             Cgravity(jumper);
             Cmovement(jumper);
-        }
-        if (Misha.soundsEffect && !parametrs.movie)
-        {
-            characterSounds(jumper, platforms)
-        }
-        else
-        {
-            jumper.plinks();
+            if (Misha.soundsEffect)
+            {
+                characterSounds(jumper, platforms)
+            }
+            else
+            {
+                jumper.plinks();
+            }
+            lifeSystem(jumper, enemys);
         }
         if (Misha.enemy)
         {
             EMY.gravity();
         }
-        lifeSystem(jumper, enemys);
     }
 
     if (parametrs.movie)
@@ -302,8 +301,10 @@ function redrawAll_level(time)
     {
         platformsSounds(platforms, lvlend, jumper);
     }
-    moveScreen();
-
+    if (parametrs.moveScreen)
+    {
+        moveScreen();
+    }
     PLM.logics(platforms);
     LVL_triggers();
     if (Misha.grafics)

@@ -249,3 +249,11 @@ export function moveScreen()
         WorldAnchor.x = Math.max(Math.min(-jumper.x + Screen_edge_right, -WScreen_edge_left), -(WScreen_edge_right - canva.width));
     }
 }
+
+export function moveScreenTo(x, y)
+{
+    const newX = -x || WorldAnchor.x;
+    const newY = -y || WorldAnchor.y;
+    WorldAnchor.x = Math.max(Math.min(newX, -WScreen_edge_left), -(WScreen_edge_right - canva.width));
+    WorldAnchor.y = newY;
+}
