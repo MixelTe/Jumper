@@ -26,7 +26,7 @@ TheCounter.counter = 0;
 TheCounter.pastFrame = 0;
 TheCounter.pastRedraw = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
-const parametrs = { movie: false, moveScreen: true }
+const parametrs = { movie: false, moveScreen: true, jumper: {visible: true} }
 export function switchMovie(boolean)
 {
     parametrs.movie = boolean;
@@ -35,6 +35,10 @@ export function switchMoveScreen(boolean)
 {
     parametrs.moveScreen = boolean;
 
+}
+export function switchJumperVisible(boolean)
+{
+    parametrs.jumper.visible = boolean;
 }
 
 export class Character
@@ -437,21 +441,23 @@ function drawJumper()
 
     // ctx.strokeStyle = "white";
     // ctx.strokeRect(0, 0, jumper.width, jumper.height);
-    if (!Misha.grafics)
+    if (parametrs.jumper.visible)
     {
-        ctx.lineWidth = 5;
-        ctx.strokeStyle = "blue";
-        ctx.beginPath();
-        ctx.arc(jumper.width / 2, jumper.height / 2, 16, 0, Math.PI * 2, true);
-        ctx.stroke();
-        ctx.lineWidth = 1;
-    }
+        if (!Misha.grafics)
+        {
+            ctx.lineWidth = 5;
+            ctx.strokeStyle = "blue";
+            ctx.beginPath();
+            ctx.arc(jumper.width / 2, jumper.height / 2, 16, 0, Math.PI * 2, true);
+            ctx.stroke();
+            ctx.lineWidth = 1;
+        }
 
-    if (Misha.grafics)
-    {
-        GRC.jumperTextures(jumper)
+        if (Misha.grafics)
+        {
+            GRC.jumperTextures(jumper)
+        }
     }
-
     ctx.restore();
 }
 

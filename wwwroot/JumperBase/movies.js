@@ -1,5 +1,5 @@
 import { fileLoaded } from "./loading.js";
-import { switchMovie, WorldAnchor, switchMoveScreen, gameWindowStatic } from "./base.js";
+import { switchMovie, WorldAnchor, switchMoveScreen, gameWindowStatic, switchJumperVisible } from "./base.js";
 import { random_num, rectIntersect } from "./Functions.js";
 import { Particle, drawParticles } from "./particles.js";
 import { get_Vlife } from "./lifeSystem.js";
@@ -370,6 +370,11 @@ function work_command(command)
             command.done = true;
             break;
 
+        case "callFunction":
+            command.fuction(command.p1);
+            command.done = true;
+            break;
+
         default:
             break;
     }
@@ -398,6 +403,19 @@ function changeBoolean(ObjWithBoolean, toState)
     };
     comands.push(a);
 }
+function callFunction(fuction, p1)
+{
+    const a = {
+        fuction: fuction,
+        p1: p1,
+
+        done: false,
+        typeC: "callFunction",
+        type: "work",
+        way: "continue",
+    };
+    comands.push(a);
+}
 
 export function movie_toSavePoint(chr, savePoint)
 {
@@ -416,14 +434,15 @@ export function movie_toSavePoint(chr, savePoint)
     moveTo(chr.x, chr.y, x, y, chr, 50);
     ptofromVlife("stop", "to");
     ptofromVlife("start", "from", chr, 25);
+    callFunction(switchJumperVisible, false);
 
-    stepCounter(movie.toSavePoint)
+    stepCounter(movie.toSavePoint);
 
     moveTo(x, y, savePoint.x, savePoint.y, chr, 50);
     ptofromVlife("stop", "from");
 
-    stepCounter(movie.toSavePoint, true)
-    changeBoolean(movie.toSavePoint, false)
-
+    stepCounter(movie.toSavePoint, true);
+    changeBoolean(movie.toSavePoint, false);
+    callFunction(switchJumperVisible, true);
 
 }
