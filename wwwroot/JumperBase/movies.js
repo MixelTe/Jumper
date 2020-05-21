@@ -6,7 +6,7 @@ import { get_Vlife } from "./lifeSystem.js";
 import { moveScreenTo } from "./movement.js";
 
 const movie = { done: true, toSavePoint: { boolean: false, counter: 0, changed: false, chr: {}, savePoint: {} } };
-const pVlife = { to: { particles: [], chr: {}, time: 0, done: true, ending: false }, from: { particles: [], chr: {}, time: 0, done: true, ending: false, endedParticles: 0 }};
+const pVlife = { to: { particles: [], chr: {}, time: 0, done: true, ending: false }, from: { particles: [], chr: {}, time: 0, done: true, ending: false, endedParticles: 0 }, pathParticles: []};
 window.pVlife = pVlife;
 const images = {All: 1, Loaded: 0};
 let Vlife = {}
@@ -108,14 +108,55 @@ export function movies()
 
 export function moviesDraw()
 {
+    drawPathParticles(pVlife.pathParticles);
     if (!pVlife.to.done)
     {
-        drawParticles(pVlife.to.particles, true);
+        drawParticles(pVlife.to.particles);
     }
     if (!pVlife.from.done)
     {
-        drawParticles(pVlife.from.particles, true);
+        drawParticles(pVlife.from.particles);
     }
+}
+function drawPathParticles(pList)
+{
+    ctx.save();
+    for (let i = pList.length - 1; i >= 0; i--) {
+        const el = pList[i];
+        if (rectIntersect(el, gameWindow))
+        {
+            el.alpha = Math.max(el.alpha - 0.01, 0);
+            if (el.alpha == 0)
+            {
+                pList.splice(i, 1);
+            }
+            else
+            {
+                if (el.direction)
+                {
+                    el.x += random_num(1, 3) / 2;
+                    el.rotate += random_num(0, 20);
+                }
+                else
+                {
+                    el.x -= random_num(1, 3) / 2;
+                    el.rotate -= random_num(0, 20);
+                }
+                el.y -= random_num(1, 3) / 2;
+                if (random_num(0, 10) == 0)
+                {
+                    el.direction = random_num(0, 2);
+                }
+                ctx.save()
+                ctx.translate(el.x, el.y);
+                ctx.rotate(el.rotate * Math.PI / 180);
+                ctx.globalAlpha = el.alpha;
+                ctx.drawImage(images.leaf, -el.width / 2, -el.height / 2, el.width, el.height);
+                ctx.restore();
+            }
+        }
+    }
+    ctx.restore();
 }
 
 
@@ -217,6 +258,17 @@ function particles_to_Vlife()
             p.time = pVlife.to.time;
             pVlife.to.particles.push(p);
         }
+        if (true)
+        {
+            const width = random_num(6, 12);
+            const p = new Particle(0, 0, width, width, "ghost", "red", false);
+            p.x = pVlife.to.chr.x + pVlife.to.chr.width / 2 + random_num(-30, 30);
+            p.y = pVlife.to.chr.y + pVlife.to.chr.height / 2 + random_num(-30, 30);
+            p.rotate = random_num(0, 360);
+            p.alpha = 1;
+            p.direction = random_num(0, 2);
+            pVlife.pathParticles.push(p);
+        }
     }
     for (let i = 0; i < pVlife.to.particles.length; i++)
     {
@@ -258,6 +310,17 @@ function particles_from_Vlife()
             p.speedY = (p.ey - p.y) / pVlife.from.time;
             p.time = pVlife.from.time;
             pVlife.from.particles.push(p);
+        }
+        if (true)
+        {
+            const width = random_num(6, 12);
+            const p = new Particle(0, 0, width, width, "ghost", "red", false);
+            p.x = pVlife.to.chr.x + pVlife.to.chr.width / 2 + random_num(-30, 30);
+            p.y = pVlife.to.chr.y + pVlife.to.chr.height / 2 + random_num(-30, 30);
+            p.rotate = random_num(0, 360);
+            p.alpha = 1;
+            p.direction = random_num(0, 2);
+            pVlife.pathParticles.push(p);
         }
     }
     for (let i = 0; i < pVlife.from.particles.length; i++)

@@ -395,11 +395,9 @@ function redrawAll_level_frame(time)
     {
         SCR.frontscreen(frontscreen);
     }
+    
+    moviesDraw();
 
-    if (parametrs.movie)
-    {
-        moviesDraw();
-    }
     ctx.restore();
 
     if (Misha.musics)
