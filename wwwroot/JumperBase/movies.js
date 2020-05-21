@@ -1,13 +1,13 @@
 import { fileLoaded } from "./loading.js";
-import { switchMovie, WorldAnchor, switchMoveScreen, gameWindowStatic, switchJumperVisible } from "./base.js";
+import { switchMovie, WorldAnchor, switchMoveScreen, gameWindowStatic, switchJumperVisible, gameWindow, ctx, switchjumperCanUse } from "./base.js";
 import { random_num, rectIntersect } from "./Functions.js";
 import { Particle, drawParticles } from "./particles.js";
 import { get_Vlife } from "./lifeSystem.js";
 import { moveScreenTo } from "./movement.js";
 
 const movie = { done: true, toSavePoint: { boolean: false, counter: 0, changed: false, chr: {}, savePoint: {} } };
-window.movie = movie;
-const pVlife = { to: { particles: [], chr: {}, time: 0, done: true, ending: false }, from: { particles: [], chr: {}, time: 0, done: true, ending: false }};
+const pVlife = { to: { particles: [], chr: {}, time: 0, done: true, ending: false }, from: { particles: [], chr: {}, time: 0, done: true, ending: false, endedParticles: 0 }};
+window.pVlife = pVlife;
 const images = {All: 1, Loaded: 0};
 let Vlife = {}
 const comands = [];
@@ -98,12 +98,14 @@ export function movies()
         Misha.noControlDown = false;
         switchMovie(false);
         switchMoveScreen(true);
+        switchjumperCanUse(true);
     }
     else
     {
         Misha.noControlDown = true;
     }
 }
+
 export function moviesDraw()
 {
     if (!pVlife.to.done)
@@ -270,6 +272,7 @@ function particles_from_Vlife()
         if (el.done)
         {
             pVlife.from.particles.splice(i, 1);
+            pVlife.from.endedParticles += 1;
             i -= 1;
         }
     }
@@ -278,6 +281,27 @@ function particles_from_Vlife()
         pVlife.from.done = true;
     }
 }
+
+function checkMoviesDone()
+{
+    movie.done = true;
+    for (let i = 0; i < comands.length; i++) {
+        const el = comands[i];
+        if (!el.done)
+        {
+            movie.done = false;
+        }
+    }
+    if (!pVlife.to.done)
+    {
+        movie.done = false;
+    }
+    if (!pVlife.from.done)
+    {
+        movie.done = false;
+    }
+}
+
 
 
 function moveTo(fx, fy, x, y, chr, time)
@@ -296,7 +320,6 @@ function moveTo(fx, fy, x, y, chr, time)
     };
     comands.push(a);
 }
-
 function ptofromVlife(action, direction, chr, time)
 {
     if (action == "start")
@@ -329,26 +352,6 @@ function ptofromVlife(action, direction, chr, time)
     }
 }
 
-function checkMoviesDone()
-{
-    movie.done = true;
-    for (let i = 0; i < comands.length; i++) {
-        const el = comands[i];
-        if (!el.done)
-        {
-            movie.done = false;
-        }
-    }
-    if (!pVlife.to.done)
-    {
-        movie.done = false;
-    }
-    if (!pVlife.from.done)
-    {
-        movie.done = false;
-    }
-}
-
 function work_command(command)
 {
     switch (command.typeC) {
@@ -373,6 +376,13 @@ function work_command(command)
         case "callFunction":
             command.fuction(command.p1);
             command.done = true;
+            break;
+
+        case "callFunctionToTrue":
+            if (command.fuction(command.p1))
+            {
+                command.done = true;
+            }
             break;
 
         default:
@@ -416,7 +426,28 @@ function callFunction(fuction, p1)
     };
     comands.push(a);
 }
+function callFunctionToTrue(fuction, p1)
+{
+    const a = {
+        fuction: fuction,
+        p1: p1,
 
+        done: false,
+        typeC: "callFunctionToTrue",
+        type: "work",
+        way: "continue",
+    };
+    comands.push(a);
+}
+
+function switchJumperVisible_whenSomeParticlesEnded(boolean)
+{
+    if (pVlife.from.endedParticles >= 150)
+    {
+        switchJumperVisible(boolean);
+        return true;
+    }
+}
 export function movie_toSavePoint(chr, savePoint)
 {
     const x = Vlife.x - WorldAnchor.x
@@ -426,6 +457,7 @@ export function movie_toSavePoint(chr, savePoint)
     movie.toSavePoint.savePoint = savePoint;
     switchMovie(true);
     switchMoveScreen(false);
+    switchjumperCanUse(false);
 
     changeBoolean(movie.toSavePoint, true)
     stepCounter(movie.toSavePoint)
@@ -443,6 +475,6 @@ export function movie_toSavePoint(chr, savePoint)
 
     stepCounter(movie.toSavePoint, true);
     changeBoolean(movie.toSavePoint, false);
-    callFunction(switchJumperVisible, true);
+    callFunctionToTrue(switchJumperVisible_whenSomeParticlesEnded, true);
 
 }

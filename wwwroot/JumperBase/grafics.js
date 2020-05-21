@@ -1,5 +1,5 @@
 "use strict";
-import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, TheCounter} from "./base.js"
+import {ctx, platforms, World_edge_right, jumper, WorldAnchor, lvlend, gameWindow, TheCounter, get_jumper_canUse} from "./base.js"
 import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import { star } from "./overlay.js";
 import { fileLoaded } from "./loading.js";
@@ -302,7 +302,7 @@ export function textures()
             }
             if (plt.type == "fake")
             {
-                if (rectIntersect(plt, jumper))
+                if (rectIntersect(plt, jumper) && get_jumper_canUse())
                 {
                     ctx.globalAlpha = 0;
                 }

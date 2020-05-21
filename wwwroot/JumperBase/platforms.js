@@ -1,5 +1,5 @@
 "use strict";
-import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow} from "./base.js"
+import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow, get_jumper_canUse} from "./base.js"
 import {rectIntersect, findWhithId} from "./Functions.js"
 import { starStaredChange, starColected } from "./overlay.js";
 import { requestChange_savePoint_current } from "./lifeSystem.js";
@@ -31,7 +31,7 @@ function PLM_breakable(plm)
     if (plm.visible == true || plm.visible == "true")
     {
         const newPlm = { x: plm.x + 1, y: plm.y - 1, width: plm.width - 2, height: 1, };
-        if (rectIntersect(newPlm, jumper))
+        if (rectIntersect(newPlm, jumper) && get_jumper_canUse())
         {
             coins.value += 1;
             jumper.jumpSpeed = -jumper.mass * 4.5
@@ -175,7 +175,7 @@ sounds.lever.src = "sounds/leverClick.mp3";
 
 function PLM_lever(plm)
 {
-    if (rectIntersect(plm, jumper))
+    if (rectIntersect(plm, jumper) && get_jumper_canUse())
     {
         if (plm.leverChange == false)
         {
@@ -207,7 +207,7 @@ function PLM_star(plm)
 {
     if (plm.colected == false && Misha.overlays == true)
     {
-        if (rectIntersect(plm, jumper))
+        if (rectIntersect(plm, jumper) && get_jumper_canUse())
         {
             starStaredChange(1)
             ding.currentTime = 0;
@@ -233,7 +233,7 @@ function PLM_fake(plm)
 
 function PLM_savePoint(plm)
 {
-    if (rectIntersect(plm, jumper))
+    if (rectIntersect(plm, jumper) && get_jumper_canUse())
     {
         requestChange_savePoint_current(plm);
     }

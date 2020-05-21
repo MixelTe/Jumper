@@ -1,5 +1,5 @@
 "use strict";
-import {platforms, SPL_lvl_write, SPL_lvl_read, WorldAnchor, jumper, coins, lvlend} from "./base.js"
+import {platforms, SPL_lvl_write, SPL_lvl_read, WorldAnchor, jumper, coins, lvlend, get_jumper_canUse} from "./base.js"
 import {SPL_direction_write, SPL_direction_read} from "./grafics.js"
 import {ost_write} from "./music.js"
 import {rectIntersect} from "./Functions.js"
@@ -121,7 +121,7 @@ export function readMemory(lvl)
 export function lvl_end()
 {
     let nowlvl = parseInt(sessionStorage.getItem("level"))
-    if (rectIntersect(lvlend, jumper))
+    if (rectIntersect(lvlend, jumper) && get_jumper_canUse())
     {
         if (level == nowlvl)
         {

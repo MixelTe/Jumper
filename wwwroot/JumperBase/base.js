@@ -26,7 +26,7 @@ TheCounter.counter = 0;
 TheCounter.pastFrame = 0;
 TheCounter.pastRedraw = 0;
 export const DEVparametrs = { gravity: true, id: false, screens: false };
-const parametrs = { movie: false, moveScreen: true, jumper: {visible: true} }
+const parametrs = { movie: false, moveScreen: true, jumper: {visible: true, canUse: true} }
 export function switchMovie(boolean)
 {
     parametrs.movie = boolean;
@@ -39,6 +39,14 @@ export function switchMoveScreen(boolean)
 export function switchJumperVisible(boolean)
 {
     parametrs.jumper.visible = boolean;
+}
+export function switchjumperCanUse(boolean)
+{
+    parametrs.jumper.canUse = boolean;
+}
+export function get_jumper_canUse()
+{
+    return parametrs.jumper.canUse;
 }
 
 export class Character
