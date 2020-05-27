@@ -151,6 +151,15 @@ export class Character
         this.x = x;
         this.y = y;
     }
+    movement_resetToZero()
+    {
+        this.jumpAcc = 0;
+        this.jmSpeed = 0;
+        this.jumpSpeed = 0;
+        this.moveAcc = 0;
+        this.moveSpeed = 0;
+
+    }
 }
 
 export let controlCharacter = 0;

@@ -120,43 +120,47 @@ export function moviesDraw()
 }
 function drawPathParticles(pList)
 {
-    ctx.save();
-    for (let i = pList.length - 1; i >= 0; i--) {
-        const el = pList[i];
-        if (rectIntersect(el, gameWindow))
+    if (Misha.grafics)
+    {
+        ctx.save();
+        for (let i = pList.length - 1; i >= 0; i--)
         {
-            el.alpha = Math.max(el.alpha - 0.01, 0);
-            if (el.alpha == 0)
+            const el = pList[i];
+            if (rectIntersect(el, gameWindow))
             {
-                pList.splice(i, 1);
-            }
-            else
-            {
-                if (el.direction)
+                el.alpha = Math.max(el.alpha - 0.01, 0);
+                if (el.alpha == 0)
                 {
-                    el.x += random_num(1, 3) / 2;
-                    el.rotate += random_num(0, 20);
+                    pList.splice(i, 1);
                 }
                 else
                 {
-                    el.x -= random_num(1, 3) / 2;
-                    el.rotate -= random_num(0, 20);
+                    if (el.direction)
+                    {
+                        el.x += random_num(1, 3) / 2;
+                        el.rotate += random_num(0, 20);
+                    }
+                    else
+                    {
+                        el.x -= random_num(1, 3) / 2;
+                        el.rotate -= random_num(0, 20);
+                    }
+                    el.y -= random_num(1, 3) / 2;
+                    if (random_num(0, 10) == 0)
+                    {
+                        el.direction = random_num(0, 2);
+                    }
+                    ctx.save()
+                    ctx.translate(el.x, el.y);
+                    ctx.rotate(el.rotate * Math.PI / 180);
+                    ctx.globalAlpha = el.alpha;
+                    ctx.drawImage(images.leaf, -el.width / 2, -el.height / 2, el.width, el.height);
+                    ctx.restore();
                 }
-                el.y -= random_num(1, 3) / 2;
-                if (random_num(0, 10) == 0)
-                {
-                    el.direction = random_num(0, 2);
-                }
-                ctx.save()
-                ctx.translate(el.x, el.y);
-                ctx.rotate(el.rotate * Math.PI / 180);
-                ctx.globalAlpha = el.alpha;
-                ctx.drawImage(images.leaf, -el.width / 2, -el.height / 2, el.width, el.height);
-                ctx.restore();
             }
         }
+        ctx.restore();
     }
-    ctx.restore();
 }
 
 
@@ -513,6 +517,7 @@ function switchJumperVisible_whenSomeParticlesEnded(boolean)
 }
 export function movie_toSavePoint(chr, savePoint)
 {
+    chr.movement_resetToZero();
     const x = Vlife.x - WorldAnchor.x
     const y = Vlife.y - WorldAnchor.y
     movie.toSavePoint.changed = false;
