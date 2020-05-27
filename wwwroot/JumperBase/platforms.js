@@ -3,6 +3,7 @@ import {ctx, coins, ding, platforms, drawPlatform, jumper, gameWindow, get_jumpe
 import {rectIntersect, findWhithId} from "./Functions.js"
 import { starStaredChange, starColected } from "./overlay.js";
 import { requestChange_savePoint_current } from "./lifeSystem.js";
+import { get_shot } from "./abilities.js";
 window.Misha = window.Misha || Object.create(null);
 const sounds = {}
 function PLM_lifting(plm)
@@ -175,7 +176,7 @@ sounds.lever.src = "sounds/leverClick.mp3";
 
 function PLM_lever(plm)
 {
-    if (rectIntersect(plm, jumper) && get_jumper_canUse())
+    if ((rectIntersect(plm, jumper) || rectIntersect(plm, get_shot())) && get_jumper_canUse())
     {
         if (plm.leverChange == false)
         {
