@@ -70,7 +70,14 @@ function shoting()
             const width = random_num(6, 12);
             const p = new Particle(0, 0, width, width, "ghost", "red", false);
             p.x = shot.x + shot.width / 2 + random_num(-10, 10);
-            p.x -= p.x % 30;
+            if (shot.ex - shot.sx > 0)
+            {
+                p.x = Math.max(p.x - p.x % 30, shot.sx);
+            }
+            else
+            {
+                p.x = Math.min(p.x - p.x % 30, shot.sx);
+            }
             p.y = shot.y;
             p.rotate = random_num(0, 360);
             p.alpha = 1;
