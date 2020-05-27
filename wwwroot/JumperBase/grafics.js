@@ -4,7 +4,7 @@ import {rectIntersect, random_num, random_upNdown} from "./Functions.js"
 import { star } from "./overlay.js";
 import { fileLoaded } from "./loading.js";
 import { jumper_stoped, jumper_jumping, jumper_falling, jumper_going } from "../jumperAnimations/jumper.js";
-import { enemy_stoped, enemy_going } from "../jumperAnimations/enemy.js";
+import { enemy_stoped, enemy_going, enemy_killed } from "../jumperAnimations/enemy.js";
 import { drawPlatforms } from "./platforms.js";
 import { get_savePoint_curent } from "./lifeSystem.js";
 import { drawParticles, Particle } from "./particles.js";
@@ -652,7 +652,14 @@ function switchAnimations_enemy(chr)
     switch (chr.state)
     {
         case "stoped":
-            enemy_stoped(chr);
+            if (chr.killed)
+            {
+                enemy_killed(chr);
+            }
+            else
+            {
+                enemy_stoped(chr);
+            }
             break;
 
         case "jumping":

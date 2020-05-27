@@ -14,7 +14,7 @@ export function enemy_going(chr)
     ctx.drawImage(imgsEnemy, 200 * chr.textureImg, 0, 200, 200, 0, 0, width, height);
     ctx.restore();
     chr.textureCounter += 1;
-    switch (parseInt(chr.textureCounter))
+    switch (chr.textureCounter)
     {
         case 1:
             chr.textureImg = 1;
@@ -47,6 +47,32 @@ export function enemy_going(chr)
         case 16:
             chr.textureImg = 8;
             chr.textureCounter = -5;
+            break;
+
+        default:
+            break;
+    }
+}
+
+export function enemy_killed(chr)
+{
+    ctx.save();
+    ctx.translate(x, y);
+    ctx.drawImage(imgsEnemy, 200 * chr.textureImg, 0, 200, 200, 0, 0, width, height);
+    ctx.restore();
+    chr.textureCounter += 1;
+    switch (chr.textureCounter)
+    {
+        case 1:
+            chr.textureImg = 10;
+            break;
+
+        case 4:
+            chr.textureImg = 11;
+            break;
+
+        case 8:
+            chr.textureImg = 12;
             break;
 
         default:

@@ -72,6 +72,7 @@ export function gravity()
                     el.killed = true;
                     CharacterControl(el, "right", "up");
                     CharacterControl(el, "left", "up");
+                    el.height = 30;
                 }
                 enemyAI(el);
             }
