@@ -16,6 +16,7 @@ import { characterSounds } from "../jumperSounds/soundsEffects.js";
 import { platformsSounds } from "../jumperSounds/platformsSounds.js";
 import { lifeSystem, onlvlloadChange_savePoint_current } from "./lifeSystem.js";
 import { movies, moviesDraw, onlvlload } from "./movies.js";
+import { drawAbilities, abilitiesLogic, shotWithLeaf } from "./abilities.js";
 window.Misha = window.Misha || Object.create(null);
 
 export const canva = document.getElementById("canva");
@@ -102,7 +103,8 @@ export class Character
         this.textureImg = 0;
         this.restoreInformation = { x, y, visible, direction: this.direction };
         this.immortal = {active: false, activTime: -1 };
-        this.shield = {active: false };
+        this.shield = { active: false };
+        this.killed = false;
     }
     writePast()
     {
@@ -298,6 +300,7 @@ function redrawAll_level(time)
             }
             lifeSystem(jumper, enemys);
         }
+        abilitiesLogic();
         if (Misha.enemy)
         {
             EMY.gravity();
@@ -382,6 +385,7 @@ function redrawAll_level_frame(time)
     {
         GRC.textures();
     }
+    drawAbilities();
 
     drawPlatform(lvlend);
 
@@ -395,7 +399,7 @@ function redrawAll_level_frame(time)
     {
         SCR.frontscreen(frontscreen);
     }
-    
+
     moviesDraw();
 
     ctx.restore();
@@ -560,6 +564,12 @@ function KeyDown(event)
                 case 'Numpad2':
                 case 'KeyS':
                     KeyDownControl("down");
+                    break;
+
+                case 'ControlRight':
+                case 'Numpad5':
+                case 'KeyF':
+                    KeyDownControl("extra1");
                     break;
 
                 case 'Backslash':
@@ -754,6 +764,10 @@ export function CharacterControl(character, event, type)
             case "down":
                 character.mass = character.massUnchange * 5;
                 MUS.ost.play();
+                break;
+
+            case 'extra1':
+                shotWithLeaf(character);
                 break;
 
             default:

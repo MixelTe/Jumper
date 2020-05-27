@@ -7,6 +7,7 @@ import { crateImges, cratePatterns } from "./grafics.js";
 import {loadFiles as SloadFiles} from "../jumperSounds/soundsEffects.js"
 import {loadFiles as SPloadFiles, stopAllSounds} from "../jumperSounds/platformsSounds.js"
 import {loadFiles as MloadFiles} from "./movies.js"
+import {loadFiles as AloadFiles} from "./abilities.js"
 
 let loadingScreenPastCounter = 0;
 let loadingScreentext = "Загрузка";
@@ -109,7 +110,7 @@ function drawParticle(p)
 }
 
 let filesLoaded = 0;
-let allFiles = 37;
+let allFiles = 38;
 export function fileLoaded()
 {
     filesLoaded += 1;
@@ -143,4 +144,5 @@ export async function loadFiles()
     SloadFiles();
     SPloadFiles();
     MloadFiles();
+    AloadFiles();
 }

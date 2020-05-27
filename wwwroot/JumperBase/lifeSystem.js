@@ -53,7 +53,7 @@ export function lifeSystem(chr, enemys)
         for (let i = 0; i < enemys.length; i++)
         {
             const el = enemys[i];
-            if (rectIntersect(newChr, el))
+            if (rectIntersect(newChr, el) && !el.killed)
             {
                 Vlife.count = Math.max(Vlife.count - 1, 0);
                 chr.immortal.active = true;

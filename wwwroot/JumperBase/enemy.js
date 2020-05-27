@@ -3,6 +3,7 @@ import {Cgravity, Cmovement} from "./movement.js"
 import {ctx, platforms, enemys, CharacterControl, gameWindow, selectedCharacter, controlCharacter} from "./base.js"
 import { rectIntersect } from "./Functions.js";
 import { jumperTextures } from "./grafics.js";
+import { get_shot } from "./abilities.js";
 window.Misha = window.Misha || Object.create(null);
 Misha.enemy = true;
 
@@ -64,8 +65,14 @@ export function gravity()
         {
             Cgravity(el);
             Cmovement(el);
-            if (!el.isControled)
+            if (!el.isControled && !el.killed)
             {
+                if (rectIntersect(el, get_shot()))
+                {
+                    el.killed = true;
+                    CharacterControl(el, "right", "up");
+                    CharacterControl(el, "left", "up");
+                }
                 enemyAI(el);
             }
             el.plinks();
