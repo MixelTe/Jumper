@@ -51,7 +51,7 @@ function OVL_loadFiles()
 
     overlay.files.starColected = {};
     overlay.files.starColected.f = document.createElement("AUDIO");
-    overlay.files.starColected.f.src = "sounds/starcolected.mp3";
+    overlay.files.starColected.f.src = "sounds/starColected.mp3";
     overlay.files.starColected.f.onloadeddata = function ()
     {
         starColected = overlay.files.starColected.f;
